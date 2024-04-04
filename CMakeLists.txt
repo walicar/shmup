@@ -17,6 +17,6 @@ link_libraries(${GLFW_LIB})
 
 add_executable(code
         Lib/glad.c
-        Apps/clear.cpp)
+        Src/clear.cpp)
 
 target_link_libraries(code "-framework OpenGL -framework Cocoa -framework IOKit -framework CoreVideo")
