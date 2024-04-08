@@ -5,7 +5,6 @@ set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_OSX_ARCHITECTURES, "arm64")
 
 include_directories(.)
-include_directories(Apps)
 include_directories(Inc)
 include_directories(Inc/GL)
 include_directories(Inc/GLFW)
