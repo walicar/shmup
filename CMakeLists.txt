@@ -8,6 +8,7 @@ include_directories(.)
 include_directories(Inc)
 include_directories(Inc/GL)
 include_directories(Inc/GLFW)
+include_directories(Inc/glm)
 include_directories(Lib)
 include_directories(glad)
 
