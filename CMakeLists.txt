@@ -17,6 +17,7 @@ add_executable(code
         Lib/glad.c
         Src/main.cpp
         Src/shader.cpp
+        Src/resource_manager.cpp
 )
 
 target_link_libraries(code "-framework OpenGL -framework Cocoa -framework IOKit -framework CoreVideo")

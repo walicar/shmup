@@ -2,6 +2,7 @@
 #include <glfw3.h>
 #include <iostream>
 #include "shader.h"
+#include "resource_manager.h"
 #include <iostream>
 #include <filesystem>
 
@@ -34,7 +35,8 @@ int main() {
     glViewport(0, 0, 800, 600);
     glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
 
-    Shader shader("shaders/default.vert", "shaders/default.frag");
+    ResourceManager::load_shader("shaders/default.vert", "shaders/default.frag", "default");
+    Shader def_shader = ResourceManager::get_shader("default");
 
     // Vertices
     float vertices[] = { -1.0f, -1.0f, 1.0f, -1.0f, 1.0f, 1.0f, -1.0f, 1.0f }; // Quad vertices
@@ -60,7 +62,7 @@ int main() {
         glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);
 
-        shader.use();
+        def_shader.use();
         glBindVertexArray(VAO);
         glDrawArrays(GL_TRIANGLE_FAN, 0, 4); // Draw a quad
 

@@ -1,3 +1,6 @@
+#ifndef SHADER_H
+#define SHADER_H
+
 #include <glad.h>
 #include <glm.hpp>
 #include <gtc/type_ptr.hpp>
@@ -8,7 +11,10 @@
 
 class Shader {
     public:
+        Shader() {};
         unsigned int ID;
-        Shader(const char *vert_src, const char *frag_src);
+        void compile(const char *vert_src, const char *frag_src);
         void use();
 };
+
+#endif
