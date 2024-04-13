@@ -5,19 +5,19 @@ set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_OSX_ARCHITECTURES, "arm64")
 
 include_directories(.)
-include_directories(Inc)
-include_directories(Inc/glm)
-include_directories(Lib)
+include_directories(inc)
+include_directories(inc/glm)
+include_directories(lib)
 include_directories(glad)
 
 find_library(GLFW_LIB glfw)
 link_libraries(${GLFW_LIB})
 
 add_executable(code
-        Lib/glad.c
-        Src/main.cpp
-        Src/shader.cpp
-        Src/resource_manager.cpp
+        lib/glad.c
+        src/main.cpp
+        src/shader.cpp
+        src/resource_manager.cpp
 )
 
 target_link_libraries(code "-framework OpenGL -framework Cocoa -framework IOKit -framework CoreVideo")
