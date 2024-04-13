@@ -35,8 +35,7 @@ int main() {
     glViewport(0, 0, 800, 600);
     glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
 
-    ResourceManager::load_shader("shaders/default.vert", "shaders/default.frag", "default");
-    Shader def_shader = ResourceManager::get_shader("default");
+    Shader def_shader = ResourceManager::load_shader("shaders/default.vert", "shaders/default.frag", "default");
 
     // Vertices
     float vertices[] = { -1.0f, -1.0f, 1.0f, -1.0f, 1.0f, 1.0f, -1.0f, 1.0f }; // Quad vertices
