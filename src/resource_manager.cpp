@@ -1,5 +1,6 @@
 #include "resource_manager.h"
 std::unordered_map<std::string, Shader> ResourceManager::shaders;
+std::unordered_map<std::string, Texture> ResourceManager::textures;
 
 Shader ResourceManager::load_shader(const char *vert_src, const char *frag_src, std::string name) {
     shaders[name] = load_shader_file(vert_src, frag_src);
@@ -8,6 +9,15 @@ Shader ResourceManager::load_shader(const char *vert_src, const char *frag_src, 
 
 Shader ResourceManager::get_shader(std::string name) {
     return shaders[name];
+}
+
+Texture ResourceManager::load_texture(const char *file, bool alpha, std::string name) {
+    textures[name] = load_texture_file(file, alpha);
+    return textures[name];
+}
+
+Texture ResourceManager::get_texture(std::string name) {
+    return textures[name];
 }
 
 void ResourceManager::close() {
@@ -42,3 +52,16 @@ Shader ResourceManager::load_shader_file(const char *vert_src, const char *frag_
     shader.compile(vert_code.c_str(), frag_code.c_str());
     return shader;
 };
+
+Texture ResourceManager::load_texture_file(const char *file, bool alpha) {
+    Texture texture;
+    if (alpha) {
+        texture.internal_format = GL_RGBA;
+        texture.image_format = GL_RGBA;
+    }
+    int width, height, channel_num;
+    unsigned char* data = stbi_load(file, &width, &height, &channel_num, 0);
+    texture.generate(width, height, data);
+    stbi_image_free(data);
+    return texture;
+}
