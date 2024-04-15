@@ -11,7 +11,7 @@
 
 
 void framebuffer_size_callback(GLFWwindow *window, int width, int height);
-void process_input(GLFWwindow *window);
+void process_input(GLFWwindow *window, glm::mat4 &transform);
 
 int main() {
     // application entry
@@ -67,16 +67,15 @@ int main() {
 
     // EVENT LOOP
     while (!glfwWindowShouldClose(window)) {
-        process_input(window);
+        glm::mat4 transform = glm::mat4(1.0f); // identity
+        transform = glm::rotate(transform, (float)glfwGetTime(), glm::vec3(0.0f, 1.0f, 0.0f));
+        process_input(window, transform);
 
         glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);
 
-        def_texture.bind();
-        
-        glm::mat4 transform = glm::mat4(1.0f); // identity
-        transform = glm::rotate(transform, (float)glfwGetTime(), glm::vec3(0.0f, 0.0f, 1.0f));
 
+        def_texture.bind();
         def_shader.use();
         unsigned int transformLoc = glGetUniformLocation(def_shader.ID, "transform");
         glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(transform));
@@ -98,8 +97,12 @@ void framebuffer_size_callback(GLFWwindow *window, int width, int height)
     glViewport(0, 0, width, height);
 }
 
-void process_input(GLFWwindow *window)
+void process_input(GLFWwindow *window, glm::mat4 &transform)
 {
     if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
         glfwSetWindowShouldClose(window, true);
+    if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
+        transform = glm::translate(transform, glm::vec3(1.0f, 0.0f, 0.0f));
+    if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
+        transform = glm::translate(transform, glm::vec3(-1.0f, 0.0f, 0.0f));
 }
