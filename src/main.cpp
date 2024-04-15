@@ -1,10 +1,14 @@
 #include <glad.h>
 #include <glfw3.h>
+#include <glm.hpp>
+#include <gtc/matrix_transform.hpp>
+#include <gtc/type_ptr.hpp>
 #include <iostream>
 #include "shader.h"
 #include "resource_manager.h"
 #include <iostream>
 #include <filesystem>
+
 
 void framebuffer_size_callback(GLFWwindow *window, int width, int height);
 void process_input(GLFWwindow *window);
@@ -41,7 +45,7 @@ int main() {
     float vertices[] = {
             -0.5f, -0.5f, 0.0f,     0.5, 0.0,       // bottom left
             0.5f, -0.5f, 0.0f,      1.0, 0.5,       // bottom right
-            0.0f, 0.5f, 0.0f,       0.5, 1.0    // upper middle
+            0.0f, 0.5f, 0.0f,       0.5, 1.0        // upper middle
     };
 
     unsigned int VAO, VBO;
@@ -68,10 +72,17 @@ int main() {
         glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);
 
-        def_shader.use();
         def_texture.bind();
+        
+        glm::mat4 transform = glm::mat4(1.0f); // identity
+        transform = glm::rotate(transform, (float)glfwGetTime(), glm::vec3(0.0f, 0.0f, 1.0f));
+
+        def_shader.use();
+        unsigned int transformLoc = glGetUniformLocation(def_shader.ID, "transform");
+        glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(transform));
+
         glBindVertexArray(VAO);
-        glDrawArrays(GL_TRIANGLE_FAN, 0, 4); // Draw a quad
+        glDrawArrays(GL_TRIANGLE_FAN, 0, 3);
 
         glfwSwapBuffers(window);
         glfwPollEvents();
