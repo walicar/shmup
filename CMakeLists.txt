@@ -20,6 +20,7 @@ add_executable(code
         src/shader.cpp
         src/resource_manager.cpp
         src/texture.cpp
+        src/entity.cpp
 )
 
 target_link_libraries(code "-framework OpenGL -framework Cocoa -framework IOKit -framework CoreVideo")
