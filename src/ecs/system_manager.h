@@ -4,16 +4,7 @@
 #include <unordered_map>
 #include "entity.h"
 #include "component.h"
-
-/**
- * Provide functionality to iterate upon a list of entities with a variable signature
-*/
-
-class System
-{ 
-    public:
-	    std::set<Entity> entities;
-};
+#include "system.h"
 
 /**
  * Maintain a record of registereed systems and signatures.
