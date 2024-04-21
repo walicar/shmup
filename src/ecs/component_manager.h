@@ -29,7 +29,7 @@ class ComponentManager
         }
     public:
         template<typename T>
-        void create() {
+        void register_component() {
             const char* type = typeid(T).name();
 
             // @TODO: handle case when you register a comp more than once

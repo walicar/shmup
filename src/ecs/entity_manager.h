@@ -27,7 +27,7 @@ class EntityManager
             }
         }
 
-        Entity create()
+        Entity create_entity()
         {
             // @TODO: there is no checking if we have too much entities!
             Entity id = entities.front();
@@ -43,12 +43,12 @@ class EntityManager
             count--;
         }
 
-        void sign(Entity entity, Signature signature)
+        void set_signature(Entity entity, Signature signature)
         {
             signatures[entity] = signature;
         }
 
-        Signature get(Entity entity) {
+        Signature get_signature(Entity entity) {
             return signatures[entity];
         }
 };
