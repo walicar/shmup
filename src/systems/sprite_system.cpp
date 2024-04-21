@@ -1,7 +1,8 @@
 #include "sprite_system.h"
-#include "coordinator.h"
-#include "sprite.h"
+#include "../ecs/coordinator.h"
+#include "../components/sprite.h"
 #include <gtc/matrix_transform.hpp>
+#include <gtc/type_ptr.hpp>
 
 extern Coordinator GC9R;
 
@@ -20,7 +21,7 @@ void SpriteSystem::update(float time)
         sprite.shader.use();
         unsigned int loc = glGetUniformLocation(sprite.shader.ID, "transform");
         glUniformMatrix4fv(loc, 1, GL_FALSE, glm::value_ptr(transform));
-        glBindVertexArray(sprite.VAO_id);
+        glBindVertexArray(sprite.VAO);
         glDrawArrays(GL_TRIANGLE_FAN, 0, 3); // @FIXME: COUNT IS HARDCODED MY DUDE!
         
     }

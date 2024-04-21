@@ -1,6 +1,6 @@
 #ifndef SPRITE_SYSTEM_H
 #define SPRITE_SYSTEM_H
-#include "system.h"
+#include "../ecs/system.h"
 
 class SpriteSystem : public System
 {

@@ -1,9 +1,9 @@
 #ifndef SPRITE_H
 #define SPRITE_H
 #include <glad.h>
-#include "shader.h"
-#include "texture.h"
-#include "utils.h"
+#include "../shader.h"
+#include "../texture.h"
+#include "../utils.h"
 
 /**
  * 

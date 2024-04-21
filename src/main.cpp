@@ -6,12 +6,15 @@
 #include <iostream>
 #include "shader.h"
 #include "resource_manager.h"
+#include "ecs/coordinator.h"
 #include <iostream>
 #include <filesystem>
 
 
 void framebuffer_size_callback(GLFWwindow *window, int width, int height);
 void process_input(GLFWwindow *window, glm::mat4 &transform);
+
+Coordinator GC9R;
 
 int main() {
     // application entry

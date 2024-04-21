@@ -2,6 +2,7 @@
 #define COMPONENT_MANAGER_H
 #include <unordered_map>
 #include <memory>
+#include <any>
 #include "component.h"
 #include "component_array.h"
 
@@ -42,12 +43,11 @@ class ComponentManager
         template<typename T>
         ComponentType get_type()
         {
-            const char* type = typeID(T).name();
-            return types[type]
+            const char* type = typeid(T).name();
+            return types[type];
         }
 
-        	template<typename T>
-
+        template<typename T>
         void add_component(Entity entity, T component)
         {
             // Add a component to the array for an entity

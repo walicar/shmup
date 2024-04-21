@@ -36,7 +36,7 @@ class EntityManager
             return id;
         }
 
-        Entity destroy(Entity entity) 
+        void destroy(Entity entity)
         {
             entities.push(entity);
             signatures[entity].reset();

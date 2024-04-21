@@ -1,5 +1,5 @@
 #ifndef COORDINATOR_H
-#define COORDIANTOR_H
+#define COORDINATOR_H
 
 #include <memory>
 #include "component_manager.h"
