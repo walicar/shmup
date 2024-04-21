@@ -23,6 +23,7 @@ add_executable(code
         src/entity.cpp
         src/component.cpp
         src/position.cpp
+        src/utils.cpp
 )
 
 target_link_libraries(code "-framework OpenGL -framework Cocoa -framework IOKit -framework CoreVideo")
