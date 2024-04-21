@@ -21,9 +21,9 @@ add_executable(code
         src/resource_manager.cpp
         src/texture.cpp
         src/entity.cpp
-        src/component.cpp
         src/position.cpp
         src/utils.cpp
+        src/sprite.cpp
 )
 
 target_link_libraries(code "-framework OpenGL -framework Cocoa -framework IOKit -framework CoreVideo")

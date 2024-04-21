@@ -6,12 +6,16 @@
 #include <iostream>
 #include "shader.h"
 #include "resource_manager.h"
+#include "component.h"
+#include "position.h"
 #include <iostream>
 #include <filesystem>
 
 
 void framebuffer_size_callback(GLFWwindow *window, int width, int height);
 void process_input(GLFWwindow *window, glm::mat4 &transform);
+
+template<> std::vector<ComponentSet<Position>::Entry> ComponentSet<Position>::data;
 
 int main() {
     // application entry
