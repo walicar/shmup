@@ -49,9 +49,9 @@ int main() {
     Texture def_texture = ResourceManager::load_texture("textures/smile.png", false, "smile");
 
     float v[] = {
-            -0.5f, -0.5f,     0.5, 0.0,       // bottom left
-            0.5f, -0.5f,      1.0, 0.5,       // bottom right
-            0.0f, 0.5f,       0.5, 1.0        // upper middle
+            -0.5f, -0.5f, 0.0f,     0.5, 0.0,       // bottom left
+            0.5f, -0.5f, 0.0f,      1.0, 0.5,       // bottom right
+            0.0f, 0.5f, 0.0f,       0.5, 1.0        // upper middle
     };
 
     GC9R.register_component<Sprite>();
@@ -63,8 +63,10 @@ int main() {
     GC9R.add_component(entities[0], Sprite{
         .shader = &def_shader,
         .texture = &def_texture,
-        .vertices = v,
+        .vertex_data = v,
+        .vertex_count = 15 // @TODO: HARDCODED
     });
+
 
     auto& sprite = GC9R.get_component<Sprite>(entities[0]);
     sprite.setup();

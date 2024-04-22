@@ -19,21 +19,17 @@ struct Sprite
     Texture *texture;
     GLuint VAO;
     GLuint VBO;
-    float *vertices;
+    float *vertex_data;
+    uint vertex_count;
 
     void setup() {
-        float hardcoded[] = {
-                -0.5f, -0.5f, 0.0f,     0.5, 0.0,       // bottom left
-                0.5f, -0.5f, 0.0f,      1.0, 0.5,       // bottom right
-                0.0f, 0.5f, 0.0f,       0.5, 1.0        // upper middle
-        };
 
         glGenVertexArrays(1, &VAO);
         glGenBuffers(1, &VBO);
 
         glBindVertexArray(VAO);
         glBindBuffer(GL_ARRAY_BUFFER, VBO);
-        glBufferData(GL_ARRAY_BUFFER, sizeof(hardcoded), hardcoded, GL_STATIC_DRAW);
+        glBufferData(GL_ARRAY_BUFFER, vertex_count * sizeof(float), vertex_data, GL_STATIC_DRAW);
 
         glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void *) 0);
         glEnableVertexAttribArray(0);
