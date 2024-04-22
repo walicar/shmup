@@ -7,12 +7,15 @@
 #include "shader.h"
 #include "resource_manager.h"
 #include "ecs/coordinator.h"
+#include "ecs/entity.h"
+#include "components/sprite.h"
+#include "systems/sprite_system.h"
 #include <iostream>
 #include <filesystem>
 
 
 void framebuffer_size_callback(GLFWwindow *window, int width, int height);
-void process_input(GLFWwindow *window, glm::mat4 &transform);
+void process_input(GLFWwindow *window);
 
 Coordinator GC9R;
 
@@ -45,46 +48,34 @@ int main() {
     Shader def_shader = ResourceManager::load_shader("shaders/default.vert", "shaders/default.frag", "default");
     Texture def_texture = ResourceManager::load_texture("textures/smile.png", false, "smile");
 
-    float vertices[] = {
-            -0.5f, -0.5f, 0.0f,     0.5, 0.0,       // bottom left
-            0.5f, -0.5f, 0.0f,      1.0, 0.5,       // bottom right
-            0.0f, 0.5f, 0.0f,       0.5, 1.0        // upper middle
+    float v[] = {
+            -0.5f, -0.5f,     0.5, 0.0,       // bottom left
+            0.5f, -0.5f,      1.0, 0.5,       // bottom right
+            0.0f, 0.5f,       0.5, 1.0        // upper middle
     };
 
-    unsigned int VAO, VBO;
-    glGenVertexArrays(1, &VAO);
-    glGenBuffers(1, &VBO);
+    GC9R.register_component<Sprite>();
+    auto sprite_system = GC9R.register_system<SpriteSystem>();
 
-    glBindVertexArray(VAO);
+    std::vector<Entity> entities(MAX_ENTITIES - 1);
 
-    glBindBuffer(GL_ARRAY_BUFFER, VBO);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+    entities[0] = GC9R.create_entity();
+    GC9R.add_component(entities[0], Sprite{
+        .shader = &def_shader,
+        .texture = &def_texture,
+        .vertices = v,
+    });
 
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)0);
-    glEnableVertexAttribArray(0);
-    glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)(3 * sizeof(float)));
-    glEnableVertexAttribArray(1);
+    auto& sprite = GC9R.get_component<Sprite>(entities[0]);
+    sprite.setup();
 
-    glBindBuffer(GL_ARRAY_BUFFER, 0);
-    glBindVertexArray(0);
-
-    // EVENT LOOP
     while (!glfwWindowShouldClose(window)) {
-        glm::mat4 transform = glm::mat4(1.0f); // identity
-        transform = glm::rotate(transform, (float)glfwGetTime(), glm::vec3(0.0f, 1.0f, 0.0f));
-        process_input(window, transform);
+        process_input(window);
 
         glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);
 
-
-        def_texture.bind();
-        def_shader.use();
-        unsigned int transformLoc = glGetUniformLocation(def_shader.ID, "transform");
-        glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(transform));
-
-        glBindVertexArray(VAO);
-        glDrawArrays(GL_TRIANGLE_FAN, 0, 3);
+        sprite_system->update((float)glfwGetTime());
 
         glfwSwapBuffers(window);
         glfwPollEvents();
@@ -100,12 +91,6 @@ void framebuffer_size_callback(GLFWwindow *window, int width, int height)
     glViewport(0, 0, width, height);
 }
 
-void process_input(GLFWwindow *window, glm::mat4 &transform)
+void process_input(GLFWwindow *window)
 {
-    if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
-        glfwSetWindowShouldClose(window, true);
-    if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
-        transform = glm::translate(transform, glm::vec3(1.0f, 0.0f, 0.0f));
-    if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
-        transform = glm::translate(transform, glm::vec3(-1.0f, 0.0f, 0.0f));
 }

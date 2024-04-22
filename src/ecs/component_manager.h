@@ -51,14 +51,14 @@ class ComponentManager
         void add_component(Entity entity, T component)
         {
             // Add a component to the array for an entity
-            get_component<T>()->append(entity, component);
+            get_array<T>()->append(entity, component);
         }
 
         template<typename T>
         void remove_component(Entity entity)
         {
             // Remove a component from the array for an entity
-            get_component<T>()->remove(entity);
+            get_array<T>()->remove(entity);
         }
 
         template<typename T>
