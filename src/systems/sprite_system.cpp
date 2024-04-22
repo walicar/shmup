@@ -4,7 +4,7 @@
 #include <gtc/matrix_transform.hpp>
 #include <gtc/type_ptr.hpp>
 
-extern Coordinator GC9R;
+extern Coordinator GCR;
 
 void SpriteSystem::update(float time)
 {
@@ -14,7 +14,7 @@ void SpriteSystem::update(float time)
     // fixed update
     for (auto const& entity : entities)
     {
-        auto& sprite = GC9R.get_component<Sprite>(entity);
+        auto& sprite = GCR.get_component<Sprite>(entity);
         // render
         safety::entry_guard("Hello?");
         sprite.texture->bind();

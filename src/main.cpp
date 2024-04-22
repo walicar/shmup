@@ -17,7 +17,7 @@
 void framebuffer_size_callback(GLFWwindow *window, int width, int height);
 void process_input(GLFWwindow *window);
 
-Coordinator GC9R;
+Coordinator GCR;
 
 int main() {
     // application entry
@@ -54,13 +54,13 @@ int main() {
             0.0f, 0.5f, 0.0f,       0.5, 1.0        // upper middle
     };
 
-    GC9R.register_component<Sprite>();
-    auto sprite_system = GC9R.register_system<SpriteSystem>();
+    GCR.register_component<Sprite>();
+    auto sprite_system = GCR.register_system<SpriteSystem>();
 
     std::vector<Entity> entities(MAX_ENTITIES - 1);
 
-    entities[0] = GC9R.create_entity();
-    GC9R.add_component(entities[0], Sprite{
+    entities[0] = GCR.create_entity();
+    GCR.add_component(entities[0], Sprite{
         .shader = &def_shader,
         .texture = &def_texture,
         .vertex_data = v,
@@ -68,7 +68,7 @@ int main() {
     });
 
 
-    auto& sprite = GC9R.get_component<Sprite>(entities[0]);
+    auto& sprite = GCR.get_component<Sprite>(entities[0]);
     sprite.setup();
 
     while (!glfwWindowShouldClose(window)) {
