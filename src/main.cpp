@@ -1,8 +1,5 @@
 #include <glad.h>
 #include <glfw3.h>
-#include <glm.hpp>
-#include <gtc/matrix_transform.hpp>
-#include <gtc/type_ptr.hpp>
 #include <iostream>
 #include "shader.h"
 #include "resource_manager.h"
@@ -10,8 +7,6 @@
 #include "ecs/types.h"
 #include "components/sprite.h"
 #include "systems/sprite_system.h"
-#include <iostream>
-#include <filesystem>
 
 
 void framebuffer_size_callback(GLFWwindow *window, int width, int height);
