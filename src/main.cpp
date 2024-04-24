@@ -7,7 +7,7 @@
 #include "shader.h"
 #include "resource_manager.h"
 #include "ecs/coordinator.h"
-#include "ecs/entity.h"
+#include "ecs/types.h"
 #include "components/sprite.h"
 #include "systems/sprite_system.h"
 #include <iostream>

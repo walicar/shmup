@@ -2,7 +2,7 @@
 #define SYSTEM_H
 
 #include <set>
-#include "entity.h"
+#include "types.h"
 
 /**
  * Provide functionality to iterate upon a list of entities with a variable signature

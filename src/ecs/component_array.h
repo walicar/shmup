@@ -3,7 +3,7 @@
 
 // @TODO: opitmize this into a DoublyLinkedList?
 
-#include "entity.h"
+#include "types.h"
 
 /**
  * An interface is needed so that the ComponentManager (seen later)

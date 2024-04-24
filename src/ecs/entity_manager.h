@@ -3,8 +3,7 @@
 
 #include <queue>
 #include <array>
-#include "entity.h"
-#include "component.h"
+#include "types.h"
 
 /**
  * The Entity Manager is in charge of distributing entity IDs 
