@@ -25,5 +25,9 @@ enum class InputButtons
     SHIFT
 };
 
+using EventId = std::uint32_t;
+using ParamId = std::uint32_t;
+
+
 
 #endif
