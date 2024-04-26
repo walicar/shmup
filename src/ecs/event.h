@@ -5,7 +5,6 @@
 #include <unordered_map>
 #include <any>
 
-
 class Event
 {
     private:
@@ -18,18 +17,18 @@ class Event
         explicit Event(EventId type) : type(type) {};
 
         template<typename T>
-        void SetParam(EventId id, T value)
+        void set_param(EventId id, T value)
         {
             data[id] = value;
         }
 
         template<typename T>
-        T GetParam(EventId id)
+        T get_param(EventId id)
         {
             return std::any_cast<T>(data[id]);
         }
 
-        EventId GetType() const
+        EventId get_type() const
         {
             return type;
         }
