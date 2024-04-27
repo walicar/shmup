@@ -3,7 +3,7 @@
 #include <unordered_map>
 #include <memory>
 #include <any>
-#include "types.h.h"
+#include "types.h"
 #include "component_array.h"
 
 /**

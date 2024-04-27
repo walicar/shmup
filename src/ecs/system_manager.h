@@ -2,8 +2,7 @@
 #define SYSTEM_MANAGER_H
 #include <set>
 #include <unordered_map>
-#include "entity.h"
-#include "component.h"
+#include "types.h"
 #include "system.h"
 
 /**
