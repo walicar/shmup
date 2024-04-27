@@ -3,42 +3,23 @@
 #include <iostream>
 #include "shader.h"
 #include "resource_manager.h"
+#include "window_manager.h"
 #include "ecs/coordinator.h"
 #include "ecs/types.h"
 #include "components/sprite.h"
 #include "systems/sprite_system.h"
 
-
-void framebuffer_size_callback(GLFWwindow *window, int width, int height);
-void process_input(GLFWwindow *window);
-
 Coordinator GCR;
+static bool quit = false;
+
+void handle_quit(Event &e) {
+    quit = true;
+}
 
 int main() {
     // application entry
-    glfwInit();
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
-    glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-    glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE); // Required for MacOS
-
-    GLFWwindow *window = glfwCreateWindow(800, 600, "SHMUP", NULL, NULL);
-    if (window == NULL)
-    {
-        std::cout << "Failed to create GLFW window" << std::endl;
-        glfwTerminate();
-        return -1;
-    }
-    glfwMakeContextCurrent(window);
-
-    if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
-    {
-        std::cout << "Failed to initialize GLAD" << std::endl;
-        return -1;
-    }
-
-    glViewport(0, 0, 800, 600);
-    glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
+    WindowManager window_manager("SHMUP", 800, 600);
+    GCR.add_listener(FUNCTION_LISTENER(Events::Window::QUIT, handle_quit)); // lambda preferred?
 
     Shader def_shader = ResourceManager::load_shader("shaders/default.vert", "shaders/default.frag", "default");
     Texture def_texture = ResourceManager::load_texture("textures/smile.png", false, "smile");
@@ -66,28 +47,18 @@ int main() {
     auto& sprite = GCR.get_component<Sprite>(entities[0]);
     sprite.setup();
 
-    while (!glfwWindowShouldClose(window)) {
-        process_input(window);
-
-        glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
-        glClear(GL_COLOR_BUFFER_BIT);
-
+    while (!quit) {
+        window_manager.process_events();
         sprite_system->update((float)glfwGetTime());
-
-        glfwSwapBuffers(window);
-        glfwPollEvents();
+        // sprite_system->update(0);
+        window_manager.update();
     }
-
-    glfwDestroyWindow(window);
-    glfwTerminate();
+    // window_manager should deallocate here?
+    window_manager.clean();
     return 0;
 }
 
 void framebuffer_size_callback(GLFWwindow *window, int width, int height)
 {
     glViewport(0, 0, width, height);
-}
-
-void process_input(GLFWwindow *window)
-{
 }
