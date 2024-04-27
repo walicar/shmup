@@ -13,7 +13,7 @@ class EventManager
         std::unordered_map<EventId, std::list<std::function<void(Event&)>>> listeners;
 
     public:
-        void AddListener(EventId eventId, std::function<void(Event&)> const& listener)
+        void add_listener(EventId eventId, std::function<void(Event&)> const& listener)
         {
             listeners[eventId].push_back(listener);
         }

@@ -2,9 +2,11 @@
 #define COORDINATOR_H
 
 #include <memory>
+#include "types.h"
 #include "component_manager.h"
 #include "entity_manager.h"
 #include "system_manager.h"
+#include "event_manager.h"
 
 /**
  * Have the ECS managers talk to each other
@@ -16,6 +18,7 @@ class Coordinator
 	    std::unique_ptr<EntityManager> entity_manager;
         std::unique_ptr<ComponentManager> component_manager;
 	    std::unique_ptr<SystemManager> system_manager;
+        std::unique_ptr<EventManager> event_manager;
 
     public:
         Coordinator() {
@@ -94,6 +97,23 @@ class Coordinator
         void set_system_signature(Signature signature)
         {
             system_manager->set_signature<T>(signature);
+        }
+
+        // Events
+
+        void add_listener(EventId eventId, std::function<void(Event&)> const& listener)
+        {
+            event_manager->add_listener(eventId, listener);
+        }
+
+        void send_event(Event& event)
+        {
+            event_manager->send_event(event);
+        }
+
+        void send_event(EventId eventId)
+        {
+            event_manager->send_event(eventId);
         }
 
 };
