@@ -26,13 +26,11 @@ WindowManager::WindowManager(std::string const& title, unsigned int width, unsig
     if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
     {
         std::cout << "Failed to initialize GLAD" << std::endl;
+        glfwTerminate();
     }
 
     glViewport(0, 0, width, height);
-    glfwSwapInterval(2);
-
-    glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
-    glEnable(GL_DEPTH_TEST);
+    // glfwSwapInterval(2);
 }
 
 void WindowManager::clean()

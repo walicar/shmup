@@ -8,6 +8,7 @@
 #include "ecs/types.h"
 #include "components/sprite.h"
 #include "systems/sprite_system.h"
+#include <chrono>
 
 Coordinator GCR;
 static bool quit = false;
@@ -47,11 +48,20 @@ int main() {
     auto& sprite = GCR.get_component<Sprite>(entities[0]);
     sprite.setup();
 
+    float dt = 0.0f;
+
     while (!quit) {
+        // auto start = std::chrono::high_resolution_clock::now();
         window_manager.process_events();
-        sprite_system->update((float)glfwGetTime());
-        // sprite_system->update(0);
+        // scuffed
+        glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+        glClear(GL_COLOR_BUFFER_BIT);
+        //
+        sprite_system->update((float)glfwGetTime()); // glfwGetTime() returns negative numbers??
         window_manager.update();
+        auto stop = std::chrono::high_resolution_clock::now();
+        // dt = std::chrono::duration<float, std::chrono::seconds::period>(stop - start).count();
+
     }
     // window_manager should deallocate here?
     window_manager.clean();
