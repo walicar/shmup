@@ -55,5 +55,9 @@ namespace Events::Window::Resized {
     const ParamId HEIGHT = "Events::Window::Resized::HEIGHT"_hash;
 }
 
+// function binding, find a way to simplify this?
+// - create a new function object from an existing function
+#define METHOD_LISTENER(EventType, Listener) EventType, std::bind(&Listener, this, std::placeholders::_1)
+#define FUNCTION_LISTENER(EventType, Listener) EventType, std::bind(&Listener, std::placeholders::_1)
 
 #endif
