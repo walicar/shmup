@@ -7,7 +7,9 @@
 #include "ecs/coordinator.h"
 #include "ecs/types.h"
 #include "components/sprite.h"
+#include "components/player.h"
 #include "systems/sprite_system.h"
+#include "systems/control_system.h"
 #include <chrono>
 
 Coordinator GCR;
@@ -32,7 +34,13 @@ int main() {
     };
 
     GCR.register_component<Sprite>();
+
     auto sprite_system = GCR.register_system<SpriteSystem>();
+    {
+        Signature signature;
+        signature.set(GCR.get_component_type<Sprite>());
+        GCR.set_system_signature<SpriteSystem>(signature);
+    }
 
     std::vector<Entity> entities(MAX_ENTITIES - 1);
 
