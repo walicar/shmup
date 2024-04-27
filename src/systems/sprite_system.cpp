@@ -16,13 +16,12 @@ void SpriteSystem::update(float time)
     {
         auto& sprite = GCR.get_component<Sprite>(entity);
         // render
-        safety::entry_guard("Hello?");
+        safety::entry_guard("Rendering a Sprite");
         sprite.texture->bind();
         sprite.shader->use();
         unsigned int loc = glGetUniformLocation(sprite.shader->ID, "transform");
         glUniformMatrix4fv(loc, 1, GL_FALSE, glm::value_ptr(transform));
         glBindVertexArray(sprite.VAO);
         glDrawArrays(GL_TRIANGLE_FAN, 0, 3); // @FIXME: COUNT IS HARDCODED MY DUDE!
-        safety::entry_guard("Exit YO WAHT HAPPENED?");
     }
 }
