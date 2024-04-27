@@ -25,6 +25,7 @@ class Coordinator
             entity_manager = std::make_unique<EntityManager>();
             component_manager = std::make_unique<ComponentManager>();
             system_manager = std::make_unique<SystemManager>();
+            event_manager = std::make_unique<EventManager>();
         }
 
         // Entity
