@@ -18,9 +18,9 @@ class EntityManager
     uint32_t count; // total living entities
 
     public:
-        EntityManager() 
-        {
-            for (Entity entity = 0; entity < MAX_ENTITIES; entity++) 
+        EntityManager() : count(0)
+       {
+            for (Entity entity = 0; entity < MAX_ENTITIES; entity++)
             {
                 entities.push(entity);
             }
