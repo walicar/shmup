@@ -7,6 +7,11 @@
 #include <list>
 #include <unordered_map>
 
+/**
+ * EventManager is in charge of running callbacks stored in `listeners`
+ *  when the appropriate event shows up
+ */
+
 class EventManager
 {
     private:

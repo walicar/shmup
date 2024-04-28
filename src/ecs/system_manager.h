@@ -6,8 +6,9 @@
 #include "system.h"
 
 /**
- * Maintain a record of registereed systems and signatures.
+ * Maintain a record of registered systems and signatures.
 */
+
 class SystemManager
 {
     private:
@@ -20,7 +21,7 @@ class SystemManager
         {
             const char* type_name = typeid(T).name();
 
-            // @TODO: Handle error when tryign to register a system more than once
+            // @TODO: Handle error when trying to register a system more than once
 
             auto system = std::make_shared<T>();
             systems.insert({type_name, system});
@@ -40,8 +41,6 @@ class SystemManager
 
         void destroyed(Entity entity) 
         {
-            // Erase a destroyed entity from all system lists
-		    // mEntities is a set so no check needed
             for (auto const& pair : systems)
             {
                 auto const& system = pair.second;

@@ -6,10 +6,11 @@
 #include "types.h"
 
 /**
- * An interface is needed so that the ComponentManager (seen later)
- * can tell a generic ComponentArray that an entity has been destroyed
- * and that it needs to update its array mappings.
+ * An interface is needed so that the ComponentManager
+ *  can tell a generic ComponentArray that an entity has been destroyed
+ *  and that it needs to update its array mappings.
 */
+
 class IComponentArray
 {
 public:
