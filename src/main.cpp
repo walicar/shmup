@@ -17,6 +17,7 @@
 #include "systems/sprite_system.h"
 #include "systems/movement_system.h"
 #include "systems/projectile_system.h"
+#include "systems/physics_system.h"
 #include "systems/collision_system.h"
 #include <chrono>
 
@@ -35,6 +36,7 @@ int main() {
     Shader def_shader = ResourceManager::load_shader("shaders/default.vert", "shaders/default.frag", "default");
     Texture def_texture = ResourceManager::load_texture("textures/smile.png", false, "smile");
     Texture laser_texture = ResourceManager::load_texture("textures/laser.png", false, "laser");
+    Texture bullet_texture = ResourceManager::load_texture("textures/bullet.png", false, "bullet");
 
     float v[] = {
             -0.25f, -0.5f, 0.0f, 0.5, 0.0,       // bottom left
@@ -47,6 +49,13 @@ int main() {
             0.25f, -1.0f, 0.0f, 1.0f, 0.0f,
             0.25f, 1.0f, 0.0f, 1.0f, 1.0f,
             -0.25f, 1.0f, 0.0f, 0.0f, 1.0f
+    };
+
+    float bv[] = {
+            -0.25f, -0.5f, 0.0f, 0.0f, 0.0f,
+            0.25f, -0.5f, 0.0f, 1.0f, 0.0f,
+            0.25f, 0.5f, 0.0f, 1.0f, 1.0f,
+            -0.25f, 0.5f, 0.0f, 0.0f, 1.0f
     };
 
     // register components
@@ -111,6 +120,16 @@ int main() {
 
     collision_system->init();
 
+    auto physics_system = GCR.register_system<PhysicsSystem>();
+    {
+        Signature signature;
+        signature.set(GCR.get_component_type<Transform>());
+        signature.set(GCR.get_component_type<Velocity>());
+        GCR.set_system_signature<PhysicsSystem>(signature);
+    }
+
+    physics_system->init();
+
     // create the player
     Entity player = GCR.create_entity();
     GCR.add_component(player, Sprite{
@@ -133,6 +152,7 @@ int main() {
     // player projectiles
 
     // laser...
+    // @FIXME: check sprite system because we have some hardcoded logic
     Entity player_laser = GCR.create_entity();
     GCR.add_component(player_laser, Sprite {
         .shader = &def_shader,
@@ -151,6 +171,28 @@ int main() {
     GCR.add_component(player_laser, Projectile{});
     auto& laser_sprite = GCR.get_component<Sprite>(player_laser);
     laser_sprite.setup();
+
+    // bullets
+    for (int i = 0; i < 10; i++) { // can only use 10 bullets for now...
+        Entity player_bullet = GCR.create_entity();
+        GCR.add_component(player_bullet, Sprite {
+                .shader = &def_shader,
+                .texture = &bullet_texture,
+                .active = false,
+                .vertex_data = bv,
+                .vertex_count = 20 // @TODO: HARDCODED
+        });
+
+        GCR.add_component(player_bullet, Transform{});
+        GCR.add_component(player_bullet, Player{});
+        GCR.add_component(player_bullet, Hitbox{
+                .hitbox = glm::vec3(0.5f, 0.5f, 1.0f)
+        });
+        GCR.add_component(player_bullet, Velocity{});
+        GCR.add_component(player_bullet, Projectile{});
+        auto& bullet_sprite = GCR.get_component<Sprite>(player_bullet);
+        bullet_sprite.setup();
+    }
 
     // enemies
     Entity enemy = GCR.create_entity();
@@ -179,6 +221,7 @@ int main() {
         movement_system->update(dt);
         projectile_system->update(dt);
         collision_system->update(dt);
+        physics_system->update(dt);
         // move this
         glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);
