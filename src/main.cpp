@@ -34,14 +34,16 @@ int main() {
     GCR.add_listener(FUNCTION_LISTENER(Events::Window::QUIT, handle_quit)); // lambda preferred?
 
     Shader def_shader = ResourceManager::load_shader("shaders/default.vert", "shaders/default.frag", "default");
-    Texture def_texture = ResourceManager::load_texture("textures/smile.png", false, "smile");
-    Texture laser_texture = ResourceManager::load_texture("textures/laser.png", false, "laser");
-    Texture bullet_texture = ResourceManager::load_texture("textures/bullet.png", false, "bullet");
+    // Texture def_texture = ResourceManager::load_texture("textures/smile.png", "smile", true);
+    Texture laser_texture = ResourceManager::load_texture("textures/laser.png", "laser", true);
+    Texture bullet_texture = ResourceManager::load_texture("textures/bullet.png", "bullet", true);
+    Texture ship_texture = ResourceManager::load_texture("textures/ship.png", "ship", true);
+    Texture eship_texture = ResourceManager::load_texture("textures/eship.png", "eship", true);
 
     float v[] = {
-            -0.25f, -0.5f, 0.0f, 0.5, 0.0,       // bottom left
-            0.25f, -0.5f, 0.0f, 1.0, 0.5,       // bottom right
-            0.0f, 0.5f, 0.0f, 0.5, 1.0        // upper middle
+            -0.25f, -0.5f, 0.0f, 0.0f, 0.0f,       // bottom left
+            0.25f, -0.5f, 0.0f, 1.0f, 0.0f,       // bottom right
+            0.0f, 0.5f, 0.0f, 0.5f, 1.0f        // upper middle
     };
 
     float lv[] = {
@@ -56,6 +58,12 @@ int main() {
             0.25f, -0.5f, 0.0f, 1.0f, 0.0f,
             0.25f, 0.5f, 0.0f, 1.0f, 1.0f,
             -0.25f, 0.5f, 0.0f, 0.0f, 1.0f
+    };
+
+    float ev[] = {
+            -0.25f, 0.5f, 0.0f, 0.0, 0.0,
+            0.25f, 0.5f, 0.0f, 1.0, 0.0,
+            0.0f, -0.5f, 0.0f, 0.5, 1.0
     };
 
     // register components
@@ -93,12 +101,10 @@ int main() {
 
     movement_system->init();
 
-    // ProjectileSystem will need to listen to key events like control system
     auto projectile_system = GCR.register_system<ProjectileSystem>();
     {
         Signature signature;
         signature.set(GCR.get_component_type<Player>());
-        // @TODO: not sure if we edit Sprite or Projectile
         signature.set(GCR.get_component_type<Sprite>());
         signature.set(GCR.get_component_type<Projectile>());
         GCR.set_system_signature<MovementSystem>(signature);
@@ -106,9 +112,6 @@ int main() {
 
     projectile_system->init();
 
-    // CollisionSystem will need to figure out what is colliding?
-    // - need to check enemy colliding with player
-    // - need to check player colliding with enemy
     auto collision_system = GCR.register_system<CollisionSystem>();
     {
         Signature signature;
@@ -134,11 +137,11 @@ int main() {
     Entity player = GCR.create_entity();
     GCR.add_component(player, Sprite{
         .shader = &def_shader,
-        .texture = &def_texture,
+        .texture = &ship_texture,
         .scale_factor = glm::vec3(0.25f),
         .active = true,
         .vertex_data = v,
-        .vertex_count = 15 // @TODO: HARDCODED
+        .vertex_count = 3 // @TODO: HARDCODED
     });
     GCR.add_component(player, Transform{});
     GCR.add_component(player, Player{});
@@ -159,10 +162,12 @@ int main() {
         .texture = &laser_texture,
         .active = false,
         .vertex_data = lv,
-        .vertex_count = 20 // @TODO: HARDCODED
+        .vertex_count = 4 // @TODO: HARDCODED
     });
 
-    GCR.add_component(player_laser, Transform{});
+    GCR.add_component(player_laser, Transform{
+        .pos = glm::vec3(10.0f, 0.0f, 0.0f)
+    });
     GCR.add_component(player_laser, Hitbox{
         .hitbox = glm::vec3(0.5f, 1.5f, 1.0f)
     });
@@ -180,7 +185,7 @@ int main() {
                 .texture = &bullet_texture,
                 .active = false,
                 .vertex_data = bv,
-                .vertex_count = 20 // @TODO: HARDCODED
+                .vertex_count = 4 // @TODO: HARDCODED
         });
 
         GCR.add_component(player_bullet, Transform{});
@@ -198,14 +203,16 @@ int main() {
     Entity enemy = GCR.create_entity();
     GCR.add_component(enemy, Sprite{
             .shader = &def_shader,
-            .texture = &def_texture,
+            .texture = &eship_texture,
             .scale_factor = glm::vec3(0.25f),
             .active = true,
-            .vertex_data = v,
-            .vertex_count = 15 // @TODO: HARDCODED
+            .vertex_data = ev,
+            .vertex_count = 3 // @TODO: HARDCODED
     });
 
-    GCR.add_component(enemy, Transform{});
+    GCR.add_component(enemy, Transform{
+        .pos = glm::vec3(0.0f, 3.0f, 0.0f)
+    });
     GCR.add_component(enemy, Enemy{});
     GCR.add_component(enemy, Hitbox{
         .hitbox = glm::vec3(0.5f, 0.5f, 0.5f)
@@ -226,18 +233,12 @@ int main() {
         glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);
         //
-        sprite_system->update((float)glfwGetTime()); // glfwGetTime() returns negative numbers??
+        sprite_system->update((float)glfwGetTime());
         window_manager.update();
         auto stop = (float)glfwGetTime();
         dt = stop - start;
 
     }
-    // window_manager should deallocate here?
     window_manager.clean();
     return 0;
-}
-
-void framebuffer_size_callback(GLFWwindow *window, int width, int height)
-{
-    glViewport(0, 0, width, height);
 }

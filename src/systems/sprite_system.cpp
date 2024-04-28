@@ -35,6 +35,12 @@ void SpriteSystem::update(float time)
         unsigned int loc = glGetUniformLocation(sprite.shader->ID, "transform");
         glUniformMatrix4fv(loc, 1, GL_FALSE, glm::value_ptr(transform));
         glBindVertexArray(sprite.VAO);
-        glDrawArrays(GL_TRIANGLE_FAN, 0, 20); // @FIXME: count is some arbitrary number
+
+        if (entity == 0 || entity == 12) {
+            glDrawArrays(GL_TRIANGLES, 0, 3);
+        } else {
+            glDrawArrays(GL_TRIANGLE_FAN, 0, 4);
+        }
+
     }
 }

@@ -11,7 +11,7 @@ Shader ResourceManager::get_shader(std::string name) {
     return shaders[name];
 }
 
-Texture ResourceManager::load_texture(const char *file, bool alpha, std::string name) {
+Texture ResourceManager::load_texture(const char *file, std::string name, bool alpha) {
     textures[name] = load_texture_file(file, alpha);
     return textures[name];
 }
@@ -59,8 +59,11 @@ Texture ResourceManager::load_texture_file(const char *file, bool alpha) {
         texture.internal_format = GL_RGBA;
         texture.image_format = GL_RGBA;
     }
+
     int width, height, channel_num;
-    unsigned char* data = stbi_load(file, &width, &height, &channel_num, 0);
+    // weird bug: https://computergraphics.stackexchange.com/questions/9671/texture-loading-erratic-working
+    unsigned char* data = stbi_load(file, &width, &height, &channel_num, 4);
+    channel_num = 4;
     texture.generate(width, height, data);
     stbi_image_free(data);
     return texture;

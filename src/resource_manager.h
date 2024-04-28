@@ -16,7 +16,7 @@ class ResourceManager {
         static Shader load_shader(const char *vert_src, const char *frag_src, std::string name);
         static Shader get_shader(std::string name);
 
-        static Texture load_texture(const char *file, bool alpha, std::string name);
+        static Texture load_texture(const char *file, std::string name, bool alpha);
         static Texture get_texture(std::string name);
 
         static void close();
