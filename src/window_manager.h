@@ -5,6 +5,7 @@
 #include <glfw3.h>
 #include <bitset>
 #include <string>
+#include "ecs/types.h"
 
 
 class WindowManager
@@ -26,6 +27,8 @@ class WindowManager
         GLFWwindow* window;
 
         std::bitset<8> buttons;
+
+        void set_buttons(GLint key_code, InputButtons input_code);
 };
 
 

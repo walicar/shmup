@@ -23,6 +23,7 @@ add_executable(code
         src/utils.cpp
         src/systems/sprite_system.cpp
         src/window_manager.cpp
+        src/systems/control_system.cpp
 )
 
 target_link_libraries(code "-framework OpenGL -framework Cocoa -framework IOKit -framework CoreVideo")

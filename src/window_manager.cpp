@@ -44,58 +44,36 @@ void WindowManager::update()
     glfwSwapBuffers(window);
 }
 
+void WindowManager::set_buttons(GLint key_code, InputButtons input_code)
+{
+    if (glfwGetKey(window, key_code) == GLFW_PRESS)
+    {
+        buttons.set(static_cast<std::size_t>(input_code));
+    } else if (glfwGetKey(window, key_code) == GLFW_RELEASE)
+    {
+        buttons.reset(static_cast<std::size_t>(input_code));
+    }
+}
+
 void WindowManager::process_events()
 {
     glfwPollEvents();
 
-    bool buttonStateChanged = true;
-
-    if (glfwGetKey(window, GLFW_KEY_ESCAPE))
+    if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
     {
         GCR.send_event(Events::Window::QUIT);
     }
-    else if (glfwGetKey(window, GLFW_KEY_W))
-    {
-        buttons.set(static_cast<std::size_t>(InputButtons::W));
-        std::cout << "W pressed" << std::endl;
-    }
-    else if (glfwGetKey(window, GLFW_KEY_A))
-    {
-        buttons.set(static_cast<std::size_t>(InputButtons::A));
-    }
-    else if (glfwGetKey(window, GLFW_KEY_S))
-    {
-        buttons.set(static_cast<std::size_t>(InputButtons::S));
-    }
-    else if (glfwGetKey(window, GLFW_KEY_D))
-    {
-        buttons.set(static_cast<std::size_t>(InputButtons::D));
-    }
-    else if (glfwGetKey(window, GLFW_KEY_J))
-    {
-        buttons.set(static_cast<std::size_t>(InputButtons::J));
-    }
-    else if (glfwGetKey(window, GLFW_KEY_K))
-    {
-        buttons.set(static_cast<std::size_t>(InputButtons::K));
-    }
-    else if (glfwGetKey(window, GLFW_KEY_L))
-    {
-        buttons.set(static_cast<std::size_t>(InputButtons::K));
-    }
-    else if (glfwGetKey(window, GLFW_KEY_LEFT_SHIFT))
-    {
-        buttons.set(static_cast<std::size_t>(InputButtons::SHIFT));
-    }
-    else
-    {
-        buttonStateChanged = false;
-    }
 
-    if (buttonStateChanged)
-    {
-        Event event(Events::Window::INPUT);
-        event.set_param(Events::Window::Input::INPUT, buttons);
-        GCR.send_event(event);
-    }
+    set_buttons(GLFW_KEY_W, InputButtons::W);
+    set_buttons(GLFW_KEY_A, InputButtons::A);
+    set_buttons(GLFW_KEY_S, InputButtons::S);
+    set_buttons(GLFW_KEY_D, InputButtons::D);
+    set_buttons(GLFW_KEY_J, InputButtons::J);
+    set_buttons(GLFW_KEY_K, InputButtons::K);
+    set_buttons(GLFW_KEY_L, InputButtons::L);
+    set_buttons(GLFW_KEY_LEFT_SHIFT, InputButtons::SHIFT);
+
+    Event event(Events::Window::INPUT);
+    event.set_param(Events::Window::Input::INPUT, buttons);
+    GCR.send_event(event);
 }

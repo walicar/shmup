@@ -8,6 +8,7 @@
 #include "ecs/types.h"
 #include "components/sprite.h"
 #include "components/player.h"
+#include "components/transform.h"
 #include "systems/sprite_system.h"
 #include "systems/control_system.h"
 #include <chrono>
@@ -34,16 +35,30 @@ int main() {
     };
 
     GCR.register_component<Sprite>();
+    GCR.register_component<Player>();
+    GCR.register_component<Transform>();
 
     auto sprite_system = GCR.register_system<SpriteSystem>();
     {
         Signature signature;
+        signature.set(GCR.get_component_type<Transform>());
         signature.set(GCR.get_component_type<Sprite>());
         GCR.set_system_signature<SpriteSystem>(signature);
     }
 
+    auto control_system = GCR.register_system<ControlSystem>();
+    {
+        Signature signature;
+        signature.set(GCR.get_component_type<Transform>());
+        signature.set(GCR.get_component_type<Player>());
+        GCR.set_system_signature<ControlSystem>(signature);
+    }
+
+    control_system->init();
+
     std::vector<Entity> entities(MAX_ENTITIES - 1);
 
+    // create the player
     entities[0] = GCR.create_entity();
     GCR.add_component(entities[0], Sprite{
         .shader = &def_shader,
@@ -52,6 +67,8 @@ int main() {
         .vertex_count = 15 // @TODO: HARDCODED
     });
 
+    GCR.add_component(entities[0], Transform{});
+    GCR.add_component(entities[0], Player{});
 
     auto& sprite = GCR.get_component<Sprite>(entities[0]);
     sprite.setup();
@@ -59,16 +76,17 @@ int main() {
     float dt = 0.0f;
 
     while (!quit) {
-        // auto start = std::chrono::high_resolution_clock::now();
+        auto start = (float)glfwGetTime();
         window_manager.process_events();
-        // scuffed
+        control_system->update(dt);
+        // move this
         glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);
         //
         sprite_system->update((float)glfwGetTime()); // glfwGetTime() returns negative numbers??
         window_manager.update();
-        auto stop = std::chrono::high_resolution_clock::now();
-        // dt = std::chrono::duration<float, std::chrono::seconds::period>(stop - start).count();
+        auto stop = (float)glfwGetTime();
+        dt = stop - start;
 
     }
     // window_manager should deallocate here?
