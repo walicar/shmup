@@ -48,7 +48,7 @@ bool CollisionSystem::overlaps(glm::vec3 hb1, glm::vec3 pos1, glm::vec3 hb2, glm
     glm::vec3 max1 = pos1 + hb1;
     glm::vec3 max2 = pos2 + hb2;
 
-    return (pos1.x <= max2.x && max1.x >= pos2.x) &&
-           (pos1.y <= max2.y && max1.y >= pos2.y) &&
-           (pos1.z <= max2.z && max1.z >= pos2.z);
+    return (pos1.x <= max2.x && max1.x >= pos2.x)
+        && (pos1.y <= max2.y && max1.y >= pos2.y)
+        &&(pos1.z <= max2.z && max1.z >= pos2.z);
 }
