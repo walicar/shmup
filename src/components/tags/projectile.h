@@ -1,6 +1,7 @@
 #ifndef PROJECTILE_H
 #define PROJECTILE_H
 
-struct Projectile {};
+struct Projectile {
+};
 
 #endif

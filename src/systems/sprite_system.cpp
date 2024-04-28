@@ -6,19 +6,18 @@
 #include <gtc/type_ptr.hpp>
 
 extern Coordinator GCR;
-void SpriteSystem::update(float time)
-{
+
+void SpriteSystem::update(float time) {
     glm::mat4 rotation = glm::mat4(1.0f);
     rotation = glm::rotate(rotation, time, glm::vec3(0.0f, 1.0f, 0.0f));
 
     // fixed update
-    for (auto const& entity : entities)
-    {
-        auto& sprite = GCR.get_component<Sprite>(entity);
+    for (auto const &entity: entities) {
+        auto &sprite = GCR.get_component<Sprite>(entity);
         if (!sprite.active)
             continue;
 
-        auto& movement = GCR.get_component<Transform>(entity);
+        auto &movement = GCR.get_component<Transform>(entity);
 
         glm::mat4 transform = glm::mat4(1.0f);
         transform = glm::scale(transform, sprite.scale_factor);

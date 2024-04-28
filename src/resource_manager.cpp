@@ -1,4 +1,5 @@
 #include "resource_manager.h"
+
 std::unordered_map<std::string, Shader> ResourceManager::shaders;
 std::unordered_map<std::string, Texture> ResourceManager::textures;
 
@@ -21,7 +22,7 @@ Texture ResourceManager::get_texture(std::string name) {
 }
 
 void ResourceManager::close() {
-    for (auto iter : shaders)
+    for (auto iter: shaders)
         glDeleteProgram(iter.second.ID);
 }
 
@@ -62,7 +63,7 @@ Texture ResourceManager::load_texture_file(const char *file, bool alpha) {
 
     int width, height, channel_num;
     // weird bug: https://computergraphics.stackexchange.com/questions/9671/texture-loading-erratic-working
-    unsigned char* data = stbi_load(file, &width, &height, &channel_num, 4);
+    unsigned char *data = stbi_load(file, &width, &height, &channel_num, 4);
     channel_num = 4;
     texture.generate(width, height, data);
     stbi_image_free(data);

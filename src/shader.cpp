@@ -1,6 +1,6 @@
 #include "shader.h"
 
-void Shader::compile(const char* vert_code, const char* frag_code) {
+void Shader::compile(const char *vert_code, const char *frag_code) {
     unsigned int vert_id, frag_id;
     int success;
     char info_log[512];
@@ -9,8 +9,7 @@ void Shader::compile(const char* vert_code, const char* frag_code) {
     glShaderSource(vert_id, 1, &vert_code, NULL);
     glCompileShader(vert_id);
     glGetShaderiv(vert_id, GL_COMPILE_STATUS, &success);
-    if(!success)
-    {
+    if (!success) {
         glGetShaderInfoLog(vert_id, 512, NULL, info_log);
         std::cout << "ERROR::SHADER::VERTEX::COMPILATION_FAILED\n" << info_log << std::endl;
     };
@@ -19,8 +18,7 @@ void Shader::compile(const char* vert_code, const char* frag_code) {
     glShaderSource(frag_id, 1, &frag_code, NULL);
     glCompileShader(frag_id);
     glGetShaderiv(frag_id, GL_COMPILE_STATUS, &success);
-    if(!success)
-    {
+    if (!success) {
         glGetShaderInfoLog(frag_id, 512, NULL, info_log);
         std::cout << "ERROR::SHADER::FRAGMENT::COMPILATION_FAILED\n" << info_log << std::endl;
     };
@@ -30,14 +28,13 @@ void Shader::compile(const char* vert_code, const char* frag_code) {
     glAttachShader(ID, frag_id);
     glLinkProgram(ID);
     glGetProgramiv(ID, GL_LINK_STATUS, &success);
-    if(!success)
-    {
+    if (!success) {
         glGetProgramInfoLog(ID, 512, NULL, info_log);
         std::cout << "ERROR::SHADER::PROGRAM::LINKING_FAILED\n" << info_log << std::endl;
     }
 
     glDeleteShader(vert_id);
-    glDeleteShader(frag_id);  
+    glDeleteShader(frag_id);
 }
 
 void Shader::use() {

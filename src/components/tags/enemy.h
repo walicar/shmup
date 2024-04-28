@@ -1,6 +1,7 @@
 #ifndef ENEMY_H
 #define ENEMY_H
 
-struct Enemy {};
+struct Enemy {
+};
 
 #endif

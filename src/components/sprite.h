@@ -1,5 +1,6 @@
 #ifndef SPRITE_H
 #define SPRITE_H
+
 #include <glad.h>
 #include "../shader.h"
 #include "../texture.h"
@@ -13,8 +14,7 @@
  * 
 */
 
-struct Sprite 
-{
+struct Sprite {
     Shader *shader;
     Texture *texture;
     glm::vec3 scale_factor;

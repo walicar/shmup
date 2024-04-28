@@ -8,29 +8,27 @@
 #include "ecs/types.h"
 
 
-class WindowManager
-{
+class WindowManager {
 
-    public:
-        WindowManager() = delete;
+public:
+    WindowManager() = delete;
 
-        WindowManager(std::string const& title, unsigned int width, unsigned int height);
+    WindowManager(std::string const &title, unsigned int width, unsigned int height);
 
-        void clean();
+    void clean();
 
-        void update();
+    void update();
 
-        void process_events();
+    void process_events();
 
 
-    private:
-        GLFWwindow* window;
+private:
+    GLFWwindow *window;
 
-        std::bitset<8> buttons;
+    std::bitset<8> buttons;
 
-        void set_buttons(GLint key_code, InputButtons input_code);
+    void set_buttons(GLint key_code, InputButtons input_code);
 };
-
 
 
 #endif

@@ -13,8 +13,7 @@ const ComponentType MAX_COMPONENTS = 32;
 // each entity owns a signature, which represents the components they own.
 using Signature = std::bitset<MAX_COMPONENTS>;
 
-enum class InputButtons
-{
+enum class InputButtons {
     W,
     A,
     S,

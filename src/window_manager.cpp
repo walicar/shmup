@@ -8,7 +8,7 @@
 extern Coordinator GCR;
 
 
-WindowManager::WindowManager(std::string const& title, unsigned int width, unsigned int height) {
+WindowManager::WindowManager(std::string const &title, unsigned int width, unsigned int height) {
     glfwInit();
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
@@ -16,15 +16,13 @@ WindowManager::WindowManager(std::string const& title, unsigned int width, unsig
     glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE); // Required for MacOS
 
     window = glfwCreateWindow(width, height, title.c_str(), NULL, NULL);
-    if (window == NULL)
-    {
+    if (window == NULL) {
         std::cout << "Failed to create GLFW window" << std::endl;
         glfwTerminate();
     }
 
     glfwMakeContextCurrent(window);
-    if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
-    {
+    if (!gladLoadGLLoader((GLADloadproc) glfwGetProcAddress)) {
         std::cout << "Failed to initialize GLAD" << std::endl;
         glfwTerminate();
     }
@@ -33,34 +31,27 @@ WindowManager::WindowManager(std::string const& title, unsigned int width, unsig
     // glfwSwapInterval(2);
 }
 
-void WindowManager::clean()
-{
+void WindowManager::clean() {
     glfwDestroyWindow(window);
     glfwTerminate();
 }
 
-void WindowManager::update()
-{
+void WindowManager::update() {
     glfwSwapBuffers(window);
 }
 
-void WindowManager::set_buttons(GLint key_code, InputButtons input_code)
-{
-    if (glfwGetKey(window, key_code) == GLFW_PRESS)
-    {
+void WindowManager::set_buttons(GLint key_code, InputButtons input_code) {
+    if (glfwGetKey(window, key_code) == GLFW_PRESS) {
         buttons.set(static_cast<std::size_t>(input_code));
-    } else if (glfwGetKey(window, key_code) == GLFW_RELEASE)
-    {
+    } else if (glfwGetKey(window, key_code) == GLFW_RELEASE) {
         buttons.reset(static_cast<std::size_t>(input_code));
     }
 }
 
-void WindowManager::process_events()
-{
+void WindowManager::process_events() {
     glfwPollEvents();
 
-    if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
-    {
+    if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS) {
         GCR.send_event(Events::Window::QUIT);
     }
 

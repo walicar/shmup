@@ -1,6 +1,7 @@
 #ifndef CONTROLLABLE_H
 #define CONTROLLABLE_H
 
-struct Controllable {};
+struct Controllable {
+};
 
 #endif

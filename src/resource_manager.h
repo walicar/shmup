@@ -9,21 +9,26 @@
 #include "stb_image.h"
 
 class ResourceManager {
-    public:
-        static std::unordered_map<std::string, Shader> shaders;
-        static std::unordered_map<std::string, Texture> textures;
-        
-        static Shader load_shader(const char *vert_src, const char *frag_src, std::string name);
-        static Shader get_shader(std::string name);
+public:
+    static std::unordered_map<std::string, Shader> shaders;
+    static std::unordered_map<std::string, Texture> textures;
 
-        static Texture load_texture(const char *file, std::string name, bool alpha);
-        static Texture get_texture(std::string name);
+    static Shader load_shader(const char *vert_src, const char *frag_src, std::string name);
 
-        static void close();
-    private:
-        ResourceManager() {};
-        static Shader load_shader_file(const char *vert_src, const char *frag_src);
-        static Texture load_texture_file(const char *file, bool alpha);
+    static Shader get_shader(std::string name);
+
+    static Texture load_texture(const char *file, std::string name, bool alpha);
+
+    static Texture get_texture(std::string name);
+
+    static void close();
+
+private:
+    ResourceManager() {};
+
+    static Shader load_shader_file(const char *vert_src, const char *frag_src);
+
+    static Texture load_texture_file(const char *file, bool alpha);
 };
 
 #endif

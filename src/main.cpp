@@ -136,20 +136,20 @@ int main() {
     // create the player
     Entity player = GCR.create_entity();
     GCR.add_component(player, Sprite{
-        .shader = &def_shader,
-        .texture = &ship_texture,
-        .scale_factor = glm::vec3(0.25f),
-        .active = true,
-        .vertex_data = v,
-        .vertex_count = 3 // @TODO: HARDCODED
+            .shader = &def_shader,
+            .texture = &ship_texture,
+            .scale_factor = glm::vec3(0.25f),
+            .active = true,
+            .vertex_data = v,
+            .vertex_count = 3 // @TODO: HARDCODED
     });
     GCR.add_component(player, Transform{});
     GCR.add_component(player, Player{});
     GCR.add_component(player, Controllable{});
     GCR.add_component(player, Hitbox{
-        .hitbox = glm::vec3(0.5f, 0.5f, 0.5f)
+            .hitbox = glm::vec3(0.5f, 0.5f, 0.5f)
     });
-    auto& sprite = GCR.get_component<Sprite>(player);
+    auto &sprite = GCR.get_component<Sprite>(player);
     sprite.setup();
 
     // player projectiles
@@ -157,30 +157,30 @@ int main() {
     // laser...
     // @FIXME: check sprite system because we have some hardcoded logic
     Entity player_laser = GCR.create_entity();
-    GCR.add_component(player_laser, Sprite {
-        .shader = &def_shader,
-        .texture = &laser_texture,
-        .active = false,
-        .vertex_data = lv,
-        .vertex_count = 4 // @TODO: HARDCODED
+    GCR.add_component(player_laser, Sprite{
+            .shader = &def_shader,
+            .texture = &laser_texture,
+            .active = false,
+            .vertex_data = lv,
+            .vertex_count = 4 // @TODO: HARDCODED
     });
 
     GCR.add_component(player_laser, Transform{
-        .pos = glm::vec3(10.0f, 0.0f, 0.0f)
+            .pos = glm::vec3(10.0f, 0.0f, 0.0f)
     });
     GCR.add_component(player_laser, Hitbox{
-        .hitbox = glm::vec3(0.5f, 1.5f, 1.0f)
+            .hitbox = glm::vec3(0.5f, 1.5f, 1.0f)
     });
     GCR.add_component(player_laser, Velocity{});
     GCR.add_component(player_laser, Player{});
     GCR.add_component(player_laser, Projectile{});
-    auto& laser_sprite = GCR.get_component<Sprite>(player_laser);
+    auto &laser_sprite = GCR.get_component<Sprite>(player_laser);
     laser_sprite.setup();
 
     // bullets
     for (int i = 0; i < 10; i++) { // can only use 10 bullets for now...
         Entity player_bullet = GCR.create_entity();
-        GCR.add_component(player_bullet, Sprite {
+        GCR.add_component(player_bullet, Sprite{
                 .shader = &def_shader,
                 .texture = &bullet_texture,
                 .active = false,
@@ -195,7 +195,7 @@ int main() {
         });
         GCR.add_component(player_bullet, Velocity{});
         GCR.add_component(player_bullet, Projectile{});
-        auto& bullet_sprite = GCR.get_component<Sprite>(player_bullet);
+        auto &bullet_sprite = GCR.get_component<Sprite>(player_bullet);
         bullet_sprite.setup();
     }
 
@@ -211,31 +211,31 @@ int main() {
     });
 
     GCR.add_component(enemy, Transform{
-        .pos = glm::vec3(0.0f, 3.0f, 0.0f)
+            .pos = glm::vec3(0.0f, 3.0f, 0.0f)
     });
     GCR.add_component(enemy, Enemy{});
     GCR.add_component(enemy, Hitbox{
-        .hitbox = glm::vec3(0.5f, 0.5f, 0.5f)
+            .hitbox = glm::vec3(0.5f, 0.5f, 0.5f)
     });
-    auto& enemy_sprite = GCR.get_component<Sprite>(enemy);
+    auto &enemy_sprite = GCR.get_component<Sprite>(enemy);
     enemy_sprite.setup();
 
     float dt = 0.0f;
 
     while (!quit) {
-        auto start = (float)glfwGetTime();
+        auto start = (float) glfwGetTime();
         window_manager.process_events();
         movement_system->update(dt);
-        projectile_system->update((float)glfwGetTime());
+        projectile_system->update((float) glfwGetTime());
         collision_system->update(dt);
         physics_system->update(dt);
         // move this
         glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);
         //
-        sprite_system->update((float)glfwGetTime());
+        sprite_system->update((float) glfwGetTime());
         window_manager.update();
-        auto stop = (float)glfwGetTime();
+        auto stop = (float) glfwGetTime();
         dt = stop - start;
 
     }

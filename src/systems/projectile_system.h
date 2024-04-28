@@ -15,13 +15,15 @@ class ProjectileSystem : public System {
 
 public:
     void init();
+
     void update(float time);
 
 private:
     float bullet_cooldown = 0.2f;
     float bullet_last_shot = 0.0f;
     std::bitset<8> buttons;
-    void input(Event& e);
+
+    void input(Event &e);
 
 };
 
