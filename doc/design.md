@@ -1,11 +1,10 @@
 # Design
 ## General
 - **Shader**: allow engine to initialize and use openGL shaders
-- **Game**: initialize entities, and control game state
-    - implement expected methods for game loop: `process()` -> `update()` -> `render()`
-- **Resource Manager**: create a singleton whose responsibility is to load resources
+- **ResourceManager**: create a singleton whose responsibility is to load resources
     - decouple file loading from resource classes: Shader, Texture
 - **Texture**: allow engine to generate and bind images for texture use
+- **WindowManager**: setup GLFW, process key events
 ## Core ECS
 
 The ECS system was created using this [tutorial](https://austinmorlan.com/posts/entity_component_system/) as reference.
