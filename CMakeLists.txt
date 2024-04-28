@@ -25,6 +25,7 @@ add_executable(code
         src/window_manager.cpp
         src/systems/movement_system.cpp
         src/systems/projectile_system.cpp
+        src/systems/collision_system.cpp
 )
 
 target_link_libraries(code "-framework OpenGL -framework Cocoa -framework IOKit -framework CoreVideo")

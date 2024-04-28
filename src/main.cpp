@@ -17,6 +17,7 @@
 #include "systems/sprite_system.h"
 #include "systems/movement_system.h"
 #include "systems/projectile_system.h"
+#include "systems/collision_system.h"
 #include <chrono>
 
 Coordinator GCR;
@@ -98,12 +99,17 @@ int main() {
 
     // CollisionSystem will need to figure out what is colliding?
     // - need to check enemy colliding with player
-    // - need to check player collidng with enemy
-//    auto collision_system = GCR.register_system<CollisionSystem>() {
-//        Signature signature;
-//        signature.set(GCR.get_component_type<Hitbox>());
-//    }
+    // - need to check player colliding with enemy
+    auto collision_system = GCR.register_system<CollisionSystem>();
+    {
+        Signature signature;
+        signature.set(GCR.get_component_type<Hitbox>());
+        signature.set(GCR.get_component_type<Sprite>());
+        signature.set(GCR.get_component_type<Transform>());
+        GCR.set_system_signature<CollisionSystem>(signature);
+    }
 
+    collision_system->init();
 
     // create the player
     Entity player = GCR.create_entity();
@@ -118,7 +124,9 @@ int main() {
     GCR.add_component(player, Transform{});
     GCR.add_component(player, Player{});
     GCR.add_component(player, Controllable{});
-    GCR.add_component(player, Hitbox{});
+    GCR.add_component(player, Hitbox{
+        .hitbox = glm::vec3(0.5f, 0.5f, 0.5f)
+    });
     auto& sprite = GCR.get_component<Sprite>(player);
     sprite.setup();
 
@@ -135,14 +143,33 @@ int main() {
     });
 
     GCR.add_component(player_laser, Transform{});
-    GCR.add_component(player_laser, Hitbox{});
+    GCR.add_component(player_laser, Hitbox{
+        .hitbox = glm::vec3(0.5f, 1.5f, 1.0f)
+    });
     GCR.add_component(player_laser, Velocity{});
     GCR.add_component(player_laser, Player{});
     GCR.add_component(player_laser, Projectile{});
     auto& laser_sprite = GCR.get_component<Sprite>(player_laser);
     laser_sprite.setup();
 
-    // coming soonish
+    // enemies
+    Entity enemy = GCR.create_entity();
+    GCR.add_component(enemy, Sprite{
+            .shader = &def_shader,
+            .texture = &def_texture,
+            .scale_factor = glm::vec3(0.25f),
+            .active = true,
+            .vertex_data = v,
+            .vertex_count = 15 // @TODO: HARDCODED
+    });
+
+    GCR.add_component(enemy, Transform{});
+    GCR.add_component(enemy, Enemy{});
+    GCR.add_component(enemy, Hitbox{
+        .hitbox = glm::vec3(0.5f, 0.5f, 0.5f)
+    });
+    auto& enemy_sprite = GCR.get_component<Sprite>(enemy);
+    enemy_sprite.setup();
 
     float dt = 0.0f;
 
@@ -151,6 +178,7 @@ int main() {
         window_manager.process_events();
         movement_system->update(dt);
         projectile_system->update(dt);
+        collision_system->update(dt);
         // move this
         glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);

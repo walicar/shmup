@@ -37,8 +37,6 @@ void ProjectileSystem::update(float dt)
         if (buttons.test(static_cast<std::size_t>(InputButtons::L))) {
             // bomb here
         }
-
-        std::cout << "\n";
     }
 }
 
