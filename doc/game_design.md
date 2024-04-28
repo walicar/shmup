@@ -21,7 +21,7 @@ SHMUP is a shoot em up bullet hell game, where the player controls a spaceship b
 The MVP will be a demo that deliver approximately 3 minutes of game time, as the player will only go through one scenario of the game. This level will end with a boss that tests the player's skill in dodging and learning patterns. The graphics in this demo will try to be as minimal as possible, prioritizing gameplay over appearance.
 
 ## Assets
-A sprite image must be created for every entity that exists, and every entity may share or have their own sprites for projectile
+A sprite image must be created for every entity that will exist, and every entity may share or have their own sprites for projectile
 
 - Player
 	- jet_sprite: Sprite
@@ -42,7 +42,7 @@ A sprite image must be created for every entity that exists, and every entity ma
 - ~~Charge - 50hp, weak, large, but can deal a lot of damage if you get hit by their hull, will charge at you~~
 - Star - 200hp, large, shoots in a star pattern, requires the player to actually take care in dodging
 	- star_sprite: Sprite
-	- enemy_bullet: Projectil
+	- enemy_bullet: Projectile
 - Hose - 200hp, hoses you down with bullets in a cone like fashion
 	- hose_sprite: Sprite
 	- enemy_bullet: Projectile
@@ -101,3 +101,23 @@ A level will consist of several checkpoints, the requirement to progress is to d
 - Enemies show an explosion sprite when they are defeated
 - More enemy types
 - Get points for destroying enemies, but lose points when the player gets hit by an enemy.
+
+## Alpha Report
+
+**Completed Features**
+- General controls, except bomb button
+- Focus movement
+- Ability to shoot projectiles and lasers
+- A collision detection system
+- Basic sprites
+- ECS
+
+____
+
+The player shooting bullets at an enemy ship
+
+![img/alpha1.png](img/alpha1.png)
+
+The player firing its laser at an enemy ship
+
+![img/alpha2.png](img/alpha2.png)
