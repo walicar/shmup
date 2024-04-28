@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.24)
-project(code)
+project(SHMUP)
 
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_OSX_ARCHITECTURES, "arm64")
@@ -24,6 +24,7 @@ add_executable(code
         src/systems/sprite_system.cpp
         src/window_manager.cpp
         src/systems/control_system.cpp
+        src/systems/projectile_system.h
 )
 
 target_link_libraries(code "-framework OpenGL -framework Cocoa -framework IOKit -framework CoreVideo")
