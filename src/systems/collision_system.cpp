@@ -38,7 +38,7 @@ void CollisionSystem::update(float dt)
             auto& proj_pos = GCR.get_component<Transform>(nt2).pos;
 
             if (overlaps(actor_hbx, actor_pos, proj_hbx, proj_pos)) {
-                printf("ColSystem: overlapped actor [%d] on project [%d]\n", nt1, nt2);
+                printf("ColSystem: projectile [%d] overlaps actor [%d]\n", nt2, nt1);
             }
         }
     }
