@@ -4,7 +4,8 @@
 #include <gtc/matrix_transform.hpp>
 #include <gtc/type_ptr.hpp>
 
-struct Transform {
+struct Hitbox {
+    int health;
     glm::vec3 hitbox;
 };
 
