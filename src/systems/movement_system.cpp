@@ -1,15 +1,15 @@
-#include "control_system.h"
+#include "movement_system.h"
 #include "../ecs/coordinator.h"
 #include <iostream>
 #include "../components/transform.h"
 
 extern Coordinator GCR;
 
-void ControlSystem::init() {
-    GCR.add_listener(METHOD_LISTENER(Events::Window::INPUT, ControlSystem::input));
+void MovementSystem::init() {
+    GCR.add_listener(METHOD_LISTENER(Events::Window::INPUT, MovementSystem::input));
 }
 
-void ControlSystem::update(float dt)
+void MovementSystem::update(float dt)
 {
         float factor = 10.0f;
         for (auto& entity : entities) {
@@ -41,26 +41,25 @@ void ControlSystem::update(float dt)
                 std::cout << " D ";
             }
 
-            // shooting
-
-            if (buttons.test(static_cast<std::size_t>(InputButtons::J))) {
-                std::cout << " J ";
-            }
-
-            if (buttons.test(static_cast<std::size_t>(InputButtons::K))) {
-                std::cout << " K ";
-            }
-
-            if (buttons.test(static_cast<std::size_t>(InputButtons::L))) {
-                std::cout << " L ";
-            }
+//            // shooting
+//            if (buttons.test(static_cast<std::size_t>(InputButtons::J))) {
+//                std::cout << " J ";
+//            }
+//
+//            if (buttons.test(static_cast<std::size_t>(InputButtons::K))) { // laser
+//                std::cout << " K ";
+//            }
+//
+//            if (buttons.test(static_cast<std::size_t>(InputButtons::L))) {
+//                std::cout << " L ";
+//            }
             std::cout << "\n";
         }
 }
 
 
 
-void ControlSystem::input(Event& e) {
+void MovementSystem::input(Event& e) {
     buttons = e.get_param<std::bitset<8>>(Events::Window::Input::INPUT);
 }
 

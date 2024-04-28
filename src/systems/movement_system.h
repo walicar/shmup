@@ -1,12 +1,12 @@
-#ifndef CONTROL_SYSTEM_H
-#define CONTROL_SYSTEM_H
+#ifndef MOVEMENT_SYSTEM_H
+#define MOVEMENT_SYSTEM_H
 
 #include <bitset>
 #include "../ecs/types.h"
 #include "../ecs/system.h"
 #include "../ecs/event.h"
 
-class ControlSystem : public System
+class MovementSystem : public System
 {
     public:
         void init();
