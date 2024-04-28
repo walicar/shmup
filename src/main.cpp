@@ -219,7 +219,7 @@ int main() {
         auto start = (float)glfwGetTime();
         window_manager.process_events();
         movement_system->update(dt);
-        projectile_system->update(dt);
+        projectile_system->update((float)glfwGetTime());
         collision_system->update(dt);
         physics_system->update(dt);
         // move this
