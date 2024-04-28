@@ -42,6 +42,11 @@ class Coordinator
             system_manager->destroyed(entity);
         }
 
+        Signature get_signature(Entity entity) {
+            return entity_manager->get_signature(entity);
+        }
+
+
         // Component
 
         template<typename T>
