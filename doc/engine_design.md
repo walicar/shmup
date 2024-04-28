@@ -1,4 +1,7 @@
-# Design
+# Engine Design
+
+Overview of all the classes in SHMUP's game engine
+
 ## General
 - **Shader**: allow engine to initialize and use openGL shaders
 - **ResourceManager**: create a singleton whose responsibility is to load resources
