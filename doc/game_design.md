@@ -16,7 +16,7 @@ Ver 2.0
   - with the amount of the content that is planned, 3 minutes is more than enough to experience the game as whole
 
 ## Summary
-SHMUP is a shoot em up bullet hell game, where the player controls a space ship battling against aliens in outer space having to bob and weave through enemy projectiles to avoid getting hit. The focus of this game is to provide a challenging and appealing experience through game mechanics and visual graphics.
+SHMUP is a shoot em up bullet hell game, where the player controls a spaceship battling against aliens in outer space having to bob and weave through enemy projectiles to avoid getting hit. The focus of this game is to provide a challenging and appealing experience through game mechanics and visual graphics.
 
 The MVP will be a demo that deliver approximately 3 minutes of game time, as the player will only go through one scenario of the game. This level will end with a boss that tests the player's skill in dodging and learning patterns. The graphics in this demo will try to be as minimal as possible, prioritizing gameplay over appearance.
 
@@ -89,7 +89,7 @@ SpaceGame will address the Challenge and Discovery aesthetics because the player
 A level will consist of several checkpoints, the requirement to progress is to destroy all the enemies spawned in that checkpoint. To implement this, the game engine will need to read from a file that tells them what enemies to spawn, where to spawn them, and what checkpoint they belong to.
 
 ## Stretch Goals
-- Opitmized memory usage for projectiles (flyweight)
+- Optimized memory usage for projectiles?
 - Background has moving stars that make you feel like the player is moving
 - Add sounds
 - Sprite Animations
