@@ -1,4 +1,7 @@
 #include "utils.h"
+
+// glazy safety code
+
 namespace safety {
     void auto_throw(std::string context) {
         GLenum err = glGetError();
