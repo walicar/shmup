@@ -19,6 +19,7 @@
 #include "systems/projectile_system.h"
 #include "systems/physics_system.h"
 #include "systems/collision_system.h"
+#include "systems/ai_system.h"
 #include <chrono>
 
 Coordinator GCR;
@@ -133,6 +134,15 @@ int main() {
 
     physics_system->init();
 
+    auto ai_system = GCR.register_system<AISystem>();
+    {
+        Signature signature;
+        signature.set(GCR.get_component_type<Transform>());
+        signature.set(GCR.get_component_type<Enemy>());
+        signature.set(GCR.get_component_type<Sprite>());
+        GCR.set_system_signature<AISystem>(signature);
+    }
+
     // create the player
     Entity player = GCR.create_entity();
     GCR.add_component(player, Sprite{
@@ -229,6 +239,7 @@ int main() {
         projectile_system->update((float) glfwGetTime());
         collision_system->update(dt);
         physics_system->update(dt);
+        ai_system->update((float) glfwGetTime());
         // move this
         glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);
