@@ -116,6 +116,8 @@ A level will consist of several checkpoints, the requirement to progress is to d
 - A collision detection system
 - Basic sprites
 - ECS
+- Enemy movement
+- Enemy shoots at player
 
 ____
 
