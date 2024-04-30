@@ -117,10 +117,10 @@ A level will consist of several checkpoints, the requirement to progress is to d
 
 ____
 
-The player shooting bullets at an enemy ship
+The player firing its laser at an enemy ship
 
 ![img/alpha1.png](img/alpha1.png)
 
-The player firing its laser at an enemy ship
+The player hitting the enemy ship with a bullet while dodging an enemy bullet (light yellow)
 
 ![img/alpha2.png](img/alpha2.png)
