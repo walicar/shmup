@@ -1,4 +1,5 @@
 # Game Design
+
 Ver 2.0
 
 24-04-27
@@ -108,6 +109,7 @@ A level will consist of several checkpoints, the requirement to progress is to d
 ## Alpha Report
 
 **Completed Features**
+
 - General controls, except bomb button
 - Focus movement
 - Ability to shoot projectiles and lasers
@@ -117,10 +119,6 @@ A level will consist of several checkpoints, the requirement to progress is to d
 
 ____
 
-The player firing its laser at an enemy ship
+![The player firing its laser at an enemy ship](img/alpha1.png)
 
-![img/alpha1.png](img/alpha1.png)
-
-The player hitting the enemy ship with a bullet while dodging an enemy bullet (light yellow)
-
-![img/alpha2.png](img/alpha2.png)
+![The player hitting the enemy ship with a bullet while dodging an enemy bullet (light yellow)](img/alpha2.png)
