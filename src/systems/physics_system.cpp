@@ -13,6 +13,11 @@ void PhysicsSystem::update(float dt) {
             auto &force = GCR.get_component<Velocity>(entity).force;
             movement.pos += (force * dt);
         }
+        if (entity >= 13 && entity <= 22) {
+            auto &movement = GCR.get_component<Transform>(entity);
+            auto &force = GCR.get_component<Velocity>(entity).force;
+            movement.pos += (force * dt);
+        }
     }
 }
 

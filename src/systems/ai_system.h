@@ -8,6 +8,9 @@
  */
 
 class AISystem : public System {
+private:
+    size_t ebullet_pos;
+    size_t ebullet_end;
 public:
     void update(float time);
     void init();

@@ -14,6 +14,7 @@
 #include "components/tags/projectile.h"
 #include "components/tags/controllable.h"
 #include "components/transform.h"
+#include "components/ai.h"
 #include "systems/sprite_system.h"
 #include "systems/movement_system.h"
 #include "systems/projectile_system.h"
@@ -39,6 +40,7 @@ int main() {
     Texture laser_texture = ResourceManager::load_texture("textures/laser.png", "laser", true);
     Texture bullet_texture = ResourceManager::load_texture("textures/bullet.png", "bullet", true);
     Texture ship_texture = ResourceManager::load_texture("textures/ship.png", "ship", true);
+    Texture ebullet_texture = ResourceManager::load_texture("textures/ebullet.png", "ebullet", true);
     Texture eship_texture = ResourceManager::load_texture("textures/eship.png", "eship", true);
 
     float v[] = {
@@ -76,6 +78,7 @@ int main() {
     GCR.register_component<Enemy>();
     GCR.register_component<Projectile>();
     GCR.register_component<Controllable>();
+    GCR.register_component<AI>();
 
     // register systems
     /**
@@ -142,6 +145,8 @@ int main() {
         signature.set(GCR.get_component_type<Sprite>());
         GCR.set_system_signature<AISystem>(signature);
     }
+
+    ai_system->init();
 
     // create the player
     Entity player = GCR.create_entity();
@@ -224,11 +229,37 @@ int main() {
             .pos = glm::vec3(0.0f, 3.0f, 0.0f)
     });
     GCR.add_component(enemy, Enemy{});
+    GCR.add_component(enemy, AI{
+        .attack_cooldown = 2.0f,
+    });
     GCR.add_component(enemy, Hitbox{
             .hitbox = glm::vec3(0.5f, 0.5f, 0.5f)
     });
     auto &enemy_sprite = GCR.get_component<Sprite>(enemy);
     enemy_sprite.setup();
+
+    // enemy bullets
+    for (int i = 0; i < 10; i++) { // can only use 10 bullets for now...
+        Entity enemy_bullet = GCR.create_entity();
+        GCR.add_component(enemy_bullet, Sprite{
+                .shader = &def_shader,
+                .texture = &ebullet_texture,
+                .active = false,
+                .vertex_data = bv,
+                .vertex_count = 4 // @TODO: HARDCODED
+        });
+
+        GCR.add_component(enemy_bullet, Transform{});
+        GCR.add_component(enemy_bullet, Enemy{});
+        GCR.add_component(enemy_bullet, Hitbox{
+                .hitbox = glm::vec3(0.5f, 0.5f, 1.0f)
+        });
+        GCR.add_component(enemy_bullet, Velocity{});
+        GCR.add_component(enemy_bullet, Projectile{});
+        auto &bullet_sprite = GCR.get_component<Sprite>(enemy_bullet);
+        bullet_sprite.setup();
+    }
+
 
     float dt = 0.0f;
 
