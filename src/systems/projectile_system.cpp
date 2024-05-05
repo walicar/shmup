@@ -5,7 +5,7 @@
 #include "../components/transform.h"
 #include "../components/velocity.h"
 #include "../components/sprite.h"
-#include "../components/tags/projectile.h"
+#include "../components/projectile.h"
 
 extern Coordinator GCR;
 
