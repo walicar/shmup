@@ -5,7 +5,7 @@
 #include <gtc/type_ptr.hpp>
 
 struct Hitbox {
-    int health;
+    int health = 100;
     glm::vec3 hitbox;
 };
 

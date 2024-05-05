@@ -11,7 +11,7 @@
 #include "components/hitbox.h"
 #include "components/tags/player.h"
 #include "components/tags/enemy.h"
-#include "components/tags/projectile.h"
+#include "components/projectile.h"
 #include "components/tags/controllable.h"
 #include "components/transform.h"
 #include "components/ai.h"
