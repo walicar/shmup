@@ -5,6 +5,7 @@
 #include "../components/transform.h"
 #include "../components/velocity.h"
 #include "../components/sprite.h"
+#include "../components/tags/projectile.h"
 
 extern Coordinator GCR;
 
@@ -20,6 +21,7 @@ void ProjectileSystem::update(float time) {
             if (bullet_last_shot + bullet_cooldown > time)
                 continue;
             auto &bullet_sprite = GCR.get_component<Sprite>(entity);
+            auto &projectile_last_shot = GCR.get_component<Projectile>(entity).last_shot;
             if (!bullet_sprite.active) {
                 glm::vec3 player_location = GCR.get_component<Transform>(0).pos;
                 glm::vec3 player_scale = GCR.get_component<Sprite>(0).scale_factor;
@@ -31,6 +33,10 @@ void ProjectileSystem::update(float time) {
                 bullet_sprite.active = true;
                 bullet_sprite.scale_factor = player_scale;
                 bullet_last_shot = time;
+                projectile_last_shot = time;
+            }
+            if (projectile_last_shot + bullet_cooldown + 2 < time) { // fix this
+                bullet_sprite.active = false;
             }
         } else if (entity == 1) { // @FIXME: this can be better!!!
             auto &laser_sprite = GCR.get_component<Sprite>(entity);
