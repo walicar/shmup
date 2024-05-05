@@ -162,7 +162,7 @@ int main() {
     GCR.add_component(player, Player{});
     GCR.add_component(player, Controllable{});
     GCR.add_component(player, Hitbox{
-            .hitbox = glm::vec3(0.5f, 0.5f, 0.5f)
+            .hitbox = glm::vec3(0.05f, 0.05f, 0.05f)
     });
     auto &sprite = GCR.get_component<Sprite>(player);
     sprite.setup();
