@@ -153,7 +153,7 @@ int main() {
     GCR.add_component(player, Sprite{
             .shader = &def_shader,
             .texture = &ship_texture,
-            .scale_factor = glm::vec3(0.25f),
+            .scale_factor = glm::vec3(0.25),
             .active = true,
             .vertex_data = v,
             .vertex_count = 3 // @TODO: HARDCODED
@@ -217,28 +217,31 @@ int main() {
     }
 
     // enemies
-    Entity enemy = GCR.create_entity();
-    GCR.add_component(enemy, Sprite{
-            .shader = &def_shader,
-            .texture = &eship_texture,
-            .scale_factor = glm::vec3(0.25f),
-            .active = true,
-            .vertex_data = ev,
-            .vertex_count = 3 // @TODO: HARDCODED
-    });
-
-    GCR.add_component(enemy, Transform{
-            .pos = glm::vec3(0.0f, 3.0f, 0.0f)
-    });
-    GCR.add_component(enemy, Enemy{});
-    GCR.add_component(enemy, AI{
-        .attack_cooldown = 2.0f,
-    });
-    GCR.add_component(enemy, Hitbox{
-            .hitbox = glm::vec3(0.5f, 0.5f, 0.5f)
-    });
-    auto &enemy_sprite = GCR.get_component<Sprite>(enemy);
-    enemy_sprite.setup();
+    // regular enemies
+    for (int i = 0; i < 2; i++) { // can only use 10 bullets for now...
+        Entity enemy = GCR.create_entity();
+        GCR.add_component(enemy, Sprite{
+                .shader = &def_shader,
+                .texture = &eship_texture,
+                .scale_factor = glm::vec3(0.25f),
+                .active = true,
+                .vertex_data = ev,
+                .vertex_count = 3 // @TODO: HARDCODED
+        });
+        GCR.add_component(enemy, Transform{
+                .pos = glm::vec3(0.0f + (1.0f * i), 3.0f, 0.0f),
+                .origin = glm::vec3(0.0f + (1.0f * i), 3.0f, 0.0f)
+        });
+        GCR.add_component(enemy, Enemy{});
+        GCR.add_component(enemy, AI{
+                .attack_cooldown = 2.0f,
+        });
+        GCR.add_component(enemy, Hitbox{
+                .hitbox = glm::vec3(0.5f, 0.5f, 0.5f)
+        });
+        auto &enemy_sprite = GCR.get_component<Sprite>(enemy);
+        enemy_sprite.setup();
+    }
 
     // enemy bullets
     for (int i = 0; i < 10; i++) { // can only use 10 bullets for now...

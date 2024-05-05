@@ -6,6 +6,7 @@
 
 struct Transform {
     glm::vec3 pos;
+    glm::vec3 origin;
 };
 
 #endif

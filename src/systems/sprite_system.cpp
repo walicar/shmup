@@ -35,7 +35,7 @@ void SpriteSystem::update(float time) {
         glUniformMatrix4fv(loc, 1, GL_FALSE, glm::value_ptr(transform));
         glBindVertexArray(sprite.VAO);
 
-        if (entity == 0 || entity == 12) {
+        if (entity == 0 || entity == 12 || entity == 13) {
             glDrawArrays(GL_TRIANGLES, 0, 3);
         } else {
             glDrawArrays(GL_TRIANGLE_FAN, 0, 4);
