@@ -188,7 +188,9 @@ int main() {
     });
     GCR.add_component(player_laser, Velocity{});
     GCR.add_component(player_laser, Player{});
-    GCR.add_component(player_laser, Projectile{});
+    GCR.add_component(player_laser, Projectile{
+        .type = LASER
+    });
     auto &laser_sprite = GCR.get_component<Sprite>(player_laser);
     laser_sprite.setup();
 

@@ -32,11 +32,23 @@ void CollisionSystem::update(float dt) {
 
             auto &actor_hbx = GCR.get_component<Hitbox>(nt1).hitbox;
             auto &actor_pos = GCR.get_component<Transform>(nt1).pos;
+            auto &actor_hp = GCR.get_component<Hitbox>(nt1).health;
             auto &proj_hbx = GCR.get_component<Hitbox>(nt2).hitbox;
             auto &proj_pos = GCR.get_component<Transform>(nt2).pos;
+            auto &proj_type = GCR.get_component<Projectile>(nt2).type;
+            auto &proj_active = GCR.get_component<Sprite>(nt2).active;
 
-            if (overlaps(actor_hbx, actor_pos, proj_hbx, proj_pos)) {
-                printf("ColSystem: projectile [%d] overlaps actor [%d]\n", nt2, nt1);
+            if (overlaps(actor_hbx, actor_pos, proj_hbx, proj_pos)) { // calculate damage
+                int damage = 0;
+                if (proj_type == BULLET) {
+                    damage = 5;
+                    proj_active = false;
+                } else if (proj_type == LASER) {
+                    damage = 1;
+                }
+
+                actor_hp -= damage;
+                printf("ColSystem: projectile [%d] overlaps actor [%d], HP [%d]\n", nt2, nt1, actor_hp);
             }
         }
     }
