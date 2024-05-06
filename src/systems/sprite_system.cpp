@@ -23,7 +23,7 @@ void SpriteSystem::update(float time) {
         transform = glm::scale(transform, sprite.scale_factor);
         transform = glm::translate(transform, movement.pos);
 
-        if (entity == 0) {
+        if (entity == Entities::PLAYER) {
             transform = transform * rotation;
         }
 
@@ -35,7 +35,7 @@ void SpriteSystem::update(float time) {
         glUniformMatrix4fv(loc, 1, GL_FALSE, glm::value_ptr(transform));
         glBindVertexArray(sprite.VAO);
 
-        if (entity == 0 || entity == 12 || entity == 13) {
+        if (entity == Entities::PLAYER || (entity >= Entities::E_GRUNT && entity <= Entities::BOSS)) {
             glDrawArrays(GL_TRIANGLES, 0, 3);
         } else {
             glDrawArrays(GL_TRIANGLE_FAN, 0, 4);

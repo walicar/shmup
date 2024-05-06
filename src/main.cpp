@@ -194,8 +194,14 @@ int main() {
     auto &laser_sprite = GCR.get_component<Sprite>(player_laser);
     laser_sprite.setup();
 
+    // bombs
+    for (int i = 0; i < Entities::P_BOMB_AMT; i++) {
+        Entity player_bomb = GCR.create_entity();
+        std::cout << "PlayerBomb if I had one: "  << player_bomb << std::endl;
+    }
+
     // bullets
-    for (int i = 0; i < 10; i++) { // can only use 10 bullets for now...
+    for (int i = 0; i < Entities::P_BULLET_AMT; i++) {
         Entity player_bullet = GCR.create_entity();
         GCR.add_component(player_bullet, Sprite{
                 .shader = &def_shader,
@@ -217,8 +223,10 @@ int main() {
     }
 
     // enemies
-    // regular enemies
-    for (int i = 0; i < 2; i++) { // can only use 10 bullets for now...
+
+    // enemy grunts
+    for (int i = 0; i < Entities::E_AMT; i++) { // can only use 10 bullets for now...
+        if (i > 1) break; // @TODO deactivate the rest?
         Entity enemy = GCR.create_entity();
         GCR.add_component(enemy, Sprite{
                 .shader = &def_shader,
@@ -243,8 +251,28 @@ int main() {
         enemy_sprite.setup();
     }
 
+    // snipe
+    for (int i = 0; i < Entities::E_AMT; i++) {
+        Entity enemy = GCR.create_entity();
+    }
+
+
+    // star
+    for (int i = 0; i < Entities::E_AMT; i++) {
+        Entity enemy = GCR.create_entity();
+    }
+
+    // hose
+    for (int i = 0; i < Entities::E_AMT; i++) {
+        Entity enemy = GCR.create_entity();
+    }
+
+    // boss
+    Entity boss = GCR.create_entity();
+    std::cout << "BOSS ID ::: " << boss << std::endl;
+
     // enemy bullets
-    for (int i = 0; i < 10; i++) { // can only use 10 bullets for now...
+    for (int i = 0; i < Entities::E_BULLET_AMT; i++) { // can only use 10 bullets for now...
         Entity enemy_bullet = GCR.create_entity();
         GCR.add_component(enemy_bullet, Sprite{
                 .shader = &def_shader,
@@ -265,6 +293,9 @@ int main() {
         bullet_sprite.setup();
     }
 
+    for (int i = 0; i < Entities::E_TLASER_AMT; i++) {
+        Entity enemy_bullet = GCR.create_entity();
+    }
 
     float dt = 0.0f;
 

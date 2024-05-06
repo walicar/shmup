@@ -9,8 +9,7 @@ extern Coordinator GCR;
 
 
 void AISystem::init() {
-    ebullet_end = 24;
-    ebullet_pos = 14; // this is hardcoded, I will fix this later
+    ebullet_pos = Entities::E_BULLET; // this is hardcoded, I will fix this later
 };
 
 void AISystem::update(float time) {
@@ -20,7 +19,7 @@ void AISystem::update(float time) {
         pos.x = (glm::sin(time) * 2.0f) + origin.x;
 
         auto& ai = GCR.get_component<AI>(entity);
-        if (ai.last_attacked + ai.attack_cooldown < time && ebullet_pos < ebullet_end) {
+        if (ai.last_attacked + ai.attack_cooldown < time && ebullet_pos < Entities::E_TLASER) {
             auto &ebullet_sprite = GCR.get_component<Sprite>(ebullet_pos);
             auto &ebullet_transform = GCR.get_component<Transform>(ebullet_pos);
             glm::vec3 enemy_location = GCR.get_component<Transform>(entity).pos;
@@ -32,6 +31,7 @@ void AISystem::update(float time) {
             ebullet_sprite.active = true;
             ebullet_sprite.scale_factor = enemy_scale;
             ai.last_attacked = time;
+            ebullet_pos += 1;
         }
     }
 }

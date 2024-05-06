@@ -8,12 +8,14 @@ extern Coordinator GCR;
 
 void PhysicsSystem::update(float dt) {
     for (auto &entity: entities) {
-        if (entity >= 2 && entity <= 11) {
+        // player bullets
+        if (entity >= Entities::P_BULLET && entity < Entities::E_GRUNT) {
             auto &movement = GCR.get_component<Transform>(entity);
             auto &force = GCR.get_component<Velocity>(entity).force;
             movement.pos += (force * dt);
         }
-        if (entity >= 13 && entity <= 22) {
+        // enemy bullets
+        if (entity >= Entities::E_BULLET && entity < Entities::E_TLASER) {
             auto &movement = GCR.get_component<Transform>(entity);
             auto &force = GCR.get_component<Velocity>(entity).force;
             movement.pos += (force * dt);

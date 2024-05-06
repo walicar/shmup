@@ -17,7 +17,7 @@ void ProjectileSystem::init() {
 
 void ProjectileSystem::update(float time) {
     for (auto &entity: entities) {
-        if (buttons.test(static_cast<std::size_t>(InputButtons::J)) && entity >= 2 && entity <= 11) {
+        if (buttons.test(static_cast<std::size_t>(InputButtons::J)) && entity >= Entities::P_BULLET && entity < Entities::E_GRUNT) {
             if (bullet_last_shot + bullet_cooldown > time)
                 continue;
             auto &bullet_sprite = GCR.get_component<Sprite>(entity);
@@ -38,7 +38,7 @@ void ProjectileSystem::update(float time) {
             if (projectile_last_shot + bullet_cooldown + 2 < time) { // fix this
                 bullet_sprite.active = false;
             }
-        } else if (entity == 1) { // @FIXME: this can be better!!!
+        } else if (entity == Entities::P_LASER) {
             auto &laser_sprite = GCR.get_component<Sprite>(entity);
             if (buttons.test(static_cast<std::size_t>(InputButtons::K))) {
                 // we could just bake this in later
