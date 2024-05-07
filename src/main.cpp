@@ -226,13 +226,16 @@ int main() {
 
     // enemy grunts
     for (int i = 0; i < Entities::E_AMT; i++) { // can only use 10 bullets for now...
-        if (i > 1) break; // @TODO deactivate the rest?
         Entity enemy = GCR.create_entity();
+        bool debug_will_be_active = true;
+        if (i > 1) {
+            debug_will_be_active = false;
+        }
         GCR.add_component(enemy, Sprite{
                 .shader = &def_shader,
                 .texture = &eship_texture,
                 .scale_factor = glm::vec3(0.25f),
-                .active = true,
+                .active = debug_will_be_active,
                 .vertex_data = ev,
                 .vertex_count = 3 // @TODO: HARDCODED
         });
@@ -243,6 +246,7 @@ int main() {
         GCR.add_component(enemy, Enemy{});
         GCR.add_component(enemy, AI{
                 .attack_cooldown = 2.0f,
+                .last_attacked = 0.0f + (1.0f * i)
         });
         GCR.add_component(enemy, Hitbox{
                 .hitbox = glm::vec3(0.5f, 0.5f, 0.5f)
@@ -282,7 +286,10 @@ int main() {
                 .vertex_count = 4 // @TODO: HARDCODED
         });
 
-        GCR.add_component(enemy_bullet, Transform{});
+        GCR.add_component(enemy_bullet, Transform{
+            .pos = glm::vec3(0.0f),
+            .origin = glm::vec3(0.0f)
+        });
         GCR.add_component(enemy_bullet, Enemy{});
         GCR.add_component(enemy_bullet, Hitbox{
                 .hitbox = glm::vec3(0.5f, 0.5f, 1.0f)
@@ -302,11 +309,11 @@ int main() {
     while (!quit) {
         auto start = (float) glfwGetTime();
         window_manager.process_events();
-        movement_system->update(dt);
         projectile_system->update((float) glfwGetTime());
+        movement_system->update(dt);
+        ai_system->update((float) glfwGetTime());
         collision_system->update(dt);
         physics_system->update(dt);
-        ai_system->update((float) glfwGetTime());
         // move this
         glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);

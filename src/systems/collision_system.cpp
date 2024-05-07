@@ -30,12 +30,12 @@ void CollisionSystem::update(float dt) {
             if (!is_proj_active)
                 continue;
 
-            auto &actor_hbx = GCR.get_component<Hitbox>(nt1).hitbox;
-            auto &actor_pos = GCR.get_component<Transform>(nt1).pos;
-            auto &actor_hp = GCR.get_component<Hitbox>(nt1).health;
-            auto &proj_hbx = GCR.get_component<Hitbox>(nt2).hitbox;
-            auto &proj_pos = GCR.get_component<Transform>(nt2).pos;
-            auto &proj_type = GCR.get_component<Projectile>(nt2).type;
+            auto actor_hbx = GCR.get_component<Hitbox>(nt1).hitbox;
+            auto actor_pos = GCR.get_component<Transform>(nt1).pos;
+            auto actor_hp = GCR.get_component<Hitbox>(nt1).health;
+            auto proj_hbx = GCR.get_component<Hitbox>(nt2).hitbox;
+            auto proj_pos = GCR.get_component<Transform>(nt2).pos;
+            auto proj_type = GCR.get_component<Projectile>(nt2).type;
             auto &proj_active = GCR.get_component<Sprite>(nt2).active;
 
             if (overlaps(actor_hbx, actor_pos, proj_hbx, proj_pos)) { // calculate damage

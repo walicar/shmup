@@ -9,11 +9,14 @@
 
 class AISystem : public System {
 private:
-    size_t ebullet_pos;
-    size_t ebullet_end;
+    size_t ebullet_offset = Entities::E_BULLET_AMT - 1; // circular
+
 public:
     void update(float time);
+    Entity next_bullet();
     void init();
+
+    Signature projectile;
 };
 
 
