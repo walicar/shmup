@@ -21,6 +21,7 @@
 #include "systems/physics_system.h"
 #include "systems/collision_system.h"
 #include "systems/ai_system.h"
+#include "src/components/state.h"
 #include <chrono>
 
 Coordinator GCR;
@@ -79,6 +80,7 @@ int main() {
     GCR.register_component<Projectile>();
     GCR.register_component<Controllable>();
     GCR.register_component<AI>();
+    GCR.register_component<State>();
 
     // register systems
     /**
@@ -111,7 +113,7 @@ int main() {
         signature.set(GCR.get_component_type<Player>());
         signature.set(GCR.get_component_type<Sprite>());
         signature.set(GCR.get_component_type<Projectile>());
-        GCR.set_system_signature<MovementSystem>(signature);
+        GCR.set_system_signature<ProjectileSystem>(signature);
     }
 
     projectile_system->init();
@@ -150,6 +152,7 @@ int main() {
 
     // create the player
     Entity player = GCR.create_entity();
+    GCR.add_component(player, State{});
     GCR.add_component(player, Sprite{
             .shader = &def_shader,
             .texture = &ship_texture,
@@ -172,6 +175,7 @@ int main() {
     // laser...
     // @FIXME: check sprite system because we have some hardcoded logic
     Entity player_laser = GCR.create_entity();
+    GCR.add_component(player_laser, State{});
     GCR.add_component(player_laser, Sprite{
             .shader = &def_shader,
             .texture = &laser_texture,
@@ -203,6 +207,7 @@ int main() {
     // bullets
     for (int i = 0; i < Entities::P_BULLET_AMT; i++) {
         Entity player_bullet = GCR.create_entity();
+        GCR.add_component(player_bullet, State{});
         GCR.add_component(player_bullet, Sprite{
                 .shader = &def_shader,
                 .texture = &bullet_texture,
@@ -231,6 +236,7 @@ int main() {
         if (i > 1) {
             debug_will_be_active = false;
         }
+        GCR.add_component(enemy, State{});
         GCR.add_component(enemy, Sprite{
                 .shader = &def_shader,
                 .texture = &eship_texture,
@@ -278,6 +284,7 @@ int main() {
     // enemy bullets
     for (int i = 0; i < Entities::E_BULLET_AMT; i++) { // can only use 10 bullets for now...
         Entity enemy_bullet = GCR.create_entity();
+        GCR.add_component(enemy_bullet, State{});
         GCR.add_component(enemy_bullet, Sprite{
                 .shader = &def_shader,
                 .texture = &ebullet_texture,
