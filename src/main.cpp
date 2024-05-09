@@ -152,7 +152,9 @@ int main() {
 
     // create the player
     Entity player = GCR.create_entity();
-    GCR.add_component(player, State{});
+    GCR.add_component(player, State{
+        .active = true
+    });
     GCR.add_component(player, Sprite{
             .shader = &def_shader,
             .texture = &ship_texture,
@@ -179,7 +181,6 @@ int main() {
     GCR.add_component(player_laser, Sprite{
             .shader = &def_shader,
             .texture = &laser_texture,
-            .active = false,
             .vertex_data = lv,
             .vertex_count = 4 // @TODO: HARDCODED
     });
@@ -207,11 +208,12 @@ int main() {
     // bullets
     for (int i = 0; i < Entities::P_BULLET_AMT; i++) {
         Entity player_bullet = GCR.create_entity();
-        GCR.add_component(player_bullet, State{});
+        GCR.add_component(player_bullet, State{
+                .active = false // redundant
+        });
         GCR.add_component(player_bullet, Sprite{
                 .shader = &def_shader,
                 .texture = &bullet_texture,
-                .active = false,
                 .vertex_data = bv,
                 .vertex_count = 4 // @TODO: HARDCODED
         });
@@ -236,12 +238,13 @@ int main() {
         if (i > 1) {
             debug_will_be_active = false;
         }
-        GCR.add_component(enemy, State{});
+        GCR.add_component(enemy, State{
+                .active = debug_will_be_active,
+        });
         GCR.add_component(enemy, Sprite{
                 .shader = &def_shader,
                 .texture = &eship_texture,
                 .scale_factor = glm::vec3(0.25f),
-                .active = debug_will_be_active,
                 .vertex_data = ev,
                 .vertex_count = 3 // @TODO: HARDCODED
         });
@@ -284,11 +287,12 @@ int main() {
     // enemy bullets
     for (int i = 0; i < Entities::E_BULLET_AMT; i++) { // can only use 10 bullets for now...
         Entity enemy_bullet = GCR.create_entity();
-        GCR.add_component(enemy_bullet, State{});
+        GCR.add_component(enemy_bullet, State{
+                .active = false,
+        });
         GCR.add_component(enemy_bullet, Sprite{
                 .shader = &def_shader,
                 .texture = &ebullet_texture,
-                .active = false,
                 .vertex_data = bv,
                 .vertex_count = 4 // @TODO: HARDCODED
         });

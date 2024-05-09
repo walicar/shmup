@@ -7,6 +7,7 @@
 #include "../components/projectile.h"
 #include "../components/tags/player.h"
 #include "../components/transform.h"
+#include "src/components/state.h"
 
 extern Coordinator GCR;
 
@@ -26,7 +27,7 @@ void CollisionSystem::update(float dt) {
             if ((GCR.get_signature(nt2) & projectile) != projectile || nt1 == nt2)
                 continue;
 
-            auto &is_proj_active = GCR.get_component<Sprite>(nt2).active;
+            auto &is_proj_active = GCR.get_component<State>(nt2).active;
             if (!is_proj_active)
                 continue;
 
@@ -36,7 +37,7 @@ void CollisionSystem::update(float dt) {
             auto proj_hbx = GCR.get_component<Hitbox>(nt2).hitbox;
             auto proj_pos = GCR.get_component<Transform>(nt2).pos;
             auto proj_type = GCR.get_component<Projectile>(nt2).type;
-            auto &proj_active = GCR.get_component<Sprite>(nt2).active;
+            auto &proj_active = GCR.get_component<State>(nt2).active;
 
             if (overlaps(actor_hbx, actor_pos, proj_hbx, proj_pos)) { // calculate damage
                 int damage = 0;

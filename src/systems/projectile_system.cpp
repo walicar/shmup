@@ -6,6 +6,7 @@
 #include "../components/velocity.h"
 #include "../components/sprite.h"
 #include "../components/projectile.h"
+#include "src/components/state.h"
 
 extern Coordinator GCR;
 
@@ -21,6 +22,7 @@ void ProjectileSystem::update(float time) {
             if (bullet_last_shot + bullet_cooldown > time)
                 continue;
             auto &bullet_sprite = GCR.get_component<Sprite>(entity);
+            auto &bullet_state = GCR.get_component<State>(entity);
             auto &projectile_last_shot = GCR.get_component<Projectile>(entity).last_shot;
             if (!bullet_sprite.active) {
                 glm::vec3 player_location = GCR.get_component<Transform>(0).pos;
@@ -30,7 +32,7 @@ void ProjectileSystem::update(float time) {
                 transform.pos.x = player_location.x;
                 auto &velocity = GCR.get_component<Velocity>(entity);
                 velocity.force = glm::vec3(0.0f, 6.0f, 0.0f);
-                bullet_sprite.active = true;
+                bullet_state.active = true;
                 bullet_sprite.scale_factor = player_scale;
                 bullet_last_shot = time;
                 projectile_last_shot = time;
@@ -40,6 +42,7 @@ void ProjectileSystem::update(float time) {
             }
         } else if (entity == Entities::P_LASER) {
             auto &laser_sprite = GCR.get_component<Sprite>(entity);
+            auto &laser_state = GCR.get_component<State>(entity);
             if (buttons.test(static_cast<std::size_t>(InputButtons::K))) {
                 // we could just bake this in later
                 // implement a coordinate system
@@ -48,10 +51,10 @@ void ProjectileSystem::update(float time) {
                 auto &transform = GCR.get_component<Transform>(entity);
                 transform.pos.y = player_location.y + (6.0f * player_scale.y);
                 transform.pos.x = player_location.x;
-                laser_sprite.active = true;
+                laser_state.active = true;
                 laser_sprite.scale_factor = player_scale;
             } else {
-                laser_sprite.active = false;
+                laser_state.active = false;
             }
         }
 

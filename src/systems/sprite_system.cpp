@@ -2,6 +2,7 @@
 #include "../ecs/coordinator.h"
 #include "../components/sprite.h"
 #include "../components/transform.h"
+#include "src/components/state.h"
 #include <gtc/matrix_transform.hpp>
 #include <gtc/type_ptr.hpp>
 
@@ -13,12 +14,12 @@ void SpriteSystem::update(float time) {
 
     // fixed update
     for (auto const &entity: entities) {
-        auto &sprite = GCR.get_component<Sprite>(entity);
-        if (!sprite.active)
+        auto &state = GCR.get_component<State>(entity);
+        if (!state.active)
             continue;
 
         auto &movement = GCR.get_component<Transform>(entity);
-
+        auto &sprite = GCR.get_component<Sprite>(entity);
         glm::mat4 transform = glm::mat4(1.0f);
         transform = glm::scale(transform, sprite.scale_factor);
         transform = glm::translate(transform, movement.pos);
