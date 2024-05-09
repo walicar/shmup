@@ -159,7 +159,6 @@ int main() {
             .shader = &def_shader,
             .texture = &ship_texture,
             .scale_factor = glm::vec3(0.25),
-            .active = true,
             .vertex_data = v,
             .vertex_count = 3 // @TODO: HARDCODED
     });

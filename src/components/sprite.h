@@ -18,7 +18,6 @@ struct Sprite {
     Shader *shader;
     Texture *texture;
     glm::vec3 scale_factor;
-    bool active;
     GLuint VAO;
     GLuint VBO;
     float *vertex_data;

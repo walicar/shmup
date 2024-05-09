@@ -24,7 +24,7 @@ void ProjectileSystem::update(float time) {
             auto &bullet_sprite = GCR.get_component<Sprite>(entity);
             auto &bullet_state = GCR.get_component<State>(entity);
             auto &projectile_last_shot = GCR.get_component<Projectile>(entity).last_shot;
-            if (!bullet_sprite.active) {
+            if (!bullet_state.active) {
                 glm::vec3 player_location = GCR.get_component<Transform>(0).pos;
                 glm::vec3 player_scale = GCR.get_component<Sprite>(0).scale_factor;
                 auto &transform = GCR.get_component<Transform>(entity);
@@ -38,7 +38,7 @@ void ProjectileSystem::update(float time) {
                 projectile_last_shot = time;
             }
             if (projectile_last_shot + bullet_cooldown + 2 < time) { // fix this
-                bullet_sprite.active = false;
+                bullet_state.active = false;
             }
         } else if (entity == Entities::P_LASER) {
             auto &laser_sprite = GCR.get_component<Sprite>(entity);
