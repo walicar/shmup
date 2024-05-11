@@ -215,13 +215,17 @@ int main() {
         GCR.add_component(player_bomb, Sprite{
                 .shader = &def_shader,
                 .texture = &bomb_texture,
-                .scale_factor = glm::vec3(1.0f),
                 .vertex_data = bv,
                 .vertex_count = 4 // @TODO: HARDCODED
         });
         GCR.add_component(player_bomb, Transform{});
-        GCR.add_component(player_bomb, Projectile{});
+        GCR.add_component(player_bomb, Projectile{
+            .type = BOMB
+        });
         GCR.add_component(player_bomb, Player{});
+        GCR.add_component(player_bomb, Hitbox{
+                .hitbox = glm::vec3(10.0f)
+        });
         auto &bullet_sprite = GCR.get_component<Sprite>(player_bomb);
         bullet_sprite.setup();
     }

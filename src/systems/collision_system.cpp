@@ -46,6 +46,9 @@ void CollisionSystem::update(float dt) {
                     proj_active = false;
                 } else if (proj_type == LASER) {
                     damage = 1;
+                } else if (proj_type == BOMB) {
+                    damage = 5;
+                    erase_enemy_projectiles();
                 }
 
                 actor_hp -= damage;
@@ -62,4 +65,10 @@ bool CollisionSystem::overlaps(glm::vec3 hb1, glm::vec3 pos1, glm::vec3 hb2, glm
     return (pos1.x <= max2.x && max1.x >= pos2.x)
            && (pos1.y <= max2.y && max1.y >= pos2.y)
            && (pos1.z <= max2.z && max1.z >= pos2.z);
+}
+
+void CollisionSystem::erase_enemy_projectiles() {
+    for (int i = 0; i < Entities::E_BULLET_AMT; i++) {
+        GCR.get_component<State>(i + Entities::E_BULLET).active = false;
+    }
 }

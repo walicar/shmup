@@ -65,6 +65,11 @@ void ProjectileSystem::update(float time) {
             auto &projectile_last_shot = GCR.get_component<Projectile>(entity).last_shot;
             if (buttons.test(static_cast<std::size_t>(InputButtons::L))) {
                     if (bomb_offset > 2) continue; // can't shoot anymore bombs
+                    glm::vec3 player_location = GCR.get_component<Transform>(0).pos;
+                    glm::vec3 player_scale = GCR.get_component<Sprite>(0).scale_factor;
+                    auto &transform = GCR.get_component<Transform>(entity);
+                    transform.pos.y = player_location.y + (6.0f * player_scale.y);
+                    transform.pos.x = player_location.x;
                     bomb_state.active = true;
                     projectile_last_shot = time;
                     bomb_offset += 1;
