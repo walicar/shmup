@@ -30,10 +30,14 @@ void SpriteSystem::update(float time) {
 
         // render
         safety::entry_guard("Rendering a Sprite");
+        glEnable(GL_BLEND);
+        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
         sprite.texture->bind();
         sprite.shader->use();
         unsigned int loc = glGetUniformLocation(sprite.shader->ID, "transform");
         glUniformMatrix4fv(loc, 1, GL_FALSE, glm::value_ptr(transform));
+        unsigned int tloc = glGetUniformLocation(sprite.shader->ID, "transparency");
+        glUniform1f(tloc, sprite.transparency);
         glBindVertexArray(sprite.VAO);
 
         if (entity == Entities::PLAYER || (entity >= Entities::E_GRUNT && entity <= Entities::BOSS)) {

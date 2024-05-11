@@ -3,8 +3,10 @@ out vec4 FragColor;
 
 in vec2 texCoord;
 uniform sampler2D ourTexture;
+uniform float transparency;
 
 void main()
 {
-    FragColor = texture(ourTexture, texCoord);
+    vec4 texColor = texture(ourTexture, texCoord);
+    FragColor = vec4(texColor.rgb, texColor.a * transparency);
 }

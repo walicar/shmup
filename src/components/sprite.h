@@ -18,6 +18,7 @@ struct Sprite {
     Shader *shader;
     Texture *texture;
     glm::vec3 scale_factor = glm::vec3(0.10);
+    float transparency = 1.0f;
     GLuint VAO;
     GLuint VBO;
     float *vertex_data;
