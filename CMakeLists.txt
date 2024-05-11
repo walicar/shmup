@@ -28,6 +28,7 @@ add_executable(code
         src/systems/collision_system.cpp
         src/systems/physics_system.cpp
         src/systems/ai_system.cpp
+        src/systems/animation_system.cpp
 )
 
 target_link_libraries(code "-framework OpenGL -framework Cocoa -framework IOKit -framework CoreVideo")

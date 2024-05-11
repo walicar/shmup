@@ -21,6 +21,7 @@
 #include "systems/physics_system.h"
 #include "systems/collision_system.h"
 #include "systems/ai_system.h"
+#include "systems/animation_system.h"
 #include "src/components/state.h"
 #include <chrono>
 
@@ -39,6 +40,7 @@ int main() {
     Shader def_shader = ResourceManager::load_shader("shaders/default.vert", "shaders/default.frag", "default");
     // Texture def_texture = ResourceManager::load_texture("textures/smile.png", "smile", true);
     Texture laser_texture = ResourceManager::load_texture("textures/laser.png", "laser", true);
+    Texture bomb_texture = ResourceManager::load_texture("textures/bomb.png", "bomb", true);
     Texture bullet_texture = ResourceManager::load_texture("textures/bullet.png", "bullet", true);
     Texture ship_texture = ResourceManager::load_texture("textures/ship.png", "ship", true);
     Texture ebullet_texture = ResourceManager::load_texture("textures/ebullet.png", "ebullet", true);
@@ -150,6 +152,15 @@ int main() {
 
     ai_system->init();
 
+    auto animation_system = GCR.register_system<AnimationSystem>();
+    {
+        Signature signature;
+        signature.set(GCR.get_component_type<Sprite>());
+        GCR.set_system_signature<AnimationSystem>(signature);
+    }
+
+    animation_system->init();
+
     // create the player
     Entity player = GCR.create_entity();
     GCR.add_component(player, State{
@@ -200,7 +211,19 @@ int main() {
     // bombs
     for (int i = 0; i < Entities::P_BOMB_AMT; i++) {
         Entity player_bomb = GCR.create_entity();
-        std::cout << "PlayerBomb if I had one: "  << player_bomb << std::endl;
+        GCR.add_component(player_bomb, State{});
+        GCR.add_component(player_bomb, Sprite{
+                .shader = &def_shader,
+                .texture = &bomb_texture,
+                .scale_factor = glm::vec3(1.0f),
+                .vertex_data = bv,
+                .vertex_count = 4 // @TODO: HARDCODED
+        });
+        GCR.add_component(player_bomb, Transform{});
+        GCR.add_component(player_bomb, Projectile{});
+        GCR.add_component(player_bomb, Player{});
+        auto &bullet_sprite = GCR.get_component<Sprite>(player_bomb);
+        bullet_sprite.setup();
     }
 
     // bullets
@@ -327,6 +350,7 @@ int main() {
         glClear(GL_COLOR_BUFFER_BIT);
         //
         sprite_system->update((float) glfwGetTime());
+        animation_system->update((float) glfwGetTime());
         window_manager.update();
         auto stop = (float) glfwGetTime();
         dt = stop - start;

@@ -58,8 +58,21 @@ void ProjectileSystem::update(float time) {
             }
         }
 
-        if (buttons.test(static_cast<std::size_t>(InputButtons::L))) {
-            // bomb here
+        // @TODO: just check Projectile.type instead of checking entity ID
+        if(entity == Entities::P_BOMB) {
+            if (bullet_last_shot + bullet_cooldown > time) continue;
+            auto &bomb_state = GCR.get_component<State>(entity);
+            auto &projectile_last_shot = GCR.get_component<Projectile>(entity).last_shot;
+            if (buttons.test(static_cast<std::size_t>(InputButtons::L))) {
+                    if (bomb_offset > 2) continue; // can't shoot anymore bombs
+                    bomb_state.active = true;
+                    projectile_last_shot = time;
+                    bomb_offset += 1;
+                    bullet_last_shot = time;
+            }
+            if (projectile_last_shot + bullet_cooldown + 0.7f < time) { // fix this
+                bomb_state.active = false;
+            }
         }
     }
 }

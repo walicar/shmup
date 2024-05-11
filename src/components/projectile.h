@@ -4,6 +4,7 @@
 enum ProjectileType {
     BULLET,
     LASER,
+    BOMB,
 };
 
 struct Projectile {
