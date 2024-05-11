@@ -158,7 +158,6 @@ int main() {
     GCR.add_component(player, Sprite{
             .shader = &def_shader,
             .texture = &ship_texture,
-            .scale_factor = glm::vec3(0.25),
             .vertex_data = v,
             .vertex_count = 3 // @TODO: HARDCODED
     });
@@ -243,7 +242,6 @@ int main() {
         GCR.add_component(enemy, Sprite{
                 .shader = &def_shader,
                 .texture = &eship_texture,
-                .scale_factor = glm::vec3(0.25f),
                 .vertex_data = ev,
                 .vertex_count = 3 // @TODO: HARDCODED
         });
