@@ -20,6 +20,9 @@ void CollisionSystem::init() {
 void CollisionSystem::update(float dt) {
     // for every Player or Enemy
     for (auto &nt1: entities) {
+        auto &actor_active = GCR.get_component<State>(nt1).active;
+        if (!actor_active)
+            continue;
         if ((GCR.get_signature(nt1) & projectile) == projectile)
             continue;
         // check if it overlaps with an opposing projectile
