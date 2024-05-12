@@ -58,14 +58,16 @@ void AISystem::update(float time) {
                 ebullet_proj.damage = 100;
                 auto &player_pos = GCR.get_component<Transform>(Entities::PLAYER).pos;
                 glm::vec3 direction = glm::normalize(player_pos - ebullet_transform.origin);
-                float snipeSpeed = 3.0f;
-                velocity.force = direction * snipeSpeed;
+                float speed = 3.0f;
+                velocity.force = direction * speed;
             } else if (type == HOSE) {
                 ebullet_proj.damage = 2;
                 auto &player_pos = GCR.get_component<Transform>(Entities::PLAYER).pos;
-                glm::vec3 direction = glm::normalize(player_pos - ebullet_transform.origin);
-                float snipeSpeed = 1.0f;
-                velocity.force = direction * snipeSpeed;
+                glm::vec3 offset(1.0f, 0.0f, 0.0f);
+                glm::vec3 modified_player_pos = player_pos + offset;
+                glm::vec3 direction = glm::normalize(modified_player_pos - ebullet_transform.origin);
+                float speed = 1.0f;
+                velocity.force = direction * speed;
             } else if (type == STAR) {
                 ebullet_proj.damage = 15;
                 if (coin_flip()) {

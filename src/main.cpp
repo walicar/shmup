@@ -352,7 +352,7 @@ int main() {
                 .type = HOSE
         });
         GCR.add_component(enemy, AI{
-                .attack_cooldown = 0.5f,
+                .attack_cooldown = 0.75f,
                 .last_attacked = 0.0f + (1.25f * i)
         });
         GCR.add_component(enemy, Hitbox{
