@@ -12,18 +12,10 @@ void PhysicsSystem::update(float dt) {
     for (auto &entity: entities) {
         auto is_active = GCR.get_component<State>(entity).active;
         if (!is_active) continue;
-        // player bullets
-        if (entity >= Entities::P_BULLET && entity < Entities::E_GRUNT) {
-            auto &movement = GCR.get_component<Transform>(entity);
-            auto &force = GCR.get_component<Velocity>(entity).force;
-            movement.pos += (force * dt);
-        }
-        // enemy bullets
-        if (entity >= Entities::E_BULLET && entity < Entities::E_TLASER) {
-            auto &movement = GCR.get_component<Transform>(entity);
-            auto &force = GCR.get_component<Velocity>(entity).force;
-            movement.pos += (force * dt);
-        }
+        auto &movement = GCR.get_component<Transform>(entity);
+        auto &force = GCR.get_component<Velocity>(entity).force;
+        movement.pos += (force * dt);
+        movement.origin += (force * dt);
     }
 }
 
