@@ -34,8 +34,8 @@ A sprite image must be created for every entity that will exist, and every entit
 	- snipe_laser: Projectile
 	- snipe_track: Sprite, 
       - the targeting laser
-- ~~STAR - 200HP, LARGE, SHOOTS IN A STAR PATTERN, REQUIRES THE PLAYER TO ACTUALLY TAKE CARE IN DODGING~~
-- ~~Hose - 200hp, hoses you down with bullets in a cone like fashion~~
+- Star - 200HP, shoots in an upside V formation
+- Hose - 200hp, hoses you down with bullets
 	- hose_sprite: Sprite
 	- enemy_bullet: Projectile
 - Boss - 1000hp, combines snipe, and grunt attacks

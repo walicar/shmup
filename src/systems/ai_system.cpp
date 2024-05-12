@@ -8,10 +8,19 @@
 #include "src/components/state.h"
 #include "src/components/hitbox.h"
 #include "src/components/tags/enemy.h"
+#include <random>
 
 extern Coordinator GCR;
 
 void AISystem::init() {}
+
+bool coin_flip() {
+    std::random_device rd;  // Obtain a random number from hardware
+    std::mt19937 eng(rd()); // Seed the generator
+    std::uniform_int_distribution<> distr(0, 1); // Define the range for 0 and 1
+
+    return static_cast<bool>(distr(eng));  // Convert to bool (0 becomes false, 1 becomes true)
+}
 
 void AISystem::update(float time) {
     for (auto& entity : entities) {
@@ -57,8 +66,14 @@ void AISystem::update(float time) {
                 glm::vec3 direction = glm::normalize(player_pos - ebullet_transform.origin);
                 float snipeSpeed = 1.0f;
                 velocity.force = direction * snipeSpeed;
+            } else if (type == STAR) {
+                ebullet_proj.damage = 15;
+                if (coin_flip()) {
+                    velocity.force = glm::vec3(3.0f, -10.0f, 0.0f);
+                } else {
+                    velocity.force = glm::vec3(-3.0f, -10.0f, 0.0f);
+                }
             }
-
             ebullet_state.active = true;
             ebullet_sprite.scale_factor = enemy_scale;
             ai.last_attacked = time;
