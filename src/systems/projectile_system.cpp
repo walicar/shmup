@@ -75,7 +75,7 @@ void ProjectileSystem::update(float time) {
                     bomb_offset += 1;
                     bullet_last_shot = time;
             }
-            if (projectile_last_shot + bullet_cooldown + 0.7f < time) { // fix this
+            if (projectile_last_shot + bullet_cooldown + 0.5f < time) { // fix this
                 bomb_state.active = false;
             }
         }
