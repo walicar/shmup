@@ -37,16 +37,16 @@ namespace Entities {
     const Entity P_BULLET = 5;
     const Entity P_BULLET_AMT = 45;
     // Enemies
-    const Entity E_AMT = 25;
+    const Entity E_AMT = 10;
     const Entity E_GRUNT = 50;
-    const Entity E_SNIPE = 75;
-    const Entity E_STAR = 100;
-    const Entity E_HOSE = 125;
-    const Entity BOSS = 150;
+    const Entity E_SNIPE = 60;
+    const Entity E_STAR = 70;
+    const Entity E_HOSE = 80;
+    const Entity BOSS = 90;
     // Enemy Projectiles
-    const Entity E_BULLET = 151;
+    const Entity E_BULLET = 91;
     const Entity E_BULLET_AMT = 1000;
-    const Entity E_TLASER = 1151;
+    const Entity E_TLASER = 1090;
     const Entity E_TLASER_AMT = 100;
 }
 

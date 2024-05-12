@@ -45,12 +45,12 @@ void CollisionSystem::update(float dt) {
             if (overlaps(actor_hbx, actor_pos, proj_hbx, proj_pos)) { // calculate damage
                 int damage = 0;
                 if (proj_type == BULLET) {
-                    damage = 5;
+                    damage = 10;
                     proj_active = false;
                 } else if (proj_type == LASER) {
-                    damage = 1;
+                    damage = 100; // was 1
                 } else if (proj_type == BOMB) {
-                    damage = 5;
+                    damage = 20;
                     erase_enemy_projectiles();
                 }
 

@@ -5,19 +5,12 @@ Ver 2.0
 24-04-27
 
 ## Revisions
-- Remove jet_bomb asset
-  - having a color overlay would simplify development
-  - the original idea was to have an animation of a bomb exploding
-  - sprite animations were originally in stretch goals
-- Remove Charge enemy
-  - removing the charge enemy will make it easier for me to focus on enemies that only use projectiles
-- Put "add sounds" as a stretch goal
-  - gameplay is the priority of this project, sounds will be added only when the gameplay is finalized
-- Cut down demo time from 5 minutes to 3 minutes
-  - with the amount of the content that is planned, 3 minutes is more than enough to experience the game as whole
-- Remove optimized memory usage from stretch goals, currently:
-  - Engine preloads all textures and shaders to be used
-  - Engine statically allocates the entities that will be used
+- Remove Star, Hose, and a lot of Stretch Goals
+  - To meet May 28th deadline
+- Change bomb visual
+  - It is now its own asset, and spawns like a bullet, and fades away
+- There are no lives anymore and you can't regain bombs
+  - to increase the challenge of the game
 
 ## Summary
 SHMUP is a shoot em up bullet hell game, where the player controls a spaceship battling against aliens in outer space having to bob and weave through enemy projectiles to avoid getting hit. The focus of this game is to provide a challenging and appealing experience through game mechanics and visual graphics.
@@ -33,8 +26,6 @@ A sprite image must be created for every entity that will exist, and every entit
 		- exactly the same as jet_sprite but shows hurtbox
 	- jet_bullet: Projectile
 	- jet_beam: Projectile
-	- ~~jet_bomb: Projectile~~
-      - the screen will have a green overlay to represent the bomb exploding
 - Grunt - 100hp, basic unit type that shoots bullets in the direction of the player
 	- grunt_sprite: Sprite
 	- enemy_bullet: Projectile
@@ -43,14 +34,11 @@ A sprite image must be created for every entity that will exist, and every entit
 	- snipe_laser: Projectile
 	- snipe_track: Sprite, 
       - the targeting laser
-- ~~Charge - 50hp, weak, large, but can deal a lot of damage if you get hit by their hull, will charge at you~~
-- Star - 200hp, large, shoots in a star pattern, requires the player to actually take care in dodging
-	- star_sprite: Sprite
-	- enemy_bullet: Projectile
-- Hose - 200hp, hoses you down with bullets in a cone like fashion
+- ~~STAR - 200HP, LARGE, SHOOTS IN A STAR PATTERN, REQUIRES THE PLAYER TO ACTUALLY TAKE CARE IN DODGING~~
+- ~~Hose - 200hp, hoses you down with bullets in a cone like fashion~~
 	- hose_sprite: Sprite
 	- enemy_bullet: Projectile
-- Boss - 1000hp, combines snipe, star, and hose attacks
+- Boss - 1000hp, combines snipe, and grunt attacks
 	- boss_sprite: Sprite
 	- enemy_bullet: Projectile
 	- boss_laser: Projectile
@@ -86,25 +74,16 @@ SpaceGame will address the Challenge and Discovery aesthetics because the player
 - The player will move using WASD
 - You can quit the game using Esc
 - Resources are displayed on the lower right of the screen
-	- Lives
 	- Bombs
 
 ### Level Progression
 A level will consist of several checkpoints, the requirement to progress is to destroy all the enemies spawned in that checkpoint. To implement this, the game engine will need to read from a file that tells them what enemies to spawn, where to spawn them, and what checkpoint they belong to.
 
 ## Stretch Goals
-- ~~Optimized memory usage for projectiles~~
 - Background has moving stars that make you feel like the player is moving
 - Add sounds
 - Sprite Animations
-	- Different sprites when player is moving left or right
-	- Unique animations when the final boss is attacking
 	- Idle animations
-	- Cool animation when the bomb explodes
-- Enemies enter the screen in more interesting ways. In the MVP they will just slide in from the top, and remain in the upper half the screen.
-- Enemies show an explosion sprite when they are defeated
-- More enemy types
-- Get points for destroying enemies, but lose points when the player gets hit by an enemy.
 
 ## Alpha Report
 

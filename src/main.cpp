@@ -23,6 +23,7 @@
 #include "systems/ai_system.h"
 #include "systems/animation_system.h"
 #include "src/components/state.h"
+#include "src/systems/spawn_system.h"
 #include <chrono>
 
 Coordinator GCR;
@@ -45,6 +46,7 @@ int main() {
     Texture ship_texture = ResourceManager::load_texture("textures/ship.png", "ship", true);
     Texture ebullet_texture = ResourceManager::load_texture("textures/ebullet.png", "ebullet", true);
     Texture eship_texture = ResourceManager::load_texture("textures/eship.png", "eship", true);
+    Texture snipe_texture = ResourceManager::load_texture("textures/snipe.png", "snipe", true);
 
     float v[] = {
             -0.25f, -0.5f, 0.0f, 0.0f, 0.0f,       // bottom left
@@ -161,6 +163,15 @@ int main() {
 
     animation_system->init();
 
+    auto spawn_system = GCR.register_system<SpawnSystem>();
+    {
+        Signature signature;
+        signature.set(GCR.get_component_type<Enemy>());
+        GCR.set_system_signature<SpawnSystem>(signature);
+    }
+
+    spawn_system->init();
+
     // create the player
     Entity player = GCR.create_entity();
     GCR.add_component(player, State{
@@ -184,7 +195,6 @@ int main() {
     // player projectiles
 
     // laser...
-    // @FIXME: check sprite system because we have some hardcoded logic
     Entity player_laser = GCR.create_entity();
     GCR.add_component(player_laser, State{});
     GCR.add_component(player_laser, Sprite{
@@ -224,7 +234,7 @@ int main() {
         });
         GCR.add_component(player_bomb, Player{});
         GCR.add_component(player_bomb, Hitbox{
-                .hitbox = glm::vec3(10.0f)
+                .hitbox = glm::vec3(100.0f)
         });
         auto &bullet_sprite = GCR.get_component<Sprite>(player_bomb);
         bullet_sprite.setup();
@@ -257,14 +267,10 @@ int main() {
     // enemies
 
     // enemy grunts
-    for (int i = 0; i < Entities::E_AMT; i++) { // can only use 10 bullets for now...
+    for (int i = 0; i < Entities::E_AMT; i++) {
         Entity enemy = GCR.create_entity();
-        bool debug_will_be_active = true;
-        if (i > 1) {
-            debug_will_be_active = false;
-        }
         GCR.add_component(enemy, State{
-                .active = debug_will_be_active,
+                .active = true,
         });
         GCR.add_component(enemy, Sprite{
                 .shader = &def_shader,
@@ -291,8 +297,30 @@ int main() {
     // snipe
     for (int i = 0; i < Entities::E_AMT; i++) {
         Entity enemy = GCR.create_entity();
+        GCR.add_component(enemy, State{
+                .active = false,
+        });
+        GCR.add_component(enemy, Sprite{
+                .shader = &def_shader,
+                .texture = &snipe_texture,
+                .vertex_data = ev,
+                .vertex_count = 3 // @TODO: HARDCODED
+        });
+        GCR.add_component(enemy, Transform{
+                .pos = glm::vec3(0.0f + (1.0f * i), 3.0f, 0.0f),
+                .origin = glm::vec3(0.0f + (1.0f * i), 3.0f, 0.0f)
+        });
+        GCR.add_component(enemy, Enemy{});
+        GCR.add_component(enemy, AI{
+                .attack_cooldown = 2.0f,
+                .last_attacked = 0.0f + (1.0f * i)
+        });
+        GCR.add_component(enemy, Hitbox{
+                .hitbox = glm::vec3(0.5f, 0.5f, 0.5f)
+        });
+        auto &enemy_sprite = GCR.get_component<Sprite>(enemy);
+        enemy_sprite.setup();
     }
-
 
     // star
     for (int i = 0; i < Entities::E_AMT; i++) {
@@ -349,12 +377,11 @@ int main() {
         ai_system->update((float) glfwGetTime());
         collision_system->update(dt);
         physics_system->update(dt);
-        // move this
         glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);
-        //
         sprite_system->update((float) glfwGetTime());
         animation_system->update((float) glfwGetTime());
+        spawn_system->update();
         window_manager.update();
         auto stop = (float) glfwGetTime();
         dt = stop - start;

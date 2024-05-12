@@ -10,17 +10,13 @@
 
 extern Coordinator GCR;
 
-void AISystem::init() {
-    projectile.set(GCR.get_component_type<Projectile>());
-}
+void AISystem::init() {}
 
 void AISystem::update(float time) {
     for (auto& entity : entities) {
         auto &is_active = GCR.get_component<State>(entity).active;
         if (!is_active) continue;
-
         auto &health = GCR.get_component<Hitbox>(entity).health;
-        
         if (health <= 0) {
             is_active = false;
         }

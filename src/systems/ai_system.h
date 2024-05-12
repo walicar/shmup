@@ -15,8 +15,6 @@ public:
     void update(float time);
     Entity next_bullet();
     void init();
-
-    Signature projectile;
 };
 
 
