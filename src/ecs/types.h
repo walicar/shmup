@@ -50,6 +50,13 @@ namespace Entities {
     const Entity E_TLASER_AMT = 100;
 }
 
+enum EnemyType {
+    GRUNT,
+    SNIPE,
+    HOSE,
+    STAR,
+    BOSS
+};
 
 
 namespace Events::Window {

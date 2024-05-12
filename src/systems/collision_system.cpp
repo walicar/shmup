@@ -40,17 +40,14 @@ void CollisionSystem::update(float dt) {
             auto &proj_hbx = GCR.get_component<Hitbox>(nt2).hitbox;
             auto &proj_pos = GCR.get_component<Transform>(nt2).pos;
             auto &proj_type = GCR.get_component<Projectile>(nt2).type;
+            auto &proj_dmg = GCR.get_component<Projectile>(nt2).damage;
             auto &proj_active = GCR.get_component<State>(nt2).active;
 
             if (overlaps(actor_hbx, actor_pos, proj_hbx, proj_pos)) { // calculate damage
-                int damage = 0;
+                int damage = proj_dmg;
                 if (proj_type == BULLET) {
-                    damage = 10;
                     proj_active = false;
-                } else if (proj_type == LASER) {
-                    damage = 100; // was 1
-                } else if (proj_type == BOMB) {
-                    damage = 20;
+                } if (proj_type == BOMB) {
                     erase_enemy_projectiles();
                 }
 

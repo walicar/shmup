@@ -47,6 +47,9 @@ int main() {
     Texture ebullet_texture = ResourceManager::load_texture("textures/ebullet.png", "ebullet", true);
     Texture eship_texture = ResourceManager::load_texture("textures/eship.png", "eship", true);
     Texture snipe_texture = ResourceManager::load_texture("textures/snipe.png", "snipe", true);
+    // Texture star_texture = ResourceManager::load_texture("textures/star.png", "star", true);
+    // Texture hose_texture = ResourceManager::load_texture("textures/hose.png", "hose", true);
+    // Texture boss_texture = ResourceManager::load_texture("textures/snipe.png", "snipe", true);
 
     float v[] = {
             -0.25f, -0.5f, 0.0f, 0.0f, 0.0f,       // bottom left
@@ -213,7 +216,7 @@ int main() {
     GCR.add_component(player_laser, Velocity{});
     GCR.add_component(player_laser, Player{});
     GCR.add_component(player_laser, Projectile{
-        .type = LASER
+        .damage = 100 // debug damage, set back to 1
     });
     auto &laser_sprite = GCR.get_component<Sprite>(player_laser);
     laser_sprite.setup();
@@ -230,7 +233,8 @@ int main() {
         });
         GCR.add_component(player_bomb, Transform{});
         GCR.add_component(player_bomb, Projectile{
-            .type = BOMB
+            .type = BOMB,
+            .damage = 10
         });
         GCR.add_component(player_bomb, Player{});
         GCR.add_component(player_bomb, Hitbox{
@@ -259,7 +263,9 @@ int main() {
                 .hitbox = glm::vec3(0.5f, 0.5f, 1.0f)
         });
         GCR.add_component(player_bullet, Velocity{});
-        GCR.add_component(player_bullet, Projectile{});
+        GCR.add_component(player_bullet, Projectile{
+            .damage = 10
+        });
         auto &bullet_sprite = GCR.get_component<Sprite>(player_bullet);
         bullet_sprite.setup();
     }
@@ -282,7 +288,9 @@ int main() {
                 .pos = glm::vec3(0.0f + (1.0f * i), 3.0f, 0.0f),
                 .origin = glm::vec3(0.0f + (1.0f * i), 3.0f, 0.0f)
         });
-        GCR.add_component(enemy, Enemy{});
+        GCR.add_component(enemy, Enemy{
+            .type = GRUNT
+        });
         GCR.add_component(enemy, AI{
                 .attack_cooldown = 2.0f,
                 .last_attacked = 0.0f + (1.0f * i)
@@ -310,7 +318,9 @@ int main() {
                 .pos = glm::vec3(0.0f + (1.0f * i), 3.0f, 0.0f),
                 .origin = glm::vec3(0.0f + (1.0f * i), 3.0f, 0.0f)
         });
-        GCR.add_component(enemy, Enemy{});
+        GCR.add_component(enemy, Enemy{
+            .type = SNIPE
+        });
         GCR.add_component(enemy, AI{
                 .attack_cooldown = 2.0f,
                 .last_attacked = 0.0f + (1.0f * i)
