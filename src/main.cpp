@@ -264,7 +264,7 @@ int main() {
         });
         GCR.add_component(player_bullet, Velocity{});
         GCR.add_component(player_bullet, Projectile{
-            .damage = 10
+            .damage = 15
         });
         auto &bullet_sprite = GCR.get_component<Sprite>(player_bullet);
         bullet_sprite.setup();
