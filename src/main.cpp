@@ -285,8 +285,8 @@ int main() {
                 .vertex_count = 3 // @TODO: HARDCODED
         });
         GCR.add_component(enemy, Transform{
-                .pos = glm::vec3(-5.0f + (1.0f * i), 3.0f, 0.0f),
-                .origin = glm::vec3(-5.0f + (1.0f * i), 3.0f, 0.0f),
+                .pos = glm::vec3(-7.0f + (1.0f * i), 8.0f, 0.0f),
+                .origin = glm::vec3(-7.0f + (1.0f * i), 8.0f, 0.0f),
         });
         GCR.add_component(enemy, Enemy{
             .type = GRUNT
@@ -315,8 +315,8 @@ int main() {
                 .vertex_count = 3 // @TODO: HARDCODED
         });
         GCR.add_component(enemy, Transform{
-                .pos = glm::vec3(-5.0f + (1.0f * i), 3.0f, 0.0f),
-                .origin = glm::vec3(-5.0f + (1.0f * i), 3.0f, 0.0f),
+                .pos = glm::vec3(-7.0f + (1.0f * i), 8.0f, 0.0f),
+                .origin = glm::vec3(-7.0f + (1.0f * i), 8.0f, 0.0f),
         });
         GCR.add_component(enemy, Enemy{
             .type = SNIPE
@@ -345,8 +345,8 @@ int main() {
                 .vertex_count = 3 // @TODO: HARDCODED
         });
         GCR.add_component(enemy, Transform{
-                .pos = glm::vec3(-5.0f + (1.0f * i), 3.0f, 0.0f),
-                .origin = glm::vec3(-5.0f + (1.0f * i), 3.0f, 0.0f),
+                .pos = glm::vec3(-7.0f + (1.0f * i), 8.0f, 0.0f),
+                .origin = glm::vec3(-7.0f + (1.0f * i), 8.0f, 0.0f),
         });
         GCR.add_component(enemy, Enemy{
                 .type = HOSE
@@ -376,8 +376,8 @@ int main() {
                 .vertex_count = 3 // @TODO: HARDCODED
         });
         GCR.add_component(enemy, Transform{
-                .pos = glm::vec3(-5.0f + (1.0f * i), 3.0f, 0.0f),
-                .origin = glm::vec3(-5.0f + (1.0f * i), 3.0f, 0.0f),
+                .pos = glm::vec3(-7.0f + (1.0f * i), 8.0f, 0.0f),
+                .origin = glm::vec3(-7.0f + (1.0f * i), 8.0f, 0.0f),
         });
         GCR.add_component(enemy, Enemy{
                 .type = STAR
