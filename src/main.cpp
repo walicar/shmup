@@ -48,7 +48,7 @@ int main() {
     Texture eship_texture = ResourceManager::load_texture("textures/eship.png", "eship", true);
     Texture snipe_texture = ResourceManager::load_texture("textures/snipe.png", "snipe", true);
     // Texture star_texture = ResourceManager::load_texture("textures/star.png", "star", true);
-    // Texture hose_texture = ResourceManager::load_texture("textures/hose.png", "hose", true);
+    Texture hose_texture = ResourceManager::load_texture("textures/hose.png", "hose", true);
     // Texture boss_texture = ResourceManager::load_texture("textures/snipe.png", "snipe", true);
 
     float v[] = {
@@ -322,7 +322,7 @@ int main() {
             .type = SNIPE
         });
         GCR.add_component(enemy, AI{
-                .attack_cooldown = 2.0f,
+                .attack_cooldown = 3.0f,
                 .last_attacked = 0.0f + (1.0f * i)
         });
         GCR.add_component(enemy, Hitbox{
@@ -332,12 +332,39 @@ int main() {
         enemy_sprite.setup();
     }
 
-    // star
+    // hose
     for (int i = 0; i < Entities::E_AMT; i++) {
         Entity enemy = GCR.create_entity();
+        GCR.add_component(enemy, State{
+                .active = false,
+        });
+        GCR.add_component(enemy, Sprite{
+                .shader = &def_shader,
+                .texture = &hose_texture,
+                .vertex_data = ev,
+                .vertex_count = 3 // @TODO: HARDCODED
+        });
+        GCR.add_component(enemy, Transform{
+                .pos = glm::vec3(0.0f + (1.0f * i), 3.0f, 0.0f),
+                .origin = glm::vec3(0.0f + (1.0f * i), 3.0f, 0.0f)
+        });
+        GCR.add_component(enemy, Enemy{
+                .type = HOSE
+        });
+        GCR.add_component(enemy, AI{
+                .attack_cooldown = 0.5f,
+                .burst_cooldown = 3.0f,
+                .last_attacked = 0.0f + (1.0f * i)
+        });
+        GCR.add_component(enemy, Hitbox{
+            .health = 50,
+            .hitbox = glm::vec3(0.5f, 0.5f, 0.5f)
+        });
+        auto &enemy_sprite = GCR.get_component<Sprite>(enemy);
+        enemy_sprite.setup();
     }
 
-    // hose
+    // star
     for (int i = 0; i < Entities::E_AMT; i++) {
         Entity enemy = GCR.create_entity();
     }
