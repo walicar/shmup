@@ -490,22 +490,23 @@ int main() {
     GCR.add_component(boss, Sprite{
             .shader = &def_shader,
             .texture = &boss_texture,
+            .scale_factor = glm::vec3(0.22f),
             .vertex_data = ev,
             .vertex_count = 3 // @TODO: HARDCODED
     });
     GCR.add_component(boss, Transform{
-            .pos = glm::vec3(0.0f, 8.0f, 0.0f),
-            .origin = glm::vec3(0.0f, 8.0f, 0.0f),
+            .pos = glm::vec3(0.0f, 4.0f, 0.0f),
+            .origin = glm::vec3(0.0f, 4.0f, 0.0f),
     });
     GCR.add_component(boss, Enemy{
             .type = BOSS
     });
     GCR.add_component(boss, AI{
-            .attack_cooldown = 0.5f,
+            .attack_cooldown = 0.25f,
     });
     GCR.add_component(boss, Hitbox{
-            .health = 200,
-            .hitbox = glm::vec3(0.5f, 0.5f, 0.5f)
+            .health = 1000,
+            .hitbox = glm::vec3(1.75f)
     });
     auto &boss_sprite = GCR.get_component<Sprite>(boss);
     boss_sprite.setup();

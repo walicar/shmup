@@ -30,12 +30,12 @@ bool SpawnSystem::is_done(int checkpoint) {
 }
 
 bool SpawnSystem::spawn_checkpoint(int checkpoint) {
-    if (checkpoint != 5) {
+    if (checkpoint < 5) {
         for (int i = 0; i < Entities::E_AMT; i++) {
             int entity = i + (Entities::E_AMT * checkpoint);
             auto& active = GCR.get_component<State>(entity + Entities::E_GRUNT).active = true;
         }
-    } else {
+    } else if (checkpoint == 5) {
         GCR.get_component<State>(Entities::BOSS).active = true;
     }
 

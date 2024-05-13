@@ -36,10 +36,14 @@ void AISystem::update(float time) {
         auto &type = GCR.get_component<Enemy>(entity).type;
         pos.x = (glm::sin(time) * 2.0f) + origin.x;
 
+        if (type == BOSS) {
+
+        }
+
         auto& ai = GCR.get_component<AI>(entity);
         if (ai.last_attacked + ai.attack_cooldown < time) {
             Entity ebullet_loc = next_bullet() + Entities::E_BULLET;
-            printf("shooting bullet [%d]\n", ebullet_loc);
+            // printf("shooting bullet [%d]\n", ebullet_loc);
             auto &ebullet_sprite = GCR.get_component<Sprite>(ebullet_loc);
             auto &ebullet_state = GCR.get_component<State>(ebullet_loc);
             auto &ebullet_proj = GCR.get_component<Projectile>(ebullet_loc);
@@ -75,7 +79,23 @@ void AISystem::update(float time) {
                 } else {
                     velocity.force = glm::vec3(-3.0f, -10.0f, 0.0f);
                 }
+            } else if (type == BOSS) {
+                if (coin_flip()) {
+                    ebullet_proj.damage = 20;
+                    auto &player_pos = GCR.get_component<Transform>(Entities::PLAYER).pos;
+                    glm::vec3 direction = glm::normalize(player_pos - ebullet_transform.origin);
+                    float speed = 3.0f;
+                    velocity.force = direction * speed;
+                } else {
+                    if (coin_flip()) {
+                        ebullet_proj.damage = 1000;
+                        velocity.force = glm::vec3(0.0f, -20.0f, 0.0f);
+                    } else {
+                        velocity.force = glm::vec3(0.0f, -2.0f, 0.0f);
+                    }
+                }
             }
+
             ebullet_state.active = true;
             ebullet_sprite.scale_factor = enemy_scale;
             ai.last_attacked = time;
