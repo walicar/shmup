@@ -101,7 +101,11 @@ A level will consist of 5 checkpoints, the requirement to progress is to destroy
 - Enemy shoots at player
 
 ____
+![The player shooting at enemy grunts](img/shmup4.png)
 
-![The player firing its laser at an enemy ship](img/alpha1.png)
+![The player encountering a large amount of bullets!](img/shmup3.png)
 
-![The player hitting the enemy ship with a bullet while dodging an enemy bullet (light yellow)](img/alpha2.png)
+![Player fighting against snipe enemies](img/shmup2.png)
+
+![The player in a boss fight!](img/shmup1.png)
+
