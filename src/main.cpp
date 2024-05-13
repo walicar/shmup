@@ -537,7 +537,7 @@ int main() {
             .attack_cooldown = 0.17f,
     });
     GCR.add_component(boss, Hitbox{
-            .health = 1000,
+            .health = 800,
             .hitbox = glm::vec3(1.75f)
     });
     auto &boss_sprite = GCR.get_component<Sprite>(boss);

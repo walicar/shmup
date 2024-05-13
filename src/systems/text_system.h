@@ -27,8 +27,10 @@ private:
     void render_text(std::string text, float x, float y, float scale, glm::vec3 color);
 
     int bombs_left = 3;
+    bool boss_mode = false;
 
     void bomb_used(Event &e);
+    void boss_time(Event &e);
 
 public:
     void update();

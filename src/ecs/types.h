@@ -57,6 +57,7 @@ enum EnemyType {
 
 namespace Events::Game {
     const EventId BOMB_USED = 7777;
+    const EventId BOSS_TIME = 7778;
 }
 
 namespace Events::Window {

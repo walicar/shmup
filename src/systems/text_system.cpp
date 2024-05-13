@@ -10,10 +10,16 @@ void TextSystem::update() {
     int hp = GCR.get_component<Hitbox>(Entities::PLAYER).health;
     render_text("Health: " + std::to_string(hp), 210.0f, 570.0f, 0.5f, glm::vec3(1.0f, 0.0f, 0.0f));
     render_text("Bombs: " + std::to_string(bombs_left) + "/3", 10.0f, 570.0f, 0.5f, glm::vec3(0.0f, 1.0f, 0.0f));
+    if (boss_mode) {
+        int boss_hp = GCR.get_component<Hitbox>(Entities::BOSS).health;
+        render_text("Boss Health: " + std::to_string(boss_hp) + "/800", 410.0f, 570.0f, 0.5f, glm::vec3(1.0f, 0.647f, 0.0f));
+    }
+
 }
 
 void TextSystem::init(Shader &shader, FT_Library &ft, FT_Face &face) {
     GCR.add_listener(METHOD_LISTENER(Events::Game::BOMB_USED, TextSystem::bomb_used)); // lambda preferred?
+    GCR.add_listener(METHOD_LISTENER(Events::Game::BOSS_TIME, TextSystem::boss_time)); // lambda preferred?
 
     text_shader = &shader;
     FT_Set_Pixel_Sizes(face, 0, 48);
@@ -104,4 +110,8 @@ void TextSystem::render_text(std::string text, float x, float y, float scale, gl
 
 void TextSystem::bomb_used(Event &e) {
     bombs_left -= 1;
+}
+
+void TextSystem::boss_time(Event &e) {
+    boss_mode = true;
 }

@@ -36,6 +36,8 @@ bool SpawnSystem::spawn_checkpoint(int checkpoint) {
             auto &active = GCR.get_component<State>(entity + Entities::E_GRUNT).active = true;
         }
     } else if (checkpoint == 5) {
+        Event event(Events::Game::BOSS_TIME); // Update UI
+        GCR.send_event(event);
         GCR.get_component<State>(Entities::BOSS).active = true;
     }
 
