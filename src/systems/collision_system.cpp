@@ -47,7 +47,8 @@ void CollisionSystem::update(float dt) {
                 int damage = proj_dmg;
                 if (proj_type == BULLET) {
                     proj_active = false;
-                } if (proj_type == BOMB) {
+                }
+                if (proj_type == BOMB) {
                     erase_enemy_projectiles();
                 }
 

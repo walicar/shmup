@@ -23,7 +23,7 @@ bool coin_flip() {
 }
 
 void AISystem::update(float time) {
-    for (auto& entity : entities) {
+    for (auto &entity: entities) {
         auto &is_active = GCR.get_component<State>(entity).active;
         if (!is_active) continue;
 
@@ -39,7 +39,7 @@ void AISystem::update(float time) {
         auto &type = GCR.get_component<Enemy>(entity).type;
         pos.x = (glm::sin(time) * 2.0f) + origin.x;
 
-        auto& ai = GCR.get_component<AI>(entity);
+        auto &ai = GCR.get_component<AI>(entity);
         if (ai.last_attacked + ai.attack_cooldown < time) {
             Entity ebullet_loc = next_bullet() + Entities::E_BULLET;
             // printf("shooting bullet [%d]\n", ebullet_loc);
@@ -47,7 +47,7 @@ void AISystem::update(float time) {
             auto &ebullet_state = GCR.get_component<State>(ebullet_loc);
             auto &ebullet_proj = GCR.get_component<Projectile>(ebullet_loc);
             auto &ebullet_transform = GCR.get_component<Transform>(ebullet_loc);
-            auto& enemy_scale = GCR.get_component<Sprite>(entity).scale_factor;
+            auto &enemy_scale = GCR.get_component<Sprite>(entity).scale_factor;
             ebullet_transform.pos.y = pos.y + (-6.0f * enemy_scale.y);
             ebullet_transform.pos.x = pos.x;
             ebullet_transform.origin = ebullet_transform.pos;

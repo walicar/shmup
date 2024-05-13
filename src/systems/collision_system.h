@@ -13,6 +13,7 @@ public:
 
 private:
     bool overlaps(glm::vec3 hb1, glm::vec3 pos1, glm::vec3 hb2, glm::vec3 pos2);
+
     void erase_enemy_projectiles();
 
     Signature player;

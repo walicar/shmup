@@ -209,7 +209,7 @@ int main() {
     // create the player
     Entity player = GCR.create_entity();
     GCR.add_component(player, State{
-        .active = true
+            .active = true
     });
     GCR.add_component(player, Sprite{
             .shader = &def_shader,
@@ -248,7 +248,7 @@ int main() {
     GCR.add_component(player_laser, Velocity{});
     GCR.add_component(player_laser, Player{});
     GCR.add_component(player_laser, Projectile{
-        .damage = 100 // debug damage, set back to 1
+            .damage = 100 // debug damage, set back to 1
     });
     auto &laser_sprite = GCR.get_component<Sprite>(player_laser);
     laser_sprite.setup();
@@ -265,7 +265,7 @@ int main() {
         });
         GCR.add_component(player_bomb, Transform{});
         GCR.add_component(player_bomb, Projectile{
-            .type = BOMB,
+                .type = BOMB,
         });
         GCR.add_component(player_bomb, Player{});
         GCR.add_component(player_bomb, Hitbox{
@@ -295,7 +295,7 @@ int main() {
         });
         GCR.add_component(player_bullet, Velocity{});
         GCR.add_component(player_bullet, Projectile{
-            .damage = 15
+                .damage = 15
         });
         auto &bullet_sprite = GCR.get_component<Sprite>(player_bullet);
         bullet_sprite.setup();
@@ -320,11 +320,11 @@ int main() {
                 .origin = glm::vec3(-7.0f + (1.0f * i), 8.0f, 0.0f),
         });
         GCR.add_component(enemy, Enemy{
-            .type = GRUNT
+                .type = GRUNT
         });
         GCR.add_component(enemy, AI{
                 .attack_cooldown = 1.0f,
-                .last_attacked = ((i%3)*0.25f)
+                .last_attacked = ((i % 3) * 0.25f)
         });
         GCR.add_component(enemy, Hitbox{
                 .hitbox = glm::vec3(0.5f, 0.5f, 0.5f)
@@ -350,7 +350,7 @@ int main() {
                 .origin = glm::vec3(-7.0f + (1.0f * i), 8.0f, 0.0f),
         });
         GCR.add_component(enemy, Enemy{
-            .type = SNIPE
+                .type = SNIPE
         });
         GCR.add_component(enemy, AI{
                 .attack_cooldown = 1.0f,
@@ -387,8 +387,8 @@ int main() {
                 .last_attacked = 0.0f + (1.25f * i)
         });
         GCR.add_component(enemy, Hitbox{
-            .health = 50,
-            .hitbox = glm::vec3(0.5f, 0.5f, 0.5f)
+                .health = 50,
+                .hitbox = glm::vec3(0.5f, 0.5f, 0.5f)
         });
         auto &enemy_sprite = GCR.get_component<Sprite>(enemy);
         enemy_sprite.setup();
@@ -485,32 +485,32 @@ int main() {
             enemy_sprite.setup();
         } else {
             Entity enemy = GCR.create_entity();
-        GCR.add_component(enemy, State{
-                .active = false,
-        });
-        GCR.add_component(enemy, Sprite{
-                .shader = &def_shader,
-                .texture = &star_texture,
-                .vertex_data = ev,
-                .vertex_count = 3 // @TODO: HARDCODED
-        });
-        GCR.add_component(enemy, Transform{
-                .pos = glm::vec3(-7.0f + (1.0f * i), 8.0f, 0.0f),
-                .origin = glm::vec3(-7.0f + (1.0f * i), 8.0f, 0.0f),
-        });
-        GCR.add_component(enemy, Enemy{
-                .type = STAR
-        });
-        GCR.add_component(enemy, AI{
-                .attack_cooldown = 1.0f,
-                .last_attacked = 0.0f + (0.25f * i)
-        });
-        GCR.add_component(enemy, Hitbox{
-                .health = 50,
-                .hitbox = glm::vec3(0.5f, 0.5f, 0.5f)
-        });
-        auto &enemy_sprite = GCR.get_component<Sprite>(enemy);
-        enemy_sprite.setup();
+            GCR.add_component(enemy, State{
+                    .active = false,
+            });
+            GCR.add_component(enemy, Sprite{
+                    .shader = &def_shader,
+                    .texture = &star_texture,
+                    .vertex_data = ev,
+                    .vertex_count = 3 // @TODO: HARDCODED
+            });
+            GCR.add_component(enemy, Transform{
+                    .pos = glm::vec3(-7.0f + (1.0f * i), 8.0f, 0.0f),
+                    .origin = glm::vec3(-7.0f + (1.0f * i), 8.0f, 0.0f),
+            });
+            GCR.add_component(enemy, Enemy{
+                    .type = STAR
+            });
+            GCR.add_component(enemy, AI{
+                    .attack_cooldown = 1.0f,
+                    .last_attacked = 0.0f + (0.25f * i)
+            });
+            GCR.add_component(enemy, Hitbox{
+                    .health = 50,
+                    .hitbox = glm::vec3(0.5f, 0.5f, 0.5f)
+            });
+            auto &enemy_sprite = GCR.get_component<Sprite>(enemy);
+            enemy_sprite.setup();
         }
     }
 
@@ -558,8 +558,8 @@ int main() {
         });
 
         GCR.add_component(enemy_bullet, Transform{
-            .pos = glm::vec3(0.0f),
-            .origin = glm::vec3(0.0f)
+                .pos = glm::vec3(0.0f),
+                .origin = glm::vec3(0.0f)
         });
         GCR.add_component(enemy_bullet, Enemy{});
         GCR.add_component(enemy_bullet, Hitbox{

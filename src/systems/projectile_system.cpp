@@ -21,7 +21,8 @@ void ProjectileSystem::update(float time) {
         auto &player_active = GCR.get_component<State>(Entities::PLAYER).active;
         if (!player_active) continue;
 
-        if (buttons.test(static_cast<std::size_t>(InputButtons::J)) && entity >= Entities::P_BULLET && entity < Entities::E_GRUNT) {
+        if (buttons.test(static_cast<std::size_t>(InputButtons::J)) && entity >= Entities::P_BULLET &&
+            entity < Entities::E_GRUNT) {
             if (bullet_last_shot + bullet_cooldown > time)
                 continue;
             auto &bullet_sprite = GCR.get_component<Sprite>(entity);
@@ -62,23 +63,23 @@ void ProjectileSystem::update(float time) {
         }
 
         // @TODO: just check Projectile.type instead of checking entity ID
-        if(entity == Entities::P_BOMB) {
+        if (entity == Entities::P_BOMB) {
             if (bullet_last_shot + bullet_cooldown > time) continue;
             auto &bomb_state = GCR.get_component<State>(entity);
             auto &projectile_last_shot = GCR.get_component<Projectile>(entity).last_shot;
             if (buttons.test(static_cast<std::size_t>(InputButtons::L))) {
-                    if (bomb_offset > 2) continue; // can't shoot anymore bombs
-                    Event event(Events::Game::BOMB_USED); // update UI
-                    GCR.send_event(event);
-                    glm::vec3 player_location = GCR.get_component<Transform>(0).pos;
-                    glm::vec3 player_scale = GCR.get_component<Sprite>(0).scale_factor;
-                    auto &transform = GCR.get_component<Transform>(entity);
-                    transform.pos.y = player_location.y + (6.0f * player_scale.y);
-                    transform.pos.x = player_location.x;
-                    bomb_state.active = true;
-                    projectile_last_shot = time;
-                    bomb_offset += 1;
-                    bullet_last_shot = time;
+                if (bomb_offset > 2) continue; // can't shoot anymore bombs
+                Event event(Events::Game::BOMB_USED); // update UI
+                GCR.send_event(event);
+                glm::vec3 player_location = GCR.get_component<Transform>(0).pos;
+                glm::vec3 player_scale = GCR.get_component<Sprite>(0).scale_factor;
+                auto &transform = GCR.get_component<Transform>(entity);
+                transform.pos.y = player_location.y + (6.0f * player_scale.y);
+                transform.pos.x = player_location.x;
+                bomb_state.active = true;
+                projectile_last_shot = time;
+                bomb_offset += 1;
+                bullet_last_shot = time;
             }
             if (projectile_last_shot + bullet_cooldown + 0.5f < time) { // fix this
                 bomb_state.active = false;
