@@ -75,11 +75,12 @@ SpaceGame will address the Challenge and Discovery aesthetics because the player
 ### Gameplay
 - The player will move using WASD
 - You can quit the game using Esc
-- Resources are displayed on the lower right of the screen
+- Resources are displayed on the top left of the screen
 	- Bombs
+    - Health
 
 ### Level Progression
-A level will consist of 5 checkpoints, the requirement to progress is to destroy all the enemies spawned in that checkpoint. To implement this, the game engine will create what enemies to spawn for checkpoint.
+A level will consist of 5 checkpoints, the requirement to progress is to destroy all the enemies spawned in that checkpoint. To implement this, the game engine will create what enemies to spawn for each checkpoint, and track game state.
 
 ## Stretch Goals
 - Background has moving stars that make you feel like the player is moving
