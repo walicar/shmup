@@ -49,7 +49,7 @@ int main() {
     Texture snipe_texture = ResourceManager::load_texture("textures/snipe.png", "snipe", true);
     Texture star_texture = ResourceManager::load_texture("textures/star.png", "star", true);
     Texture hose_texture = ResourceManager::load_texture("textures/hose.png", "hose", true);
-    // Texture boss_texture = ResourceManager::load_texture("textures/snipe.png", "snipe", true);
+    Texture boss_texture = ResourceManager::load_texture("textures/boss.png", "boss", true);
 
     float v[] = {
             -0.25f, -0.5f, 0.0f, 0.0f, 0.0f,       // bottom left
@@ -484,6 +484,31 @@ int main() {
 
     // boss
     Entity boss = GCR.create_entity();
+    GCR.add_component(boss, State{
+            .active = false,
+    });
+    GCR.add_component(boss, Sprite{
+            .shader = &def_shader,
+            .texture = &boss_texture,
+            .vertex_data = ev,
+            .vertex_count = 3 // @TODO: HARDCODED
+    });
+    GCR.add_component(boss, Transform{
+            .pos = glm::vec3(0.0f, 8.0f, 0.0f),
+            .origin = glm::vec3(0.0f, 8.0f, 0.0f),
+    });
+    GCR.add_component(boss, Enemy{
+            .type = BOSS
+    });
+    GCR.add_component(boss, AI{
+            .attack_cooldown = 0.5f,
+    });
+    GCR.add_component(boss, Hitbox{
+            .health = 200,
+            .hitbox = glm::vec3(0.5f, 0.5f, 0.5f)
+    });
+    auto &boss_sprite = GCR.get_component<Sprite>(boss);
+    boss_sprite.setup();
     std::cout << "BOSS ID ::: " << boss << std::endl;
 
     // enemy bullets
