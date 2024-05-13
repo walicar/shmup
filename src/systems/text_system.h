@@ -6,6 +6,7 @@
 #include <gtc/matrix_transform.hpp>
 #include <map>
 #include "../shader.h"
+#include "../ecs/event.h"
 
 struct Character {
     unsigned int tex_id;
@@ -15,9 +16,6 @@ struct Character {
 
 };
 
-// basically UI state
-// @TODO use the event system that I have to notify TextSystem that the player used a bomb
-
 class TextSystem : public System {
 private:
     std::map<char, Character> Characters;
@@ -25,6 +23,9 @@ private:
     GLuint VAO;
     GLuint VBO;
     void render_text(std::string text, float x, float y, float scale, glm::vec3 color);
+    int bombs_left = 3;
+
+    void bomb_used(Event &e);
 public:
     void update();
     void init(Shader &shader, FT_Library &ft, FT_Face &face);

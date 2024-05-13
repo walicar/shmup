@@ -55,6 +55,9 @@ enum EnemyType {
     BOSS
 };
 
+namespace Events::Game {
+    const EventId BOMB_USED = 7777;
+}
 
 namespace Events::Window {
     const EventId QUIT = 8080;
