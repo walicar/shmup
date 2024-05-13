@@ -323,8 +323,8 @@ int main() {
             .type = GRUNT
         });
         GCR.add_component(enemy, AI{
-                .attack_cooldown = 2.0f,
-                .last_attacked = 0.0f + (1.0f * i)
+                .attack_cooldown = 1.0f,
+                .last_attacked = ((i%3)*0.25f)
         });
         GCR.add_component(enemy, Hitbox{
                 .hitbox = glm::vec3(0.5f, 0.5f, 0.5f)
