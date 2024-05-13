@@ -502,7 +502,7 @@ int main() {
             .type = BOSS
     });
     GCR.add_component(boss, AI{
-            .attack_cooldown = 0.25f,
+            .attack_cooldown = 0.17f,
     });
     GCR.add_component(boss, Hitbox{
             .health = 1000,
