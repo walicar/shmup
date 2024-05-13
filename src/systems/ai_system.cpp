@@ -58,7 +58,7 @@ void AISystem::update(float time) {
                 ebullet_proj.damage = 100;
                 auto &player_pos = GCR.get_component<Transform>(Entities::PLAYER).pos;
                 glm::vec3 direction = glm::normalize(player_pos - ebullet_transform.origin);
-                float speed = 3.0f;
+                float speed = 5.0f;
                 velocity.force = direction * speed;
             } else if (type == HOSE) {
                 ebullet_proj.damage = 2;

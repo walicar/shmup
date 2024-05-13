@@ -31,7 +31,7 @@ void ProjectileSystem::update(float time) {
                 transform.pos.y = player_location.y + (6.0f * player_scale.y);
                 transform.pos.x = player_location.x;
                 auto &velocity = GCR.get_component<Velocity>(entity);
-                velocity.force = glm::vec3(0.0f, 6.0f, 0.0f);
+                velocity.force = glm::vec3(0.0f, 10.0f, 0.0f);
                 bullet_state.active = true;
                 bullet_sprite.scale_factor = player_scale;
                 bullet_last_shot = time;

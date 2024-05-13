@@ -236,7 +236,9 @@ int main() {
             .type = BOMB,
         });
         GCR.add_component(player_bomb, Player{});
-        GCR.add_component(player_bomb, Hitbox{});
+        GCR.add_component(player_bomb, Hitbox{
+                .hitbox = glm::vec3(100.0f)
+        });
         auto &bullet_sprite = GCR.get_component<Sprite>(player_bomb);
         bullet_sprite.setup();
     }
@@ -319,7 +321,7 @@ int main() {
             .type = SNIPE
         });
         GCR.add_component(enemy, AI{
-                .attack_cooldown = 3.0f,
+                .attack_cooldown = 1.0f,
                 .last_attacked = 0.0f + (1.0f * i)
         });
         GCR.add_component(enemy, Hitbox{
