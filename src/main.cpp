@@ -394,12 +394,101 @@ int main() {
         enemy_sprite.setup();
     }
 
+    for (int i = 0; i < Entities::E_AMT; i++) {
+        if (i % 3 == 0) {
+            Entity enemy = GCR.create_entity();
+            GCR.add_component(enemy, State{
+                    .active = false,
+            });
+            GCR.add_component(enemy, Sprite{
+                    .shader = &def_shader,
+                    .texture = &snipe_texture,
+                    .vertex_data = ev,
+                    .vertex_count = 3 // @TODO: HARDCODED
+            });
+            GCR.add_component(enemy, Transform{
+                    .pos = glm::vec3(-7.0f + (1.0f * i), 8.0f, 0.0f),
+                    .origin = glm::vec3(-7.0f + (1.0f * i), 8.0f, 0.0f),
+            });
+            GCR.add_component(enemy, Enemy{
+                    .type = SNIPE
+            });
+            GCR.add_component(enemy, AI{
+                    .attack_cooldown = 3.0f,
+                    .last_attacked = 0.0f + (1.0f * i)
+            });
+            GCR.add_component(enemy, Hitbox{
+                    .hitbox = glm::vec3(0.5f, 0.5f, 0.5f)
+            });
+            auto &enemy_sprite = GCR.get_component<Sprite>(enemy);
+            enemy_sprite.setup();
+        } else if (i % 3 == 1) {
+
+
+            Entity enemy = GCR.create_entity();
+            GCR.add_component(enemy, State{
+                    .active = false,
+            });
+            GCR.add_component(enemy, Sprite{
+                    .shader = &def_shader,
+                    .texture = &hose_texture,
+                    .vertex_data = ev,
+                    .vertex_count = 3 // @TODO: HARDCODED
+            });
+            GCR.add_component(enemy, Transform{
+                    .pos = glm::vec3(-7.0f + (1.0f * i), 8.0f, 0.0f),
+                    .origin = glm::vec3(-7.0f + (1.0f * i), 8.0f, 0.0f),
+            });
+            GCR.add_component(enemy, Enemy{
+                    .type = HOSE
+            });
+            GCR.add_component(enemy, AI{
+                    .attack_cooldown = 0.75f,
+                    .last_attacked = 0.0f + (1.25f * i)
+            });
+            GCR.add_component(enemy, Hitbox{
+                    .health = 50,
+                    .hitbox = glm::vec3(0.5f, 0.5f, 0.5f)
+            });
+            auto &enemy_sprite = GCR.get_component<Sprite>(enemy);
+            enemy_sprite.setup();
+        } else {
+            Entity enemy = GCR.create_entity();
+        GCR.add_component(enemy, State{
+                .active = false,
+        });
+        GCR.add_component(enemy, Sprite{
+                .shader = &def_shader,
+                .texture = &star_texture,
+                .vertex_data = ev,
+                .vertex_count = 3 // @TODO: HARDCODED
+        });
+        GCR.add_component(enemy, Transform{
+                .pos = glm::vec3(-7.0f + (1.0f * i), 8.0f, 0.0f),
+                .origin = glm::vec3(-7.0f + (1.0f * i), 8.0f, 0.0f),
+        });
+        GCR.add_component(enemy, Enemy{
+                .type = STAR
+        });
+        GCR.add_component(enemy, AI{
+                .attack_cooldown = 1.0f,
+                .last_attacked = 0.0f + (0.25f * i)
+        });
+        GCR.add_component(enemy, Hitbox{
+                .health = 50,
+                .hitbox = glm::vec3(0.5f, 0.5f, 0.5f)
+        });
+        auto &enemy_sprite = GCR.get_component<Sprite>(enemy);
+        enemy_sprite.setup();
+        }
+    }
+
     // boss
     Entity boss = GCR.create_entity();
     std::cout << "BOSS ID ::: " << boss << std::endl;
 
     // enemy bullets
-    for (int i = 0; i < Entities::E_BULLET_AMT; i++) { // can only use 10 bullets for now...
+    for (int i = 0; i < Entities::E_BULLET_AMT; i++) {
         Entity enemy_bullet = GCR.create_entity();
         GCR.add_component(enemy_bullet, State{
                 .active = false,
@@ -423,10 +512,6 @@ int main() {
         GCR.add_component(enemy_bullet, Projectile{});
         auto &bullet_sprite = GCR.get_component<Sprite>(enemy_bullet);
         bullet_sprite.setup();
-    }
-
-    for (int i = 0; i < Entities::E_TLASER_AMT; i++) {
-        Entity enemy_bullet = GCR.create_entity();
     }
 
     float dt = 0.0f;
