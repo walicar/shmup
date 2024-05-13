@@ -234,12 +234,9 @@ int main() {
         GCR.add_component(player_bomb, Transform{});
         GCR.add_component(player_bomb, Projectile{
             .type = BOMB,
-            .damage = 10
         });
         GCR.add_component(player_bomb, Player{});
-        GCR.add_component(player_bomb, Hitbox{
-                .hitbox = glm::vec3(100.0f)
-        });
+        GCR.add_component(player_bomb, Hitbox{});
         auto &bullet_sprite = GCR.get_component<Sprite>(player_bomb);
         bullet_sprite.setup();
     }

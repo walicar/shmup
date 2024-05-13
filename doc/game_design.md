@@ -5,12 +5,12 @@ Ver 2.0
 24-04-27
 
 ## Revisions
-- Remove Star, Hose, and a lot of Stretch Goals
-  - To meet May 28th deadline
 - Change bomb visual
   - It is now its own asset, and spawns like a bullet, and fades away
 - There are no lives anymore and you can't regain bombs
   - to increase the challenge of the game
+- Bomb will no longer clear all enemies, it will only clear projectiles
+  - Since the demo is so short, you could just use 3 bombs and get to the final stage.
 
 ## Summary
 SHMUP is a shoot em up bullet hell game, where the player controls a spaceship battling against aliens in outer space having to bob and weave through enemy projectiles to avoid getting hit. The focus of this game is to provide a challenging and appealing experience through game mechanics and visual graphics.
