@@ -88,18 +88,15 @@ A level will consist of 5 checkpoints, the requirement to progress is to destroy
 - Sprite Animations
 	- Idle animations
 
-## Alpha Report
+## Beta Report
 
 **Completed Features**
-
-- General controls, except bomb button
-- Focus movement
-- Ability to shoot projectiles and lasers
-- A collision detection system
-- Basic sprites
-- ECS
-- Enemy movement
-- Enemy shoots at player
+- Level progression implemented through `spawn_system`
+- Different enemy types: Snipe, Boss, Star, Hose
+- Display health and bombs
+- Player dies when hp <= 0
+- Implement bomb attack
+- Update textures
 
 ____
 ![The player shooting at enemy grunts](img/shmup4.png)
