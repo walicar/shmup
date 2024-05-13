@@ -85,7 +85,7 @@ void AISystem::update(float time) {
                 } else {
                     if (coin_flip()) {
                         ebullet_proj.damage = 1000;
-                        velocity.force = glm::vec3(0.0f, -20.0f, 0.0f);
+                        velocity.force = glm::vec3(0.0f, -10.0f, 0.0f);
                     } else {
                         velocity.force = glm::vec3(0.0f, -2.0f, 0.0f);
                     }
