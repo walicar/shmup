@@ -52,6 +52,10 @@ void CollisionSystem::update(float dt) {
                 }
 
                 actor_hp -= damage;
+                if (actor_hp <= 0) {
+                    actor_active = false;
+                }
+
                 printf("ColSystem: projectile [%d] overlaps actor [%d], HP [%d]\n", nt2, nt1, actor_hp);
             }
         }

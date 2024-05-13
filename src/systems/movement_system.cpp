@@ -2,6 +2,7 @@
 #include "../ecs/coordinator.h"
 #include <iostream>
 #include "../components/transform.h"
+#include "../components/state.h"
 
 extern Coordinator GCR;
 
@@ -11,7 +12,10 @@ void MovementSystem::init() {
 
 void MovementSystem::update(float dt) {
     float factor = 10.0f;
+    auto active = GCR.get_component<State>(Entities::PLAYER).active;
+
     for (auto &entity: entities) {
+        if (!active) continue;
 
         if (buttons.test(static_cast<std::size_t>(InputButtons::SHIFT))) {
             factor = 3.0f;

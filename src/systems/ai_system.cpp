@@ -26,10 +26,6 @@ void AISystem::update(float time) {
     for (auto& entity : entities) {
         auto &is_active = GCR.get_component<State>(entity).active;
         if (!is_active) continue;
-        auto &health = GCR.get_component<Hitbox>(entity).health;
-        if (health <= 0) {
-            is_active = false;
-        }
 
         auto &origin = GCR.get_component<Transform>(entity).origin;
         auto &pos = GCR.get_component<Transform>(entity).pos;
