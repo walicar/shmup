@@ -99,11 +99,11 @@ A level will consist of 5 checkpoints, the requirement to progress is to destroy
 - Update textures
 
 ____
-![The player shooting at enemy grunts](img/shmup4.png)
+![The player shooting at enemy grunts](img/shmup3.png)
 
-![The player encountering a large amount of bullets!](img/shmup3.png)
+![The player encountering a large amount of bullets!](img/shmup5.png)
 
 ![Player fighting against snipe enemies](img/shmup2.png)
 
-![The player in a boss fight!](img/shmup1.png)
+![The player in a boss fight!](img/shmup4.png)
 
