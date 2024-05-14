@@ -527,7 +527,7 @@ int main() {
             .vertex_count = 3 // @TODO: HARDCODED
     });
     GCR.add_component(boss, Transform{
-            .pos = glm::vec3(0.0f, 4.0f, 0.0f),
+            .pos = glm::vec3(0.0f, 3.5f, 0.0f),
             .origin = glm::vec3(0.0f, 4.0f, 0.0f),
     });
     GCR.add_component(boss, Enemy{
