@@ -48,8 +48,6 @@ A sprite image must be created for every entity that will exist, and every entit
 	- boss_sprite: Sprite
 	- enemy_bullet: Projectile
 
-SHMUP will likely use FreeType to render text for the title and labels in its UI.
-
 ## Mechanics
 
 ### Player
