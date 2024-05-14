@@ -13,13 +13,15 @@ void TextSystem::update() {
     if (boss_mode) {
         int boss_hp = GCR.get_component<Hitbox>(Entities::BOSS).health;
         render_text("Boss Health: " + std::to_string(boss_hp) + "/800", 410.0f, 570.0f, 0.5f, glm::vec3(1.0f, 0.647f, 0.0f));
+    } else {
+        render_text("Level: " + std::to_string(checkpoint), 410.0f, 570.0f, 0.5f, glm::vec3(1.0f, 0.0f, 1.0f));
     }
-
 }
 
 void TextSystem::init(Shader &shader, FT_Library &ft, FT_Face &face) {
     GCR.add_listener(METHOD_LISTENER(Events::Game::BOMB_USED, TextSystem::bomb_used)); // lambda preferred?
     GCR.add_listener(METHOD_LISTENER(Events::Game::BOSS_TIME, TextSystem::boss_time)); // lambda preferred?
+    GCR.add_listener(METHOD_LISTENER(Events::Game::WAVE_DONE, TextSystem::next_wave)); // lambda preferred?
 
     text_shader = &shader;
     FT_Set_Pixel_Sizes(face, 0, 48);
@@ -114,4 +116,8 @@ void TextSystem::bomb_used(Event &e) {
 
 void TextSystem::boss_time(Event &e) {
     boss_mode = true;
+}
+
+void TextSystem::next_wave(Event &e) {
+    checkpoint += 1;
 }

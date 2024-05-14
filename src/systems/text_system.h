@@ -28,9 +28,11 @@ private:
 
     int bombs_left = 3;
     bool boss_mode = false;
+    int checkpoint = 0;
 
     void bomb_used(Event &e);
     void boss_time(Event &e);
+    void next_wave(Event &e);
 
 public:
     void update();
