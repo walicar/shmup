@@ -54,7 +54,7 @@ A sprite image must be created for every entity that will exist, and every entit
 The player will only have one life, they will win the game if they defeat the final boss, or lose if they die prematurely. The player can use bombs to clear the screen of projectiles if they feel like they are in a pinch. The damage numbers on the beam and bullet attacks will need to be tested for balance, so they will be set by placeholder numbers for what I feel is best for now.
 
 - "Focus dodging" - the player can hold SHIFT to display the players hurt box and slow down their movement to aid them in dodging projectiles  
-- Bomb - the player can press "I" to erase all enemy projectiles
+- Bomb - the player can press "l" to erase all enemy projectiles
 	- Can only use 3 bombs
 - Beam - the player can press "k" to shoot a laser beam that deals high damage, hitscan, but at the cost of a small hurt box 
 	- 1 damage per timestamp
