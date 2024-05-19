@@ -17,8 +17,12 @@ void MovementSystem::update(float dt) {
     for (auto &entity: entities) {
         if (!active) continue;
 
+        auto& core_state = GCR.get_component<State>(Entities::P_CORE);
         if (buttons.test(static_cast<std::size_t>(InputButtons::SHIFT))) {
             factor = 3.0f;
+            core_state.active = true;
+        } else {
+            core_state.active = false;
         }
 
         auto &transform = GCR.get_component<Transform>(entity);

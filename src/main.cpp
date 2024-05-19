@@ -72,6 +72,7 @@ int main() {
     Texture star_texture = ResourceManager::load_texture("textures/star.png", "star", true);
     Texture hose_texture = ResourceManager::load_texture("textures/hose.png", "hose", true);
     Texture boss_texture = ResourceManager::load_texture("textures/boss.png", "boss", true);
+    Texture core_texture = ResourceManager::load_texture("textures/core.png", "core", true);
 
     glm::mat4 projection = glm::ortho(0.0f, static_cast<float>(SCR_WIDTH), 0.0f, static_cast<float>(SCR_HEIGHT));
     text_shader.use();
@@ -301,11 +302,29 @@ int main() {
         bullet_sprite.setup();
     }
 
+    // player core, it's the visual representation of the hitbox
+    Entity player_core = GCR.create_entity();
+    GCR.add_component(player_core, State{
+            .active = false
+    });
+    GCR.add_component(player_core, Sprite{
+            .shader = &def_shader,
+            .texture = &core_texture,
+            //.scale_factor = glm::vec3(0.05f),
+            .vertex_data = v,
+            .vertex_count = 3 // @TODO: HARDCODED
+    });
+    GCR.add_component(player_core, Player{});
+    GCR.add_component(player_core, Transform{});
+    auto &player_core_sprite = GCR.get_component<Sprite>(player_core);
+    player_core_sprite.setup();
+
     // enemies
 
     // enemy grunts
     for (int i = 0; i < Entities::E_AMT; i++) {
         Entity enemy = GCR.create_entity();
+        printf("creating GRUNT [%d]\n", enemy);
         GCR.add_component(enemy, State{
                 .active = true,
         });
@@ -335,6 +354,7 @@ int main() {
 
     // snipe
     for (int i = 0; i < Entities::E_AMT; i++) {
+        printf("creating SNIPE [%d]\n", i);
         Entity enemy = GCR.create_entity();
         GCR.add_component(enemy, State{
                 .active = false,
@@ -366,6 +386,7 @@ int main() {
     // hose
     for (int i = 0; i < Entities::E_AMT; i++) {
         Entity enemy = GCR.create_entity();
+        printf("creating HOSE [%d]\n", enemy);
         GCR.add_component(enemy, State{
                 .active = false,
         });
@@ -397,6 +418,7 @@ int main() {
     // star
     for (int i = 0; i < Entities::E_AMT; i++) {
         Entity enemy = GCR.create_entity();
+        printf("creating STAR [%d]\n", enemy);
         GCR.add_component(enemy, State{
                 .active = false,
         });
@@ -426,8 +448,9 @@ int main() {
     }
 
     for (int i = 0; i < Entities::E_AMT; i++) {
+        Entity enemy = GCR.create_entity();
         if (i % 3 == 0) {
-            Entity enemy = GCR.create_entity();
+            printf("creating SNIPE [%d]\n", enemy);
             GCR.add_component(enemy, State{
                     .active = false,
             });
@@ -454,9 +477,7 @@ int main() {
             auto &enemy_sprite = GCR.get_component<Sprite>(enemy);
             enemy_sprite.setup();
         } else if (i % 3 == 1) {
-
-
-            Entity enemy = GCR.create_entity();
+            printf("creating HOSE [%d]\n", enemy);
             GCR.add_component(enemy, State{
                     .active = false,
             });
@@ -484,7 +505,7 @@ int main() {
             auto &enemy_sprite = GCR.get_component<Sprite>(enemy);
             enemy_sprite.setup();
         } else {
-            Entity enemy = GCR.create_entity();
+            printf("creating STAR [%d]\n", enemy);
             GCR.add_component(enemy, State{
                     .active = false,
             });

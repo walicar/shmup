@@ -20,6 +20,11 @@ void SpriteSystem::update(float time) {
             continue;
 
         auto &movement = GCR.get_component<Transform>(entity);
+
+        if (entity == Entities::P_CORE) {
+            movement = GCR.get_component<Transform>(Entities::PLAYER);
+        }
+
         auto &sprite = GCR.get_component<Sprite>(entity);
         auto transform = glm::mat4(1.0f);
         transform = glm::scale(transform, sprite.scale_factor);
@@ -47,7 +52,7 @@ void SpriteSystem::update(float time) {
         glUniform1f(tloc, sprite.transparency);
         glBindVertexArray(sprite.VAO);
 
-        if (entity == Entities::PLAYER || (entity >= Entities::E_GRUNT && entity <= Entities::BOSS)) {
+        if (entity == Entities::PLAYER || entity == Entities::P_CORE || (entity >= Entities::E_GRUNT && entity <= Entities::BOSS)) {
             glDrawArrays(GL_TRIANGLES, 0, 3);
         } else {
             glDrawArrays(GL_TRIANGLE_FAN, 0, 4);

@@ -35,7 +35,8 @@ namespace Entities {
     const Entity P_BOMB = 2;
     const Entity P_BOMB_AMT = 3;
     const Entity P_BULLET = 5;
-    const Entity P_BULLET_AMT = 45;
+    const Entity P_BULLET_AMT = 44;
+    const Entity P_CORE = 49;
     // Enemies
     const Entity E_AMT = 15;
     const Entity E_GRUNT = 50;
@@ -43,8 +44,6 @@ namespace Entities {
     // Enemy Projectiles
     const Entity E_BULLET = 126;
     const Entity E_BULLET_AMT = 1000;
-    const Entity E_TLASER = 1126;
-    const Entity E_TLASER_AMT = 100;
 }
 
 enum EnemyType {
