@@ -3,8 +3,9 @@
 #include "../components/sprite.h"
 #include "../components/transform.h"
 #include "src/components/state.h"
-#include <gtc/matrix_transform.hpp>
 #include <gtc/type_ptr.hpp>
+#define GLM_ENABLE_EXPERIMENTAL
+#include "glm/gtx/string_cast.hpp"
 
 extern Coordinator GCR;
 
@@ -20,12 +21,18 @@ void SpriteSystem::update(float time) {
 
         auto &movement = GCR.get_component<Transform>(entity);
         auto &sprite = GCR.get_component<Sprite>(entity);
-        glm::mat4 transform = glm::mat4(1.0f);
+        auto transform = glm::mat4(1.0f);
         transform = glm::scale(transform, sprite.scale_factor);
         transform = glm::translate(transform, movement.pos);
 
         if (entity == Entities::PLAYER) {
             transform = transform * rotation;
+        }
+
+        bool isOffscreen = (movement.pos.x < -10.0f || movement.pos.x > 10.0f || movement.pos.y < -10.0f || movement.pos.y > 10.0f);
+
+        if (isOffscreen and entity != Entities::PLAYER) { // cleanup particles thatare OOB
+            state.active = false;
         }
 
         // render
