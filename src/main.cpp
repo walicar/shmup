@@ -72,7 +72,6 @@ int main() {
     Texture star_texture = ResourceManager::load_texture("textures/star.png", "star", true);
     Texture hose_texture = ResourceManager::load_texture("textures/hose.png", "hose", true);
     Texture boss_texture = ResourceManager::load_texture("textures/boss.png", "boss", true);
-    Texture core_texture = ResourceManager::load_texture("textures/core.png", "core", true);
 
     glm::mat4 projection = glm::ortho(0.0f, static_cast<float>(SCR_WIDTH), 0.0f, static_cast<float>(SCR_HEIGHT));
     text_shader.use();
@@ -309,7 +308,7 @@ int main() {
     });
     GCR.add_component(player_core, Sprite{
             .shader = &def_shader,
-            .texture = &core_texture,
+            .texture = &ship_texture,
             //.scale_factor = glm::vec3(0.05f),
             .vertex_data = v,
             .vertex_count = 3 // @TODO: HARDCODED
