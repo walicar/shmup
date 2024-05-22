@@ -29,8 +29,8 @@ void ProjectileSystem::update(float time) {
             auto &bullet_state = GCR.get_component<State>(entity);
             auto &projectile_last_shot = GCR.get_component<Projectile>(entity).last_shot;
             if (!bullet_state.active) {
-                glm::vec3 player_location = GCR.get_component<Transform>(0).pos;
-                glm::vec3 player_scale = GCR.get_component<Sprite>(0).scale_factor;
+                glm::vec3 player_location = GCR.get_component<Transform>(Entities::PLAYER).pos;
+                glm::vec3 player_scale = GCR.get_component<Sprite>(Entities::PLAYER).scale_factor;
                 auto &transform = GCR.get_component<Transform>(entity);
                 transform.pos.y = player_location.y + (6.0f * player_scale.y);
                 transform.pos.x = player_location.x;
@@ -50,8 +50,8 @@ void ProjectileSystem::update(float time) {
             if (buttons.test(static_cast<std::size_t>(InputButtons::K))) {
                 // we could just bake this in later
                 // implement a coordinate system
-                glm::vec3 player_location = GCR.get_component<Transform>(0).pos;
-                glm::vec3 player_scale = GCR.get_component<Sprite>(0).scale_factor;
+                glm::vec3 player_location = GCR.get_component<Transform>(Entities::PLAYER).pos;
+                glm::vec3 player_scale = GCR.get_component<Sprite>(Entities::PLAYER).scale_factor;
                 auto &transform = GCR.get_component<Transform>(entity);
                 transform.pos.y = player_location.y + (6.0f * player_scale.y);
                 transform.pos.x = player_location.x;
@@ -71,8 +71,8 @@ void ProjectileSystem::update(float time) {
                 if (bomb_offset > 2) continue; // can't shoot anymore bombs
                 Event event(Events::Game::BOMB_USED); // update UI
                 GCR.send_event(event);
-                glm::vec3 player_location = GCR.get_component<Transform>(0).pos;
-                glm::vec3 player_scale = GCR.get_component<Sprite>(0).scale_factor;
+                glm::vec3 player_location = GCR.get_component<Transform>(Entities::PLAYER).pos;
+                glm::vec3 player_scale = GCR.get_component<Sprite>(Entities::PLAYER).scale_factor;
                 auto &transform = GCR.get_component<Transform>(entity);
                 transform.pos.y = player_location.y + (6.0f * player_scale.y);
                 transform.pos.x = player_location.x;
