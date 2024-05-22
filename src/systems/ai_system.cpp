@@ -89,11 +89,11 @@ void AISystem::update(float time) {
                     velocity.force = direction * speed;
                 } else {
                     if (coin_flip()) {
-                        ebullet_proj.damage = 1000;
+                        ebullet_proj.damage = 5;
                         velocity.force = glm::vec3(0.0f, -0.5f, 0.0f);
                     } else {
                         ebullet_proj.damage = 10;
-                        velocity.force = glm::vec3(0.0f, -20.0f, 0.0f);
+                        velocity.force = glm::vec3(0.0f, -5.0f, 0.0f);
                     }
                 }
             }
