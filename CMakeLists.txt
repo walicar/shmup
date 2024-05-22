@@ -24,7 +24,6 @@ add_executable(code
         src/shader.cpp
         src/resource_manager.cpp
         src/texture.cpp
-        src/utils.cpp
         src/systems/sprite_system.cpp
         src/window_manager.cpp
         src/systems/movement_system.cpp
