@@ -27,7 +27,10 @@ WindowManager::WindowManager(std::string const &title, unsigned int width, unsig
         glfwTerminate();
     }
 
-    glViewport(0, 0, width, height);
+    int f_width, f_height;
+    glfwGetFramebufferSize(window, &f_width, &f_height);
+
+    glViewport(0, 0, f_width, f_height);
     // glfwSwapInterval(2);
 }
 
