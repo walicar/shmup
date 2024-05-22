@@ -42,9 +42,9 @@ void AISystem::update(float time) {
         }
 
         auto &ai = GCR.get_component<AI>(entity);
-        if (ai.last_attacked + ai.attack_cooldown < time) {
+        if (ai.last_attacked + ai.attack_cooldown < time && entity < Entities::E_BULLET) {
             Entity ebullet_loc = next_bullet() + Entities::E_BULLET;
-            // printf("shooting bullet [%d]\n", ebullet_loc);
+            // printf("[%d] is shooting bullet [%d]\n", entity, ebullet_loc);
             auto &ebullet_sprite = GCR.get_component<Sprite>(ebullet_loc);
             auto &ebullet_state = GCR.get_component<State>(ebullet_loc);
             auto &ebullet_proj = GCR.get_component<Projectile>(ebullet_loc);
