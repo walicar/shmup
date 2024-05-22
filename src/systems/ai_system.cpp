@@ -15,11 +15,11 @@ extern Coordinator GCR;
 void AISystem::init() {}
 
 bool coin_flip() {
-    std::random_device rd;  // Obtain a random number from hardware
-    std::mt19937 eng(rd()); // Seed the generator
-    std::uniform_int_distribution<> distr(0, 1); // Define the range for 0 and 1
+    std::random_device rd;
+    std::mt19937 eng(rd());
+    std::uniform_int_distribution<> distr(0, 1);
 
-    return static_cast<bool>(distr(eng));  // Convert to bool (0 becomes false, 1 becomes true)
+    return static_cast<bool>(distr(eng));
 }
 
 void AISystem::update(float time) {
@@ -37,7 +37,9 @@ void AISystem::update(float time) {
         auto &origin = GCR.get_component<Transform>(entity).origin;
         auto &pos = GCR.get_component<Transform>(entity).pos;
         auto &type = GCR.get_component<Enemy>(entity).type;
-        pos.x = (glm::sin(time) * 2.0f) + origin.x;
+        if (entity < Entities::E_BULLET) {
+            pos.x = (glm::sin(time) * 2.0f) + origin.x;
+        }
 
         auto &ai = GCR.get_component<AI>(entity);
         if (ai.last_attacked + ai.attack_cooldown < time) {
