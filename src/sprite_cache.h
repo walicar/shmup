@@ -8,7 +8,7 @@ class SpriteCache {
 public:
     static std::unordered_map<std::string, Sprite> sprites;
 
-    static void load_sprite(Shader &shader, Texture &texture, float* vertex_data, int vertex_count, std::string name);
+    static Sprite load_sprite(Shader &shader, Texture &texture, float* vertex_data, int vertex_count, std::string name);
 
     static Sprite get_sprite(std::string name);
 

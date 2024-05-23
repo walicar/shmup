@@ -2,9 +2,9 @@
 
 std::unordered_map<std::string, Sprite> SpriteCache::sprites;
 
-void SpriteCache::load_sprite(Shader &shader, Texture &texture, float *vertex_data, int vertex_count, std::string name) {
+Sprite SpriteCache::load_sprite(Shader &shader, Texture &texture, float *vertex_data, int vertex_count, std::string name) {
     sprites[name] = setup_sprite(shader, texture, vertex_data, vertex_count);
-
+    return sprites[name];
 }
 
 Sprite SpriteCache::setup_sprite(Shader &shader, Texture &texture, float* vertex_data, int vertex_count) {
