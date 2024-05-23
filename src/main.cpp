@@ -105,7 +105,7 @@ int main() {
     glUniformMatrix4fv(glGetUniformLocation(text_shader.ID, "projection"), 1, GL_FALSE, glm::value_ptr(projection));
 
     Sprite player_sprite = SpriteCache::load_sprite(def_shader, ship_texture, v, 3, "player");
-    Sprite player_laser_sprite = SpriteCache::load_sprite(def_shader, ship_texture, lv, 4, "plaser");
+    Sprite player_laser_sprite = SpriteCache::load_sprite(def_shader, laser_texture, lv, 4, "plaser");
     Sprite player_bomb_sprite = SpriteCache::load_sprite(def_shader, bomb_texture, bv, 4, "pbomb");
     Sprite player_bullet_sprite = SpriteCache::load_sprite(def_shader, bullet_texture, bv, 4, "pbullet");
     //
