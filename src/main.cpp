@@ -5,6 +5,7 @@
 #include <iostream>
 #include "shader.h"
 #include "resource_manager.h"
+#include "sprite_cache.h"
 #include "window_manager.h"
 #include "ecs/coordinator.h"
 #include "ecs/types.h"
@@ -39,6 +40,32 @@ void handle_quit(Event &e) {
 
 const unsigned int SCR_WIDTH = 800;
 const unsigned int SCR_HEIGHT = 600;
+
+float v[] = {
+        -0.25f, -0.5f, 0.0f, 0.0f, 0.0f,       // bottom left
+        0.25f, -0.5f, 0.0f, 1.0f, 0.0f,       // bottom right
+        0.0f, 0.5f, 0.0f, 0.5f, 1.0f        // upper middle
+};
+
+float lv[] = {
+        -0.25f, -1.0f, 0.0f, 0.0f, 0.0f,
+        0.25f, -1.0f, 0.0f, 1.0f, 0.0f,
+        0.25f, 1.0f, 0.0f, 1.0f, 1.0f,
+        -0.25f, 1.0f, 0.0f, 0.0f, 1.0f
+};
+
+float bv[] = {
+        -0.25f, -0.5f, 0.0f, 0.0f, 0.0f,
+        0.25f, -0.5f, 0.0f, 1.0f, 0.0f,
+        0.25f, 0.5f, 0.0f, 1.0f, 1.0f,
+        -0.25f, 0.5f, 0.0f, 0.0f, 1.0f
+};
+
+float ev[] = {
+        -0.25f, 0.5f, 0.0f, 0.0, 0.0,
+        0.25f, 0.5f, 0.0f, 1.0, 0.0,
+        0.0f, -0.5f, 0.0f, 0.5, 1.0
+};
 
 int main() {
     // application entry
@@ -77,31 +104,17 @@ int main() {
     text_shader.use();
     glUniformMatrix4fv(glGetUniformLocation(text_shader.ID, "projection"), 1, GL_FALSE, glm::value_ptr(projection));
 
-    float v[] = {
-            -0.25f, -0.5f, 0.0f, 0.0f, 0.0f,       // bottom left
-            0.25f, -0.5f, 0.0f, 1.0f, 0.0f,       // bottom right
-            0.0f, 0.5f, 0.0f, 0.5f, 1.0f        // upper middle
-    };
-
-    float lv[] = {
-            -0.25f, -1.0f, 0.0f, 0.0f, 0.0f,
-            0.25f, -1.0f, 0.0f, 1.0f, 0.0f,
-            0.25f, 1.0f, 0.0f, 1.0f, 1.0f,
-            -0.25f, 1.0f, 0.0f, 0.0f, 1.0f
-    };
-
-    float bv[] = {
-            -0.25f, -0.5f, 0.0f, 0.0f, 0.0f,
-            0.25f, -0.5f, 0.0f, 1.0f, 0.0f,
-            0.25f, 0.5f, 0.0f, 1.0f, 1.0f,
-            -0.25f, 0.5f, 0.0f, 0.0f, 1.0f
-    };
-
-    float ev[] = {
-            -0.25f, 0.5f, 0.0f, 0.0, 0.0,
-            0.25f, 0.5f, 0.0f, 1.0, 0.0,
-            0.0f, -0.5f, 0.0f, 0.5, 1.0
-    };
+    Sprite player_sprite = SpriteCache::load_sprite(def_shader, ship_texture, v, 3, "player");
+    Sprite player_laser_sprite = SpriteCache::load_sprite(def_shader, ship_texture, lv, 4, "plaser");
+    Sprite player_bomb_sprite = SpriteCache::load_sprite(def_shader, bomb_texture, bv, 4, "pbomb");
+    Sprite player_bullet_sprite = SpriteCache::load_sprite(def_shader, bullet_texture, bv, 4, "pbullet");
+    //
+    Sprite enemy_bullet_sprite = SpriteCache::load_sprite(def_shader, ebullet_texture, bv, 4, "ebullet");
+    Sprite grunt_sprite = SpriteCache::load_sprite(def_shader, eship_texture, ev, 3, "grunt");
+    Sprite snipe_sprite = SpriteCache::load_sprite(def_shader, snipe_texture, ev, 3, "snipe");
+    Sprite hose_sprite = SpriteCache::load_sprite(def_shader, hose_texture, ev, 3, "hose");
+    Sprite star_sprite = SpriteCache::load_sprite(def_shader, star_texture, ev, 3, "star");
+    //
 
     // register components
     GCR.register_component<Sprite>();
@@ -211,12 +224,7 @@ int main() {
     GCR.add_component(player, State{
             .active = true
     });
-    GCR.add_component(player, Sprite{
-            .shader = &def_shader,
-            .texture = &ship_texture,
-            .vertex_data = v,
-            .vertex_count = 3 // @TODO: HARDCODED
-    });
+    GCR.add_component(player, player_sprite);
     GCR.add_component(player, Transform{});
     GCR.add_component(player, Player{});
     GCR.add_component(player, Controllable{});
@@ -224,20 +232,13 @@ int main() {
             .health = 300,
             .hitbox = glm::vec3(0.05f, 0.05f, 0.05f)
     });
-    auto &sprite = GCR.get_component<Sprite>(player);
-    sprite.setup();
 
     // player projectiles
 
     // laser...
     Entity player_laser = GCR.create_entity();
     GCR.add_component(player_laser, State{});
-    GCR.add_component(player_laser, Sprite{
-            .shader = &def_shader,
-            .texture = &laser_texture,
-            .vertex_data = lv,
-            .vertex_count = 4 // @TODO: HARDCODED
-    });
+    GCR.add_component(player_laser, player_laser_sprite);
 
     GCR.add_component(player_laser, Transform{
             .pos = glm::vec3(10.0f, 0.0f, 0.0f)
@@ -250,19 +251,12 @@ int main() {
     GCR.add_component(player_laser, Projectile{
             .damage = 100 // debug damage, set back to 1
     });
-    auto &laser_sprite = GCR.get_component<Sprite>(player_laser);
-    laser_sprite.setup();
 
     // bombs
     for (int i = 0; i < Entities::P_BOMB_AMT; i++) {
         Entity player_bomb = GCR.create_entity();
         GCR.add_component(player_bomb, State{});
-        GCR.add_component(player_bomb, Sprite{
-                .shader = &def_shader,
-                .texture = &bomb_texture,
-                .vertex_data = bv,
-                .vertex_count = 4 // @TODO: HARDCODED
-        });
+        GCR.add_component(player_bomb, player_bomb_sprite);
         GCR.add_component(player_bomb, Transform{});
         GCR.add_component(player_bomb, Projectile{
                 .type = BOMB,
@@ -271,8 +265,6 @@ int main() {
         GCR.add_component(player_bomb, Hitbox{
                 .hitbox = glm::vec3(100.0f)
         });
-        auto &bullet_sprite = GCR.get_component<Sprite>(player_bomb);
-        bullet_sprite.setup();
     }
 
     // bullets
@@ -281,12 +273,7 @@ int main() {
         GCR.add_component(player_bullet, State{
                 .active = false // redundant
         });
-        GCR.add_component(player_bullet, Sprite{
-                .shader = &def_shader,
-                .texture = &bullet_texture,
-                .vertex_data = bv,
-                .vertex_count = 4 // @TODO: HARDCODED
-        });
+        GCR.add_component(player_bullet, player_bullet_sprite);
 
         GCR.add_component(player_bullet, Transform{});
         GCR.add_component(player_bullet, Player{});
@@ -297,8 +284,6 @@ int main() {
         GCR.add_component(player_bullet, Projectile{
                 .damage = 15
         });
-        auto &bullet_sprite = GCR.get_component<Sprite>(player_bullet);
-        bullet_sprite.setup();
     }
 
     // player core, it's the visual representation of the hitbox
@@ -327,12 +312,7 @@ int main() {
         GCR.add_component(enemy, State{
                 .active = true,
         });
-        GCR.add_component(enemy, Sprite{
-                .shader = &def_shader,
-                .texture = &eship_texture,
-                .vertex_data = ev,
-                .vertex_count = 3 // @TODO: HARDCODED
-        });
+        GCR.add_component(enemy, grunt_sprite);
         GCR.add_component(enemy, Transform{
                 .pos = glm::vec3(-7.0f + (1.0f * i), 8.0f, 0.0f),
                 .origin = glm::vec3(-7.0f + (1.0f * i), 8.0f, 0.0f),
@@ -347,8 +327,6 @@ int main() {
         GCR.add_component(enemy, Hitbox{
                 .hitbox = glm::vec3(0.5f, 0.5f, 0.5f)
         });
-        auto &enemy_sprite = GCR.get_component<Sprite>(enemy);
-        enemy_sprite.setup();
     }
 
     // snipe
@@ -358,12 +336,7 @@ int main() {
         GCR.add_component(enemy, State{
                 .active = false,
         });
-        GCR.add_component(enemy, Sprite{
-                .shader = &def_shader,
-                .texture = &snipe_texture,
-                .vertex_data = ev,
-                .vertex_count = 3 // @TODO: HARDCODED
-        });
+        GCR.add_component(enemy, snipe_sprite);
         GCR.add_component(enemy, Transform{
                 .pos = glm::vec3(-7.0f + (1.0f * i), 8.0f, 0.0f),
                 .origin = glm::vec3(-7.0f + (1.0f * i), 8.0f, 0.0f),
@@ -378,8 +351,6 @@ int main() {
         GCR.add_component(enemy, Hitbox{
                 .hitbox = glm::vec3(0.5f, 0.5f, 0.5f)
         });
-        auto &enemy_sprite = GCR.get_component<Sprite>(enemy);
-        enemy_sprite.setup();
     }
 
     // hose
@@ -389,12 +360,7 @@ int main() {
         GCR.add_component(enemy, State{
                 .active = false,
         });
-        GCR.add_component(enemy, Sprite{
-                .shader = &def_shader,
-                .texture = &hose_texture,
-                .vertex_data = ev,
-                .vertex_count = 3 // @TODO: HARDCODED
-        });
+        GCR.add_component(enemy, hose_sprite);
         GCR.add_component(enemy, Transform{
                 .pos = glm::vec3(-7.0f + (1.0f * i), 8.0f, 0.0f),
                 .origin = glm::vec3(-7.0f + (1.0f * i), 8.0f, 0.0f),
@@ -410,8 +376,6 @@ int main() {
                 .health = 50,
                 .hitbox = glm::vec3(0.5f, 0.5f, 0.5f)
         });
-        auto &enemy_sprite = GCR.get_component<Sprite>(enemy);
-        enemy_sprite.setup();
     }
 
     // star
@@ -421,12 +385,7 @@ int main() {
         GCR.add_component(enemy, State{
                 .active = false,
         });
-        GCR.add_component(enemy, Sprite{
-                .shader = &def_shader,
-                .texture = &star_texture,
-                .vertex_data = ev,
-                .vertex_count = 3 // @TODO: HARDCODED
-        });
+        GCR.add_component(enemy, star_sprite);
         GCR.add_component(enemy, Transform{
                 .pos = glm::vec3(-7.0f + (1.0f * i), 8.0f, 0.0f),
                 .origin = glm::vec3(-7.0f + (1.0f * i), 8.0f, 0.0f),
@@ -442,8 +401,6 @@ int main() {
                 .health = 50,
                 .hitbox = glm::vec3(0.5f, 0.5f, 0.5f)
         });
-        auto &enemy_sprite = GCR.get_component<Sprite>(enemy);
-        enemy_sprite.setup();
     }
 
     for (int i = 0; i < Entities::E_AMT; i++) {
@@ -453,12 +410,7 @@ int main() {
             GCR.add_component(enemy, State{
                     .active = false,
             });
-            GCR.add_component(enemy, Sprite{
-                    .shader = &def_shader,
-                    .texture = &snipe_texture,
-                    .vertex_data = ev,
-                    .vertex_count = 3 // @TODO: HARDCODED
-            });
+            GCR.add_component(enemy, snipe_sprite);
             GCR.add_component(enemy, Transform{
                     .pos = glm::vec3(-7.0f + (1.0f * i), 8.0f, 0.0f),
                     .origin = glm::vec3(-7.0f + (1.0f * i), 8.0f, 0.0f),
@@ -473,19 +425,12 @@ int main() {
             GCR.add_component(enemy, Hitbox{
                     .hitbox = glm::vec3(0.5f, 0.5f, 0.5f)
             });
-            auto &enemy_sprite = GCR.get_component<Sprite>(enemy);
-            enemy_sprite.setup();
         } else if (i % 3 == 1) {
             printf("creating HOSE [%d]\n", enemy);
             GCR.add_component(enemy, State{
                     .active = false,
             });
-            GCR.add_component(enemy, Sprite{
-                    .shader = &def_shader,
-                    .texture = &hose_texture,
-                    .vertex_data = ev,
-                    .vertex_count = 3 // @TODO: HARDCODED
-            });
+            GCR.add_component(enemy, hose_sprite);
             GCR.add_component(enemy, Transform{
                     .pos = glm::vec3(-7.0f + (1.0f * i), 8.0f, 0.0f),
                     .origin = glm::vec3(-7.0f + (1.0f * i), 8.0f, 0.0f),
@@ -501,19 +446,12 @@ int main() {
                     .health = 50,
                     .hitbox = glm::vec3(0.5f, 0.5f, 0.5f)
             });
-            auto &enemy_sprite = GCR.get_component<Sprite>(enemy);
-            enemy_sprite.setup();
         } else {
             printf("creating STAR [%d]\n", enemy);
             GCR.add_component(enemy, State{
                     .active = false,
             });
-            GCR.add_component(enemy, Sprite{
-                    .shader = &def_shader,
-                    .texture = &star_texture,
-                    .vertex_data = ev,
-                    .vertex_count = 3 // @TODO: HARDCODED
-            });
+            GCR.add_component(enemy, hose_sprite);
             GCR.add_component(enemy, Transform{
                     .pos = glm::vec3(-7.0f + (1.0f * i), 8.0f, 0.0f),
                     .origin = glm::vec3(-7.0f + (1.0f * i), 8.0f, 0.0f),
@@ -529,8 +467,6 @@ int main() {
                     .health = 50,
                     .hitbox = glm::vec3(0.5f, 0.5f, 0.5f)
             });
-            auto &enemy_sprite = GCR.get_component<Sprite>(enemy);
-            enemy_sprite.setup();
         }
     }
 
@@ -570,12 +506,7 @@ int main() {
         GCR.add_component(enemy_bullet, State{
                 .active = false,
         });
-        GCR.add_component(enemy_bullet, Sprite{
-                .shader = &def_shader,
-                .texture = &ebullet_texture,
-                .vertex_data = bv,
-                .vertex_count = 4 // @TODO: HARDCODED
-        });
+        GCR.add_component(enemy_bullet, enemy_bullet_sprite);
 
         GCR.add_component(enemy_bullet, Transform{
                 .pos = glm::vec3(0.0f),
@@ -587,8 +518,6 @@ int main() {
         });
         GCR.add_component(enemy_bullet, Velocity{});
         GCR.add_component(enemy_bullet, Projectile{});
-        auto &bullet_sprite = GCR.get_component<Sprite>(enemy_bullet);
-        bullet_sprite.setup();
     }
 
     float dt = 0.0f;
