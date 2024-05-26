@@ -88,17 +88,17 @@ int main() {
     text_shader.use();
     glUniformMatrix4fv(glGetUniformLocation(text_shader.ID, "projection"), 1, GL_FALSE, glm::value_ptr(projection));
 
-    Sprite player_sprite = SpriteCache::load_sprite(def_shader, ship_texture, v, 3, "player");
-    Sprite player_laser_sprite = SpriteCache::load_sprite(def_shader, laser_texture, lv, 4, "plaser");
-    Sprite player_bomb_sprite = SpriteCache::load_sprite(def_shader, bomb_texture, bv, 4, "pbomb");
-    Sprite player_bullet_sprite = SpriteCache::load_sprite(def_shader, bullet_texture, bv, 4, "pbullet");
+    SpriteCache::load_sprite(def_shader, ship_texture, v, 3, "player");
+    SpriteCache::load_sprite(def_shader, laser_texture, lv, 4, "plaser");
+    SpriteCache::load_sprite(def_shader, bomb_texture, bv, 4, "pbomb");
+    SpriteCache::load_sprite(def_shader, bullet_texture, bv, 4, "pbullet");
     //
-    Sprite enemy_bullet_sprite = SpriteCache::load_sprite(def_shader, ebullet_texture, bv, 4, "ebullet");
-    Sprite grunt_sprite = SpriteCache::load_sprite(def_shader, eship_texture, ev, 3, "grunt");
-    Sprite snipe_sprite = SpriteCache::load_sprite(def_shader, snipe_texture, ev, 3, "snipe");
-    Sprite hose_sprite = SpriteCache::load_sprite(def_shader, hose_texture, ev, 3, "hose");
-    Sprite star_sprite = SpriteCache::load_sprite(def_shader, star_texture, ev, 3, "star");
-    Sprite boss_sprite = SpriteCache::load_sprite(def_shader, star_texture, ev, 3, "boss");
+    SpriteCache::load_sprite(def_shader, ebullet_texture, bv, 4, "ebullet");
+    SpriteCache::load_sprite(def_shader, eship_texture, ev, 3, "grunt");
+    SpriteCache::load_sprite(def_shader, snipe_texture, ev, 3, "snipe");
+    SpriteCache::load_sprite(def_shader, hose_texture, ev, 3, "hose");
+    SpriteCache::load_sprite(def_shader, star_texture, ev, 3, "star");
+    SpriteCache::load_sprite(def_shader, star_texture, ev, 3, "boss");
     //
 
     auto text_system = GCR.register_system<TextSystem>(); // this could be a manager
