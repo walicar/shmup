@@ -21,7 +21,7 @@ extern Coordinator GCR;
 const unsigned int SCR_WIDTH = 800;
 const unsigned int SCR_HEIGHT = 600;
 
-void Game::init() {
+Game::Game() {
     // register components
     GCR.register_component<Sprite>();
     GCR.register_component<Transform>();

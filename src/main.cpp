@@ -105,7 +105,6 @@ int main() {
     text_system->init(text_shader, ft, face);
 
     Game game;
-    game.init();
 
     float dt = 0.0f;
     while (!quit) {

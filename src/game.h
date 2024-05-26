@@ -25,7 +25,7 @@ enum GameState {
 class Game {
 public:
     GameState state = GAME_MENU;
-    void init();
+    Game();
     void loop(float dt);
     void reset();
 
