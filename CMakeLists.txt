@@ -21,9 +21,11 @@ add_executable(code
         lib/glad.c
         lib/stb_image.cpp
         src/main.cpp
+        src/game.cpp
         src/shader.cpp
-        src/resource_manager.cpp
         src/texture.cpp
+        src/resource_manager.cpp
+        src/sprite_cache.cpp
         src/systems/sprite_system.cpp
         src/window_manager.cpp
         src/systems/movement_system.cpp
@@ -34,7 +36,6 @@ add_executable(code
         src/systems/animation_system.cpp
         src/systems/spawn_system.cpp
         src/systems/text_system.cpp
-        src/sprite_cache.cpp
 )
 
 target_link_libraries(code "-framework OpenGL -framework Cocoa -framework IOKit -framework CoreVideo")

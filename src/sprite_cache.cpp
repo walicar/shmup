@@ -7,6 +7,10 @@ Sprite SpriteCache::load_sprite(Shader &shader, Texture &texture, float *vertex_
     return sprites[name];
 }
 
+Sprite SpriteCache::get_sprite(std::string name) {
+    return sprites[name];
+}
+
 Sprite SpriteCache::setup_sprite(Shader &shader, Texture &texture, float* vertex_data, int vertex_count) {
     Sprite sprite;
     sprite.shader = &shader;
