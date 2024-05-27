@@ -1,5 +1,5 @@
-#ifndef TEXT_SYSTEM_H
-#define TEXT_SYSTEM_H
+#ifndef UI_MANAGER_H
+#define UI_MANAGER_H
 
 #include <ft2build.h>
 #include FT_FREETYPE_H
