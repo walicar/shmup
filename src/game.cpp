@@ -393,7 +393,7 @@ Game::Game() {
     GCR.add_component(boss, State{
             .active = false,
     });
-    boss_sprite.scale_factor = glm::vec3(0.22f);
+    boss_sprite.scale_factor = glm::vec3(0.22f,0.22f,0.10f);
     GCR.add_component(boss, boss_sprite);
     GCR.add_component(boss, Transform{
             .pos = glm::vec3(0.0f, 3.5f, 0.0f),
