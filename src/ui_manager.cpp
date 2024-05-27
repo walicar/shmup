@@ -16,7 +16,7 @@ void UiManager::update() {
 
 void UiManager::show_title() {
     render_text("SHMUP", 10.0f, 10.0f, 1.0f, glm::vec3(1.0f, 1.0f, 0.0f));
-    render_text("press j to start...", 620.0f, 11.0f, 0.5f, glm::vec3(1.0f, 1.0f, 0.0f));
+    render_text("press SHIFT to start...", 560.0f, 11.0f, 0.5f, glm::vec3(1.0f, 1.0f, 0.0f));
 }
 
 void UiManager::show_ui() {
