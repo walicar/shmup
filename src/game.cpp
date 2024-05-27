@@ -393,10 +393,10 @@ Game::Game() {
     GCR.add_component(boss, State{
             .active = false,
     });
-    boss_sprite.scale_factor = glm::vec3(0.22f,0.22f,0.10f);
+    boss_sprite.scale_factor = glm::vec3(0.17f,0.17f,0.10f);
     GCR.add_component(boss, boss_sprite);
     GCR.add_component(boss, Transform{
-            .pos = glm::vec3(0.0f, 3.5f, 0.0f),
+            .pos = glm::vec3(0.0f, 4.0f, 0.0f),
             .origin = glm::vec3(0.0f, 4.0f, 0.0f),
     });
     GCR.add_component(boss, Enemy{
@@ -407,7 +407,7 @@ Game::Game() {
     });
     GCR.add_component(boss, Hitbox{
             .health = 800,
-            .hitbox = glm::vec3(1.75f)
+            .hitbox = glm::vec3(1.0f)
     });
     printf("Boss ID [%d]\n", boss);
 
