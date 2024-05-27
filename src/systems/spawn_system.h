@@ -2,6 +2,7 @@
 #define SPAWN_SYSTEM_H
 
 #include "../ecs/system.h"
+#include "src/ecs/event.h"
 
 class SpawnSystem : public System {
 public:
@@ -10,12 +11,14 @@ public:
     void init();
 
 private:
-    int checkpoint = 0;
-    int retry = 0;
+    int checkpoint = -1;
 
     bool static is_done(int checkpoint);
 
-    bool static spawn_checkpoint(int checkpoint);
+    void static spawn_checkpoint(int checkpoint);
+
+    void start_game(Event &e);
+    void stop_game(Event &e);
 
 };
 
