@@ -162,4 +162,5 @@ void UiManager::stop_game(Event &e) {
     in_game = false;
     checkpoint = 0;
     bombs_left = 3;
+    boss_mode = false;
 }

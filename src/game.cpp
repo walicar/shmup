@@ -466,8 +466,9 @@ void Game::update(float dt) {
     animation_system->update((float) glfwGetTime());
     spawn_system->update();
     //
-    auto hp = GCR.get_component<Hitbox>(Entities::PLAYER).health;
-    if (hp <= 0) {
+    auto player_hp = GCR.get_component<Hitbox>(Entities::PLAYER).health;
+    auto boss_hp = GCR.get_component<Hitbox>(Entities::BOSS).health;
+    if (player_hp <= 0 || boss_hp <= 0) {
         reset();
     }
 }
