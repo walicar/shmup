@@ -48,6 +48,7 @@ void CollisionSystem::update(float dt) {
                 if (proj_type == BULLET) {
                     proj_active = false;
                 }
+
                 if (proj_type == BOMB) {
                     erase_enemy_projectiles();
                 }
@@ -55,6 +56,11 @@ void CollisionSystem::update(float dt) {
                 actor_hp -= damage;
                 if (actor_hp <= 0) {
                     actor_active = false;
+                    if (nt1 == Entities::BOSS) {
+                        Event event(Events::Game::STOP);
+                        GCR.send_event(event);
+                    }
+
                 }
 
                 //printf("ColSystem: projectile [%d] overlaps actor [%d], HP [%d]\n", nt2, nt1, actor_hp);
