@@ -214,7 +214,6 @@ Game::Game() {
     // enemy grunts
     for (int i = 0; i < Entities::E_AMT; i++) {
         Entity enemy = GCR.create_entity();
-        printf("creating GRUNT [%d]\n", enemy);
         GCR.add_component(enemy, State{
                 .active = false,
         });
@@ -237,7 +236,6 @@ Game::Game() {
 
     // snipe
     for (int i = 0; i < Entities::E_AMT; i++) {
-        printf("creating SNIPE [%d]\n", i);
         Entity enemy = GCR.create_entity();
         GCR.add_component(enemy, State{
                 .active = false,
@@ -262,7 +260,6 @@ Game::Game() {
     // hose
     for (int i = 0; i < Entities::E_AMT; i++) {
         Entity enemy = GCR.create_entity();
-        printf("creating HOSE [%d]\n", enemy);
         GCR.add_component(enemy, State{
                 .active = false,
         });
@@ -287,7 +284,6 @@ Game::Game() {
     // star
     for (int i = 0; i < Entities::E_AMT; i++) {
         Entity enemy = GCR.create_entity();
-        printf("creating STAR [%d]\n", enemy);
         GCR.add_component(enemy, State{
                 .active = false,
         });
