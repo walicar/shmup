@@ -98,7 +98,7 @@ int main() {
     SpriteCache::load_sprite(def_shader, snipe_texture, ev, 3, "snipe");
     SpriteCache::load_sprite(def_shader, hose_texture, ev, 3, "hose");
     SpriteCache::load_sprite(def_shader, star_texture, ev, 3, "star");
-    SpriteCache::load_sprite(def_shader, star_texture, ev, 3, "boss");
+    SpriteCache::load_sprite(def_shader, boss_texture, ev, 3, "boss");
     //
 
     auto text_system = GCR.register_system<TextSystem>(); // this could be a manager
