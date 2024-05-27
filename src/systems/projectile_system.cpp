@@ -15,8 +15,6 @@ void ProjectileSystem::init() {
     GCR.add_listener(METHOD_LISTENER(Events::Game::STOP, ProjectileSystem::reset_bombs));
 }
 
-// should use signatures, like collision system to detect which entity we are iterating on...
-
 void ProjectileSystem::update(float time) {
     for (auto &entity: entities) {
         auto &player_active = GCR.get_component<State>(Entities::PLAYER).active;
@@ -42,7 +40,9 @@ void ProjectileSystem::update(float time) {
                 bullet_last_shot = time;
                 projectile_last_shot = time;
             }
-            if (projectile_last_shot + bullet_cooldown + 2 < time) { // fix this
+
+            // projectile lifetime
+            if (projectile_last_shot + bullet_cooldown + 2 < time) {
                 bullet_state.active = false;
             }
         } else if (entity == Entities::P_LASER) {
@@ -79,7 +79,9 @@ void ProjectileSystem::update(float time) {
                 bomb_offset += 1;
                 bullet_last_shot = time;
             }
-            if (projectile_last_shot + bullet_cooldown + 0.5f < time) { // fix this
+
+            // projectile lifetime
+            if (projectile_last_shot + bullet_cooldown + 0.5f < time) {
                 bomb_state.active = false;
             }
         }

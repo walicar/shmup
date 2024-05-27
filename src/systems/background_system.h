@@ -1,5 +1,6 @@
 #ifndef BACKGROUND_SYSTEM_H
 #define BACKGROUND_SYSTEM_H
+
 #include "../ecs/system.h"
 #include "../ecs/types.h"
 #include "../ecs/event.h"
@@ -10,10 +11,10 @@
 class BackgroundSystem : public System {
 public:
     BackgroundSystem()
-    : gen(std::random_device{}()), x_distr(-10.0, 10.0)
-    {}; // uniform init? look more into this
+            : gen(std::random_device{}()), x_distr(-10.0, 10.0) {}; // uniform init? look more into this
 
     void init();
+
     void update(float time);
 
 private:
@@ -26,7 +27,6 @@ private:
     std::mt19937 gen;
 
     std::uniform_real_distribution<> x_distr;
-
 
 };
 

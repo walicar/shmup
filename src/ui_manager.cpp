@@ -16,7 +16,7 @@ void UiManager::update() {
 
 void UiManager::show_title() {
     render_text("SHMUP", 10.0f, 10.0f, 1.0f, glm::vec3(1.0f, 1.0f, 0.0f));
-    render_text("press j to start...", 620.0f, 11.0f, 0.5f, glm::vec3(1.0f, 1.0f, 0.0f));
+    render_text("press SHIFT to start...", 560.0f, 11.0f, 0.5f, glm::vec3(1.0f, 1.0f, 0.0f));
 }
 
 void UiManager::show_ui() {
@@ -25,18 +25,35 @@ void UiManager::show_ui() {
     render_text("Bombs: " + std::to_string(bombs_left) + "/3", 10.0f, 570.0f, 0.5f, glm::vec3(0.0f, 1.0f, 0.0f));
     if (boss_mode) {
         int boss_hp = GCR.get_component<Hitbox>(Entities::BOSS).health;
-        render_text("Boss Health: " + std::to_string(boss_hp) + "/800", 410.0f, 570.0f, 0.5f, glm::vec3(1.0f, 0.647f, 0.0f));
+        render_text("Boss Health: " + std::to_string(boss_hp) + "/800", 410.0f, 570.0f, 0.5f,
+                    glm::vec3(1.0f, 0.647f, 0.0f));
     } else {
         render_text("Level: " + std::to_string(checkpoint), 410.0f, 570.0f, 0.5f, glm::vec3(1.0f, 0.0f, 1.0f));
     }
 }
 
-UiManager::UiManager(Shader &shader, FT_Library &ft, FT_Face &face) {
+UiManager::UiManager(int width, int height, Shader &shader) {
     GCR.add_listener(METHOD_LISTENER(Events::Game::BOMB_USED, UiManager::bomb_used));
     GCR.add_listener(METHOD_LISTENER(Events::Game::BOSS_TIME, UiManager::boss_time));
     GCR.add_listener(METHOD_LISTENER(Events::Game::WAVE_DONE, UiManager::next_wave));
     GCR.add_listener(METHOD_LISTENER(Events::Game::START, UiManager::start_game));
     GCR.add_listener(METHOD_LISTENER(Events::Game::STOP, UiManager::stop_game));
+
+    FT_Library ft;
+    if (FT_Init_FreeType(&ft)) {
+        std::cerr << "Could not init FreeType Library" << std::endl;
+    }
+
+    FT_Face face;
+    if (FT_New_Face(ft, "fonts/font.ttf", 0, &face)) {
+        std::cerr << "Failed to load font" << std::endl;
+    }
+
+    FT_Set_Pixel_Sizes(face, 0, 48);
+
+    glm::mat4 projection = glm::ortho(0.0f, static_cast<float>(width), 0.0f, static_cast<float>(height));
+    shader.use();
+    glUniformMatrix4fv(glGetUniformLocation(shader.ID, "projection"), 1, GL_FALSE, glm::value_ptr(projection));
 
     text_shader = &shader;
     FT_Set_Pixel_Sizes(face, 0, 48);

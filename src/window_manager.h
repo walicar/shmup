@@ -13,7 +13,7 @@ class WindowManager {
 public:
     WindowManager() = delete;
 
-    WindowManager(std::string const &title, unsigned int width, unsigned int height);
+    WindowManager(std::string const &title, int width, int height);
 
     void clean();
 

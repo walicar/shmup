@@ -3,17 +3,13 @@
 #include "../ecs/coordinator.h"
 #include "../components/hitbox.h"
 #include "../components/sprite.h"
-#include "../components/tags/enemy.h"
 #include "../components/projectile.h"
-#include "../components/tags/player.h"
 #include "../components/transform.h"
 #include "src/components/state.h"
 
 extern Coordinator GCR;
 
 void CollisionSystem::init() {
-    player.set(GCR.get_component_type<Player>());
-    enemy.set(GCR.get_component_type<Enemy>());
     projectile.set(GCR.get_component_type<Projectile>());
 }
 

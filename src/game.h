@@ -20,9 +20,13 @@ extern Coordinator GCR;
 class Game {
 public:
     bool in_game = false;
+
     Game();
+
     void update(float dt);
+
     void reset();
+
     void start();
 
 private:
@@ -35,6 +39,7 @@ private:
     std::shared_ptr<SpawnSystem> spawn_system;
     std::shared_ptr<SpriteSystem> sprite_system;
     std::shared_ptr<BackgroundSystem> background_system;
+
     void input(Event &e);
 };
 

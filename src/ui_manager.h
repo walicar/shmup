@@ -1,5 +1,5 @@
-#ifndef TEXT_SYSTEM_H
-#define TEXT_SYSTEM_H
+#ifndef UI_MANAGER_H
+#define UI_MANAGER_H
 
 #include <ft2build.h>
 #include FT_FREETYPE_H
@@ -34,20 +34,24 @@ private:
     bool in_game = false;
 
     void bomb_used(Event &e);
+
     void boss_time(Event &e);
+
     void next_wave(Event &e);
 
     void show_ui();
+
     void show_title();
 
     void start_game(Event &e);
+
     void stop_game(Event &e);
 
 
 public:
     void update();
 
-    UiManager(Shader &shader, FT_Library &ft, FT_Face &face);
+    UiManager(int width, int height, Shader &shader);
 };
 
 #endif

@@ -6,7 +6,6 @@
 #include "../components/velocity.h"
 #include "../components/projectile.h"
 #include "src/components/state.h"
-#include "src/components/hitbox.h"
 #include "src/components/tags/enemy.h"
 #include <random>
 
@@ -26,13 +25,6 @@ void AISystem::update(float time) {
     for (auto &entity: entities) {
         auto &is_active = GCR.get_component<State>(entity).active;
         if (!is_active) continue;
-
-//        auto &kill_at = GCR.get_component<Projectile>(entity).kill_at;
-//
-//        if (kill_at != -1.0f && kill_at < time) {
-//            printf("!!!!!!!!!!!!!!!killing bullet [%d]]\n", entity);
-//            is_active = false;
-//        }
 
         auto &origin = GCR.get_component<Transform>(entity).origin;
         auto &pos = GCR.get_component<Transform>(entity).pos;
@@ -98,7 +90,6 @@ void AISystem::update(float time) {
                 }
             }
 
-            //kill_at = time + 0.5f;
             ebullet_state.active = true;
             ebullet_sprite.scale_factor = enemy_scale;
             ai.last_attacked = time;

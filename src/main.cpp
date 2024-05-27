@@ -56,40 +56,27 @@ int main() {
     WindowManager window_manager("SHMUP", SCR_WIDTH, SCR_HEIGHT);
     GCR.add_listener(FUNCTION_LISTENER(Events::Window::QUIT, handle_quit)); // lambda preferred?
 
-    FT_Library ft;
-    if (FT_Init_FreeType(&ft)) {
-        std::cerr << "Could not init FreeType Library" << std::endl;
-        return -1;
-    }
-
-    FT_Face face;
-    if (FT_New_Face(ft, "fonts/font.ttf", 0, &face)) {
-        std::cerr << "Failed to load font" << std::endl;
-        return -1;
-    }
-
-    FT_Set_Pixel_Sizes(face, 0, 48);
-
     Shader text_shader = ResourceManager::load_shader("shaders/font.vert", "shaders/font.frag", "text");
     Shader def_shader = ResourceManager::load_shader("shaders/default.vert", "shaders/default.frag", "default");
+
+    UiManager ui_manager(SCR_WIDTH, SCR_HEIGHT, text_shader);
+
     // Texture def_texture = ResourceManager::load_texture("textures/smile.png", "smile", true);
     Texture laser_texture = ResourceManager::load_texture("textures/laser.png", "laser", true);
     Texture bomb_texture = ResourceManager::load_texture("textures/bomb.png", "bomb", true);
     Texture bullet_texture = ResourceManager::load_texture("textures/bullet.png", "bullet", true);
     Texture ship_texture = ResourceManager::load_texture("textures/ship.png", "ship", true);
+    //
     Texture ebullet_texture = ResourceManager::load_texture("textures/ebullet.png", "ebullet", true);
     Texture eship_texture = ResourceManager::load_texture("textures/eship.png", "eship", true);
     Texture snipe_texture = ResourceManager::load_texture("textures/snipe.png", "snipe", true);
     Texture star_texture = ResourceManager::load_texture("textures/star.png", "star", true);
     Texture hose_texture = ResourceManager::load_texture("textures/hose.png", "hose", true);
     Texture boss_texture = ResourceManager::load_texture("textures/boss.png", "boss", true);
+    //
     Texture bgstar1_texture = ResourceManager::load_texture("textures/bgstar1.png", "bgstar1", true);
     Texture bgstar2_texture = ResourceManager::load_texture("textures/bgstar2.png", "bgstar2", true);
     Texture bgstar3_texture = ResourceManager::load_texture("textures/bgstar3.png", "bgstar3", true);
-
-    glm::mat4 projection = glm::ortho(0.0f, static_cast<float>(SCR_WIDTH), 0.0f, static_cast<float>(SCR_HEIGHT));
-    text_shader.use();
-    glUniformMatrix4fv(glGetUniformLocation(text_shader.ID, "projection"), 1, GL_FALSE, glm::value_ptr(projection));
 
     SpriteCache::load_sprite(def_shader, ship_texture, v, 3, "player");
     SpriteCache::load_sprite(def_shader, laser_texture, lv, 4, "plaser");
@@ -106,8 +93,6 @@ int main() {
     SpriteCache::load_sprite(def_shader, bgstar1_texture, bv, 4, "bgstar1");
     SpriteCache::load_sprite(def_shader, bgstar2_texture, bv, 4, "bgstar2");
     SpriteCache::load_sprite(def_shader, bgstar3_texture, bv, 4, "bgstar3");
-
-    UiManager ui_manager(text_shader, ft, face);
 
     Game game;
 

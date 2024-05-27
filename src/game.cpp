@@ -16,11 +16,15 @@
 #include "components/ai.h"
 #include "components/state.h"
 
-extern Coordinator GCR;
+enum HealthValues {
+    PLAYER_HP = 300,
+    GRUNT_HP = 100,
+    HOSE_HP = 75,
+    STAR_HP = 50,
+    BOSS_HP = 800
+};
 
-// just DI instead
-const unsigned int SCR_WIDTH = 800;
-const unsigned int SCR_HEIGHT = 600;
+extern Coordinator GCR;
 
 Game::Game() {
     GCR.add_listener(METHOD_LISTENER(Events::Window::INPUT, Game::input));
@@ -291,7 +295,7 @@ Game::Game() {
                 .last_attacked = 0.0f + (1.25f * i)
         });
         GCR.add_component(enemy, Hitbox{
-                .health = 75,
+                .health = HOSE_HP,
                 .hitbox = glm::vec3(0.5f, 0.5f, 0.5f)
         });
     }
@@ -457,7 +461,6 @@ void Game::update(float dt) {
     collision_system->update(dt);
     physics_system->update(dt);
     glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
-    // glClear(GL_COLOR_BUFFER_BIT);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     sprite_system->update((float) glfwGetTime());
     animation_system->update((float) glfwGetTime());
@@ -465,13 +468,12 @@ void Game::update(float dt) {
     //
     auto hp = GCR.get_component<Hitbox>(Entities::PLAYER).health;
     if (hp <= 0) {
-        printf("Game Manager resetting game...\n");
         reset();
     }
 }
 
 void Game::start() {
-    GCR.get_component<Hitbox>(Entities::PLAYER).health = 300;
+    GCR.get_component<Hitbox>(Entities::PLAYER).health = PLAYER_HP;
     for (int i = 0; i < Entities::E_AMT; i++) {
         auto enemy = Entities::E_GRUNT + i;
         GCR.get_component<State>(enemy).active = true;
@@ -487,7 +489,7 @@ void Game::reset() {
     Event stop_game(Events::Game::STOP);
     GCR.send_event(stop_game);
     // projectile system will listen for this event
-    // and reset bomb resources
+    //  and reset bomb resources
 
     // reactivate player, and reset their hp
     GCR.get_component<State>(Entities::PLAYER).active = true;
@@ -503,32 +505,32 @@ void Game::reset() {
         auto enemy = Entities::E_GRUNT + i;
         GCR.get_component<State>(enemy).active = false;
         if (checkpoint < 2) {
-            GCR.get_component<Hitbox>(enemy).health = 100;
+            GCR.get_component<Hitbox>(enemy).health = GRUNT_HP;
         } else if (checkpoint == 2) {
-            GCR.get_component<Hitbox>(enemy).health = 75;
+            GCR.get_component<Hitbox>(enemy).health = HOSE_HP;
         } else if (checkpoint == 3) {
-            GCR.get_component<Hitbox>(enemy).health = 50;
+            GCR.get_component<Hitbox>(enemy).health = STAR_HP;
         } else { // checkpoint 4
             if (i % 3 == 0) {
-                GCR.get_component<Hitbox>(enemy).health = 100;
+                GCR.get_component<Hitbox>(enemy).health = GRUNT_HP;
             } else if (i % 3 == 1) {
-                GCR.get_component<Hitbox>(enemy).health = 75;
+                GCR.get_component<Hitbox>(enemy).health = HOSE_HP;
             } else {
-                GCR.get_component<Hitbox>(enemy).health = 50;
+                GCR.get_component<Hitbox>(enemy).health = STAR_HP;
             }
         }
     }
 
     // handle boss
     GCR.get_component<State>(Entities::BOSS).active = false;
-    GCR.get_component<Hitbox>(Entities::BOSS).health = 800;
+    GCR.get_component<Hitbox>(Entities::BOSS).health = BOSS_HP;
 }
 
 void Game::input(Event &e) {
     if (!in_game) {
         auto buttons = e.get_param<std::bitset<8>>(Events::Window::Input::INPUT);
-        if (buttons.test(static_cast<std::size_t>(InputButtons::J))) {
-           start();
+        if (buttons.test(static_cast<std::size_t>(InputButtons::SHIFT))) {
+            start();
         }
     }
 }

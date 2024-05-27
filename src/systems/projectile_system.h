@@ -25,6 +25,7 @@ private:
     std::bitset<8> buttons;
 
     void input(Event &e);
+
     void reset_bombs(Event &e);
 
 };

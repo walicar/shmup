@@ -18,6 +18,7 @@ private:
     void static spawn_checkpoint(int checkpoint);
 
     void start_game(Event &e);
+
     void stop_game(Event &e);
 
 };
