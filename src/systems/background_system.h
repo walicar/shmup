@@ -27,7 +27,6 @@ private:
 
     std::uniform_real_distribution<> x_distr;
 
-
 };
 
 #endif
