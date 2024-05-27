@@ -530,7 +530,7 @@ void Game::input(Event &e) {
     if (!in_game) {
         auto buttons = e.get_param<std::bitset<8>>(Events::Window::Input::INPUT);
         if (buttons.test(static_cast<std::size_t>(InputButtons::SHIFT))) {
-           start();
+            start();
         }
     }
 }

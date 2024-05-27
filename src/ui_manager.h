@@ -34,13 +34,17 @@ private:
     bool in_game = false;
 
     void bomb_used(Event &e);
+
     void boss_time(Event &e);
+
     void next_wave(Event &e);
 
     void show_ui();
+
     void show_title();
 
     void start_game(Event &e);
+
     void stop_game(Event &e);
 
 

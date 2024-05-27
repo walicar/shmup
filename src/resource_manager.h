@@ -13,13 +13,13 @@ public:
     static std::unordered_map<std::string, Shader> shaders;
     static std::unordered_map<std::string, Texture> textures;
 
-    static Shader load_shader(const char *vert_src, const char *frag_src, const std::string& name);
+    static Shader load_shader(const char *vert_src, const char *frag_src, const std::string &name);
 
-    static Shader get_shader(const std::string& name);
+    static Shader get_shader(const std::string &name);
 
-    static Texture load_texture(const char *file, const std::string& name, bool alpha);
+    static Texture load_texture(const char *file, const std::string &name, bool alpha);
 
-    static Texture get_texture(const std::string& name);
+    static Texture get_texture(const std::string &name);
 
     static void close();
 

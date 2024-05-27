@@ -25,7 +25,8 @@ void UiManager::show_ui() {
     render_text("Bombs: " + std::to_string(bombs_left) + "/3", 10.0f, 570.0f, 0.5f, glm::vec3(0.0f, 1.0f, 0.0f));
     if (boss_mode) {
         int boss_hp = GCR.get_component<Hitbox>(Entities::BOSS).health;
-        render_text("Boss Health: " + std::to_string(boss_hp) + "/800", 410.0f, 570.0f, 0.5f, glm::vec3(1.0f, 0.647f, 0.0f));
+        render_text("Boss Health: " + std::to_string(boss_hp) + "/800", 410.0f, 570.0f, 0.5f,
+                    glm::vec3(1.0f, 0.647f, 0.0f));
     } else {
         render_text("Level: " + std::to_string(checkpoint), 410.0f, 570.0f, 0.5f, glm::vec3(1.0f, 0.0f, 1.0f));
     }

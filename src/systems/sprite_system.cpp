@@ -4,6 +4,7 @@
 #include "../components/transform.h"
 #include "src/components/state.h"
 #include <gtc/type_ptr.hpp>
+
 #define GLM_ENABLE_EXPERIMENTAL
 
 extern Coordinator GCR;
@@ -39,7 +40,8 @@ void SpriteSystem::update(float time) {
             transform = transform * rotation;
         }
 
-        bool isOffscreen = (movement.pos.x < -10.0f || movement.pos.x > 10.0f || movement.pos.y < -10.0f || movement.pos.y > 10.0f);
+        bool isOffscreen = (movement.pos.x < -10.0f || movement.pos.x > 10.0f || movement.pos.y < -10.0f ||
+                            movement.pos.y > 10.0f);
 
         // cleanup particles that are OOB
         if (isOffscreen and entity != Entities::PLAYER) {
@@ -57,7 +59,8 @@ void SpriteSystem::update(float time) {
         glUniform1f(tloc, sprite.transparency);
         glBindVertexArray(sprite.VAO);
 
-        if (entity == Entities::PLAYER || entity == Entities::P_CORE || (entity >= Entities::E_GRUNT && entity <= Entities::BOSS)) {
+        if (entity == Entities::PLAYER || entity == Entities::P_CORE ||
+            (entity >= Entities::E_GRUNT && entity <= Entities::BOSS)) {
             glDrawArrays(GL_TRIANGLES, 0, 3);
         } else {
             glDrawArrays(GL_TRIANGLE_FAN, 0, 4);
