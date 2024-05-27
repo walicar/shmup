@@ -449,7 +449,7 @@ Game::Game() {
     }
 }
 
-void Game::loop(float dt) {
+void Game::update(float dt) {
     background_system->update((float) glfwGetTime());
     projectile_system->update((float) glfwGetTime());
     movement_system->update(dt);

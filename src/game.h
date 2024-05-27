@@ -21,7 +21,7 @@ class Game {
 public:
     bool in_game = false;
     Game();
-    void loop(float dt);
+    void update(float dt);
     void reset();
     void start();
 

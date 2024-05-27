@@ -115,7 +115,7 @@ int main() {
     while (!quit) {
         auto start = (float) glfwGetTime();
         window_manager.process_events();
-        game.loop(dt);
+        game.update(dt);
         ui_manager.update();
         window_manager.update();
         auto stop = (float) glfwGetTime();
