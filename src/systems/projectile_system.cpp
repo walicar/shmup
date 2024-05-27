@@ -52,7 +52,7 @@ void ProjectileSystem::update(float time) {
                 glm::vec3 player_location = GCR.get_component<Transform>(Entities::PLAYER).pos;
                 glm::vec3 player_scale = GCR.get_component<Sprite>(Entities::PLAYER).scale_factor;
                 auto &transform = GCR.get_component<Transform>(entity);
-                transform.pos.y = player_location.y + (6.0f * player_scale.y);
+                transform.pos.y = player_location.y + (14.0f * player_scale.y);
                 transform.pos.x = player_location.x;
                 laser_state.active = true;
                 laser_sprite.scale_factor = player_scale;
