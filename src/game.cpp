@@ -22,6 +22,8 @@ const unsigned int SCR_WIDTH = 800;
 const unsigned int SCR_HEIGHT = 600;
 
 Game::Game() {
+    GCR.add_listener(METHOD_LISTENER(Events::Window::INPUT, Game::input));
+
     // register components
     GCR.register_component<Sprite>();
     GCR.register_component<Transform>();
@@ -214,7 +216,7 @@ Game::Game() {
         Entity enemy = GCR.create_entity();
         printf("creating GRUNT [%d]\n", enemy);
         GCR.add_component(enemy, State{
-                .active = true,
+                .active = false,
         });
         GCR.add_component(enemy, grunt_sprite);
         GCR.add_component(enemy, Transform{
@@ -429,8 +431,52 @@ void Game::loop(float dt) {
     sprite_system->update((float) glfwGetTime());
     animation_system->update((float) glfwGetTime());
     spawn_system->update();
+    //
+    auto hp = GCR.get_component<Hitbox>(Entities::PLAYER).health;
+    if (hp <= 0) {
+        printf("Game Manager resetting game...\n");
+        reset();
+    }
+}
+
+void Game::start() {
+    GCR.get_component<Hitbox>(Entities::PLAYER).health = 300;
+    for (int i = 0; i < Entities::E_AMT; i++) {
+        auto enemy = Entities::E_GRUNT + i;
+        GCR.get_component<State>(enemy).active = true;
+    }
+
+    Event start_game(Events::Game::START);
+    GCR.send_event(start_game);
+    in_game = true;
 }
 
 void Game::reset() {
+    in_game = false;
+    Event stop_game(Events::Game::STOP);
+    GCR.send_event(stop_game);
+    // projectile system will listen for this event
+    // and reset bomb resources
+
+    // reactivate player, and reset their hp
+    GCR.get_component<State>(Entities::PLAYER).active = true;
+    // because you can get hit with bullets after dying...
+    GCR.get_component<Hitbox>(Entities::PLAYER).health = 9000;
+
+    // put enemies in dormant state
+    int enemy_amt = (Entities::E_AMT * 5) + 1;
+    for (int i = 0; i < enemy_amt; i++) {
+        auto enemy = Entities::E_GRUNT + i; // @TODO put their health back to normal
+        GCR.get_component<State>(enemy).active = false;
+    }
+
 }
 
+void Game::input(Event &e) {
+    if (!in_game) {
+        auto buttons = e.get_param<std::bitset<8>>(Events::Window::Input::INPUT);
+        if (buttons.test(static_cast<std::size_t>(InputButtons::J))) {
+           start();
+        }
+    }
+}

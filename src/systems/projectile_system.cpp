@@ -12,6 +12,7 @@ extern Coordinator GCR;
 
 void ProjectileSystem::init() {
     GCR.add_listener(METHOD_LISTENER(Events::Window::INPUT, ProjectileSystem::input));
+    GCR.add_listener(METHOD_LISTENER(Events::Game::STOP, ProjectileSystem::reset_bombs));
 }
 
 // should use signatures, like collision system to detect which entity we are iterating on...
@@ -48,8 +49,6 @@ void ProjectileSystem::update(float time) {
             auto &laser_sprite = GCR.get_component<Sprite>(entity);
             auto &laser_state = GCR.get_component<State>(entity);
             if (buttons.test(static_cast<std::size_t>(InputButtons::K))) {
-                // we could just bake this in later
-                // implement a coordinate system
                 glm::vec3 player_location = GCR.get_component<Transform>(Entities::PLAYER).pos;
                 glm::vec3 player_scale = GCR.get_component<Sprite>(Entities::PLAYER).scale_factor;
                 auto &transform = GCR.get_component<Transform>(entity);
@@ -62,7 +61,6 @@ void ProjectileSystem::update(float time) {
             }
         }
 
-        // @TODO: just check Projectile.type instead of checking entity ID
         if (entity == Entities::P_BOMB) {
             if (bullet_last_shot + bullet_cooldown > time) continue;
             auto &bomb_state = GCR.get_component<State>(entity);
@@ -90,5 +88,9 @@ void ProjectileSystem::update(float time) {
 
 void ProjectileSystem::input(Event &e) {
     buttons = e.get_param<std::bitset<8>>(Events::Window::Input::INPUT);
+}
+
+void ProjectileSystem::reset_bombs(Event &e) {
+    bomb_offset = 0;
 }
 

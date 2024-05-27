@@ -8,12 +8,13 @@
 
 extern Coordinator GCR;
 
-// try to make this an event system;
-
-void SpawnSystem::init() {}
-
+void SpawnSystem::init() {
+    GCR.add_listener(METHOD_LISTENER(Events::Game::START, SpawnSystem::start_game));
+    GCR.add_listener(METHOD_LISTENER(Events::Game::STOP, SpawnSystem::stop_game));
+}
 
 void SpawnSystem::update() {
+    if (checkpoint == -1) return; // the game has not started yet
     if (is_done(checkpoint)) {
         checkpoint += 1;
         spawn_checkpoint(checkpoint);
@@ -29,7 +30,7 @@ bool SpawnSystem::is_done(int checkpoint) {
     return true;
 }
 
-bool SpawnSystem::spawn_checkpoint(int checkpoint) {
+void SpawnSystem::spawn_checkpoint(int checkpoint) {
     if (checkpoint < 5) {
         Event event(Events::Game::WAVE_DONE); // Update UI
         GCR.send_event(event);
@@ -42,6 +43,12 @@ bool SpawnSystem::spawn_checkpoint(int checkpoint) {
         GCR.send_event(event);
         GCR.get_component<State>(Entities::BOSS).active = true;
     }
+}
 
+void SpawnSystem::start_game(Event &e) {
+    checkpoint = 0;
+}
 
+void SpawnSystem::stop_game(Event &e) {
+    checkpoint = -1;
 }
