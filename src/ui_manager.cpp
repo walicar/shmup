@@ -1,12 +1,12 @@
-#include "text_system.h"
-#include "../ecs/coordinator.h"
+#include "ui_manager.h"
+#include "src/ecs/coordinator.h"
 #include "src/components/hitbox.h"
 
 // Credit: https://learnopengl.com/In-Practice/Text-Rendering
 
 extern Coordinator GCR;
 
-void TextSystem::update() {
+void UiManager::update() {
     if (!in_game) {
         show_title();
     } else {
@@ -14,12 +14,12 @@ void TextSystem::update() {
     }
 }
 
-void TextSystem::show_title() {
+void UiManager::show_title() {
     render_text("SHMUP", 10.0f, 10.0f, 1.0f, glm::vec3(1.0f, 1.0f, 0.0f));
     render_text("press j to start...", 620.0f, 11.0f, 0.5f, glm::vec3(1.0f, 1.0f, 0.0f));
 }
 
-void TextSystem::show_ui() {
+void UiManager::show_ui() {
     int hp = GCR.get_component<Hitbox>(Entities::PLAYER).health;
     render_text("Health: " + std::to_string(hp), 210.0f, 570.0f, 0.5f, glm::vec3(1.0f, 0.0f, 0.0f));
     render_text("Bombs: " + std::to_string(bombs_left) + "/3", 10.0f, 570.0f, 0.5f, glm::vec3(0.0f, 1.0f, 0.0f));
@@ -31,12 +31,12 @@ void TextSystem::show_ui() {
     }
 }
 
-void TextSystem::init(Shader &shader, FT_Library &ft, FT_Face &face) {
-    GCR.add_listener(METHOD_LISTENER(Events::Game::BOMB_USED, TextSystem::bomb_used));
-    GCR.add_listener(METHOD_LISTENER(Events::Game::BOSS_TIME, TextSystem::boss_time));
-    GCR.add_listener(METHOD_LISTENER(Events::Game::WAVE_DONE, TextSystem::next_wave));
-    GCR.add_listener(METHOD_LISTENER(Events::Game::START, TextSystem::start_game));
-    GCR.add_listener(METHOD_LISTENER(Events::Game::STOP, TextSystem::stop_game));
+UiManager::UiManager(Shader &shader, FT_Library &ft, FT_Face &face) {
+    GCR.add_listener(METHOD_LISTENER(Events::Game::BOMB_USED, UiManager::bomb_used));
+    GCR.add_listener(METHOD_LISTENER(Events::Game::BOSS_TIME, UiManager::boss_time));
+    GCR.add_listener(METHOD_LISTENER(Events::Game::WAVE_DONE, UiManager::next_wave));
+    GCR.add_listener(METHOD_LISTENER(Events::Game::START, UiManager::start_game));
+    GCR.add_listener(METHOD_LISTENER(Events::Game::STOP, UiManager::stop_game));
 
     text_shader = &shader;
     FT_Set_Pixel_Sizes(face, 0, 48);
@@ -90,7 +90,7 @@ void TextSystem::init(Shader &shader, FT_Library &ft, FT_Face &face) {
     glBindVertexArray(0);
 }
 
-void TextSystem::render_text(std::string text, float x, float y, float scale, glm::vec3 color) {
+void UiManager::render_text(std::string text, float x, float y, float scale, glm::vec3 color) {
     text_shader->use();
     glUniform3f(glGetUniformLocation(text_shader->ID, "textColor"), color.x, color.y, color.z);
     glActiveTexture(GL_TEXTURE0);
@@ -125,23 +125,23 @@ void TextSystem::render_text(std::string text, float x, float y, float scale, gl
     glBindTexture(GL_TEXTURE_2D, 0);
 }
 
-void TextSystem::bomb_used(Event &e) {
+void UiManager::bomb_used(Event &e) {
     bombs_left -= 1;
 }
 
-void TextSystem::boss_time(Event &e) {
+void UiManager::boss_time(Event &e) {
     boss_mode = true;
 }
 
-void TextSystem::next_wave(Event &e) {
+void UiManager::next_wave(Event &e) {
     checkpoint += 1;
 }
 
-void TextSystem::start_game(Event &e) {
+void UiManager::start_game(Event &e) {
     in_game = true;
 }
 
-void TextSystem::stop_game(Event &e) {
+void UiManager::stop_game(Event &e) {
     in_game = false;
     checkpoint = 0;
     bombs_left = 3;

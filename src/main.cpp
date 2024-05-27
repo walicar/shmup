@@ -11,7 +11,7 @@
 #include "ecs/types.h"
 #include "components/sprite.h"
 #include "components/hitbox.h"
-#include "systems/text_system.h"
+#include "ui_manager.h"
 #include "game.h"
 #include <map>
 
@@ -107,8 +107,7 @@ int main() {
     SpriteCache::load_sprite(def_shader, bgstar2_texture, bv, 4, "bgstar2");
     SpriteCache::load_sprite(def_shader, bgstar3_texture, bv, 4, "bgstar3");
 
-    auto text_system = GCR.register_system<TextSystem>(); // this could be a manager
-    text_system->init(text_shader, ft, face);
+    UiManager ui_manager(text_shader, ft, face);
 
     Game game;
 
@@ -117,7 +116,7 @@ int main() {
         auto start = (float) glfwGetTime();
         window_manager.process_events();
         game.loop(dt);
-        text_system->update();
+        ui_manager.update();
         window_manager.update();
         auto stop = (float) glfwGetTime();
         dt = stop - start;

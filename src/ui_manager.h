@@ -3,11 +3,12 @@
 
 #include <ft2build.h>
 #include FT_FREETYPE_H
-#include "../ecs/system.h"
-#include <gtc/matrix_transform.hpp>
+#include "freetype/freetype.h"
+#include "src/ecs/system.h"
+#include "inc/glm/gtc/matrix_transform.hpp"
 #include <map>
-#include "../shader.h"
-#include "../ecs/event.h"
+#include "shader.h"
+#include "src/ecs/event.h"
 
 struct Character {
     unsigned int tex_id;
@@ -18,7 +19,7 @@ struct Character {
 };
 
 // @TODO: it's actually more apt to call this UI Manager
-class TextSystem : public System {
+class UiManager : public System {
 private:
     std::map<char, Character> Characters;
     Shader *text_shader;
@@ -46,7 +47,7 @@ private:
 public:
     void update();
 
-    void init(Shader &shader, FT_Library &ft, FT_Face &face);
+    UiManager(Shader &shader, FT_Library &ft, FT_Face &face);
 };
 
 #endif

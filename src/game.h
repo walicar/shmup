@@ -9,7 +9,7 @@
 #include "systems/ai_system.h"
 #include "systems/animation_system.h"
 #include "systems/spawn_system.h"
-#include "systems/text_system.h"
+#include "ui_manager.h"
 #include "systems/background_system.h"
 #include "src/ecs/coordinator.h"
 #include <chrono>

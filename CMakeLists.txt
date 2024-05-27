@@ -35,7 +35,7 @@ add_executable(code
         src/systems/ai_system.cpp
         src/systems/animation_system.cpp
         src/systems/spawn_system.cpp
-        src/systems/text_system.cpp
+        src/ui_manager.cpp
         src/systems/background_system.cpp
 )
 
