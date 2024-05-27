@@ -31,12 +31,28 @@ void UiManager::show_ui() {
     }
 }
 
-UiManager::UiManager(Shader &shader, FT_Library &ft, FT_Face &face) {
+UiManager::UiManager(int width, int height, Shader &shader) {
     GCR.add_listener(METHOD_LISTENER(Events::Game::BOMB_USED, UiManager::bomb_used));
     GCR.add_listener(METHOD_LISTENER(Events::Game::BOSS_TIME, UiManager::boss_time));
     GCR.add_listener(METHOD_LISTENER(Events::Game::WAVE_DONE, UiManager::next_wave));
     GCR.add_listener(METHOD_LISTENER(Events::Game::START, UiManager::start_game));
     GCR.add_listener(METHOD_LISTENER(Events::Game::STOP, UiManager::stop_game));
+
+    FT_Library ft;
+    if (FT_Init_FreeType(&ft)) {
+        std::cerr << "Could not init FreeType Library" << std::endl;
+    }
+
+    FT_Face face;
+    if (FT_New_Face(ft, "fonts/font.ttf", 0, &face)) {
+        std::cerr << "Failed to load font" << std::endl;
+    }
+
+    FT_Set_Pixel_Sizes(face, 0, 48);
+
+    glm::mat4 projection = glm::ortho(0.0f, static_cast<float>(width), 0.0f, static_cast<float>(height));
+    shader.use();
+    glUniformMatrix4fv(glGetUniformLocation(shader.ID, "projection"), 1, GL_FALSE, glm::value_ptr(projection));
 
     text_shader = &shader;
     FT_Set_Pixel_Sizes(face, 0, 48);

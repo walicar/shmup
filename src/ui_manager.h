@@ -47,7 +47,7 @@ private:
 public:
     void update();
 
-    UiManager(Shader &shader, FT_Library &ft, FT_Face &face);
+    UiManager(int width, int height, Shader &shader);
 };
 
 #endif
