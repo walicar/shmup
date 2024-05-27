@@ -161,7 +161,7 @@ Game::Game() {
     GCR.add_component(player_laser, Velocity{});
     GCR.add_component(player_laser, Player{});
     GCR.add_component(player_laser, Projectile{
-            .damage = 100 // debug damage, set back to 1
+            .damage = 100 // @TODO: debug damage, set back to 1
     });
 
     // bombs
@@ -279,7 +279,7 @@ Game::Game() {
                 .last_attacked = 0.0f + (1.25f * i)
         });
         GCR.add_component(enemy, Hitbox{
-                .health = 50,
+                .health = 75,
                 .hitbox = glm::vec3(0.5f, 0.5f, 0.5f)
         });
     }
@@ -461,15 +461,36 @@ void Game::reset() {
     // reactivate player, and reset their hp
     GCR.get_component<State>(Entities::PLAYER).active = true;
     // because you can get hit with bullets after dying...
-    GCR.get_component<Hitbox>(Entities::PLAYER).health = 9000;
+    GCR.get_component<Hitbox>(Entities::PLAYER).health = 9001;
 
     // put enemies in dormant state
-    int enemy_amt = (Entities::E_AMT * 5) + 1;
+    int enemy_amt = (Entities::E_AMT * 5);
+    int checkpoint = 0;
     for (int i = 0; i < enemy_amt; i++) {
-        auto enemy = Entities::E_GRUNT + i; // @TODO put their health back to normal
+        if (i % 15 == 0)
+            checkpoint += 1;
+        auto enemy = Entities::E_GRUNT + i;
         GCR.get_component<State>(enemy).active = false;
+        if (checkpoint < 2) {
+            GCR.get_component<Hitbox>(enemy).health = 100;
+        } else if (checkpoint == 2) {
+            GCR.get_component<Hitbox>(enemy).health = 75;
+        } else if (checkpoint == 3) {
+            GCR.get_component<Hitbox>(enemy).health = 50;
+        } else { // checkpoint 4
+            if (i % 3 == 0) {
+                GCR.get_component<Hitbox>(enemy).health = 100;
+            } else if (i % 3 == 1) {
+                GCR.get_component<Hitbox>(enemy).health = 75;
+            } else {
+                GCR.get_component<Hitbox>(enemy).health = 50;
+            }
+        }
     }
 
+    // handle boss
+    GCR.get_component<State>(Entities::BOSS).active = false;
+    GCR.get_component<Hitbox>(Entities::BOSS).health = 800;
 }
 
 void Game::input(Event &e) {
