@@ -25,6 +25,12 @@ void SpriteSystem::update(float time) {
             movement = GCR.get_component<Transform>(Entities::PLAYER);
         }
 
+        if (entity >= Entities::G_STAR) {
+            movement.pos.z = 9.5f;
+        } else {
+            movement.pos.z = -9.5f;
+        }
+
         auto &sprite = GCR.get_component<Sprite>(entity);
         auto transform = glm::mat4(1.0f);
         transform = glm::scale(transform, sprite.scale_factor);

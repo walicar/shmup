@@ -9,6 +9,7 @@
 #include "components/hitbox.h"
 #include "components/tags/player.h"
 #include "components/tags/enemy.h"
+#include "components/tags/particle.h"
 #include "components/projectile.h"
 #include "components/tags/controllable.h"
 #include "components/transform.h"
@@ -26,6 +27,7 @@ Game::Game() {
 
     // register components
     GCR.register_component<Sprite>();
+    GCR.register_component<Particle>();
     GCR.register_component<Transform>();
     GCR.register_component<Hitbox>();
     GCR.register_component<Velocity>();
@@ -118,6 +120,15 @@ Game::Game() {
 
     spawn_system->init();
 
+    background_system = GCR.register_system<BackgroundSystem>();
+    {
+        Signature signature;
+        signature.set(GCR.get_component_type<Particle>());
+        GCR.set_system_signature<BackgroundSystem>(signature);
+    }
+
+    background_system->init();
+
     // Create Entities
     Sprite player_sprite = SpriteCache::get_sprite("player");
     Sprite player_laser_sprite = SpriteCache::get_sprite("plaser");
@@ -130,6 +141,10 @@ Game::Game() {
     Sprite hose_sprite = SpriteCache::get_sprite("hose");
     Sprite star_sprite = SpriteCache::get_sprite("star");
     Sprite boss_sprite = SpriteCache::get_sprite("boss");
+    //
+    Sprite bgstar1_sprite = SpriteCache::get_sprite("bgstar1");
+    Sprite bgstar2_sprite = SpriteCache::get_sprite("bgstar2");
+    Sprite bgstar3_sprite = SpriteCache::get_sprite("bgstar3");
 
     // create the player
     Entity player = GCR.create_entity();
@@ -308,7 +323,6 @@ Game::Game() {
     for (int i = 0; i < Entities::E_AMT; i++) {
         Entity enemy = GCR.create_entity();
         if (i % 3 == 0) {
-            printf("creating SNIPE [%d]\n", enemy);
             GCR.add_component(enemy, State{
                     .active = false,
             });
@@ -328,7 +342,6 @@ Game::Game() {
                     .hitbox = glm::vec3(0.5f, 0.5f, 0.5f)
             });
         } else if (i % 3 == 1) {
-            printf("creating HOSE [%d]\n", enemy);
             GCR.add_component(enemy, State{
                     .active = false,
             });
@@ -349,7 +362,6 @@ Game::Game() {
                     .hitbox = glm::vec3(0.5f, 0.5f, 0.5f)
             });
         } else {
-            printf("creating STAR [%d]\n", enemy);
             GCR.add_component(enemy, State{
                     .active = false,
             });
@@ -393,6 +405,7 @@ Game::Game() {
             .health = 800,
             .hitbox = glm::vec3(1.75f)
     });
+    printf("Boss ID [%d]\n", boss);
 
     // enemy bullets
     for (int i = 0; i < Entities::E_BULLET_AMT; i++) {
@@ -414,16 +427,38 @@ Game::Game() {
         GCR.add_component(enemy_bullet, Projectile{});
     }
 
+    // some stars
+    for (int i = 0; i < Entities::G_STAR_AMT; i++) {
+        Entity particle_star = GCR.create_entity();
+        GCR.add_component(particle_star, State{
+                .active = false,
+        });
+        if (i % 3 == 0) {
+            GCR.add_component(particle_star, bgstar1_sprite);
+        } else if (i % 3 == 1) {
+            GCR.add_component(particle_star, bgstar2_sprite);
+        } else {
+            GCR.add_component(particle_star, bgstar3_sprite);
+        }
+        GCR.add_component(particle_star, Particle{});
+        GCR.add_component(particle_star, Transform{
+                .pos = glm::vec3(0.0f, 0.0f, -1.0f),
+                .origin = glm::vec3(0.0f, 0.0f, -1.0f)
+        });
+        GCR.add_component(particle_star, Velocity{});
+    }
 }
 
 void Game::loop(float dt) {
+    background_system->update((float) glfwGetTime());
     projectile_system->update((float) glfwGetTime());
     movement_system->update(dt);
     ai_system->update((float) glfwGetTime());
     collision_system->update(dt);
     physics_system->update(dt);
     glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
-    glClear(GL_COLOR_BUFFER_BIT);
+    // glClear(GL_COLOR_BUFFER_BIT);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     sprite_system->update((float) glfwGetTime());
     animation_system->update((float) glfwGetTime());
     spawn_system->update();

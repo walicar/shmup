@@ -36,6 +36,7 @@ add_executable(code
         src/systems/animation_system.cpp
         src/systems/spawn_system.cpp
         src/systems/text_system.cpp
+        src/systems/background_system.cpp
 )
 
 target_link_libraries(code "-framework OpenGL -framework Cocoa -framework IOKit -framework CoreVideo")

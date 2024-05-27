@@ -31,6 +31,8 @@ WindowManager::WindowManager(std::string const &title, unsigned int width, unsig
     glfwGetFramebufferSize(window, &f_width, &f_height);
 
     glViewport(0, 0, f_width, f_height);
+    glEnable(GL_DEPTH_TEST);
+    glDepthFunc(GL_LESS);
     // glfwSwapInterval(2);
 }
 

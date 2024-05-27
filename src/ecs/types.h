@@ -44,6 +44,8 @@ namespace Entities {
     // Enemy Projectiles
     const Entity E_BULLET = 126;
     const Entity E_BULLET_AMT = 1000;
+    const Entity G_STAR = 1126;
+    const Entity G_STAR_AMT = 100;
 }
 
 enum EnemyType {

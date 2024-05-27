@@ -10,6 +10,7 @@
 #include "systems/animation_system.h"
 #include "systems/spawn_system.h"
 #include "systems/text_system.h"
+#include "systems/background_system.h"
 #include "src/ecs/coordinator.h"
 #include <chrono>
 #include <map>
@@ -33,6 +34,7 @@ private:
     std::shared_ptr<ProjectileSystem> projectile_system;
     std::shared_ptr<SpawnSystem> spawn_system;
     std::shared_ptr<SpriteSystem> sprite_system;
+    std::shared_ptr<BackgroundSystem> background_system;
     void input(Event &e);
 };
 

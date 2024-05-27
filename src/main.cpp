@@ -83,6 +83,9 @@ int main() {
     Texture star_texture = ResourceManager::load_texture("textures/star.png", "star", true);
     Texture hose_texture = ResourceManager::load_texture("textures/hose.png", "hose", true);
     Texture boss_texture = ResourceManager::load_texture("textures/boss.png", "boss", true);
+    Texture bgstar1_texture = ResourceManager::load_texture("textures/bgstar1.png", "bgstar1", true);
+    Texture bgstar2_texture = ResourceManager::load_texture("textures/bgstar2.png", "bgstar2", true);
+    Texture bgstar3_texture = ResourceManager::load_texture("textures/bgstar3.png", "bgstar3", true);
 
     glm::mat4 projection = glm::ortho(0.0f, static_cast<float>(SCR_WIDTH), 0.0f, static_cast<float>(SCR_HEIGHT));
     text_shader.use();
@@ -100,6 +103,9 @@ int main() {
     SpriteCache::load_sprite(def_shader, star_texture, ev, 3, "star");
     SpriteCache::load_sprite(def_shader, boss_texture, ev, 3, "boss");
     //
+    SpriteCache::load_sprite(def_shader, bgstar1_texture, bv, 4, "bgstar1");
+    SpriteCache::load_sprite(def_shader, bgstar2_texture, bv, 4, "bgstar2");
+    SpriteCache::load_sprite(def_shader, bgstar3_texture, bv, 4, "bgstar3");
 
     auto text_system = GCR.register_system<TextSystem>(); // this could be a manager
     text_system->init(text_shader, ft, face);
