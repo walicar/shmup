@@ -365,7 +365,7 @@ Game::Game() {
             GCR.add_component(enemy, State{
                     .active = false,
             });
-            GCR.add_component(enemy, hose_sprite);
+            GCR.add_component(enemy, star_sprite);
             GCR.add_component(enemy, Transform{
                     .pos = glm::vec3(-7.0f + (1.0f * i), 8.0f, 0.0f),
                     .origin = glm::vec3(-7.0f + (1.0f * i), 8.0f, 0.0f),
