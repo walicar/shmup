@@ -7,7 +7,7 @@ Sprite SpriteCache::load_sprite(Shader &shader, Texture &texture, float *vertex_
     return sprites[name];
 }
 
-Sprite SpriteCache::get_sprite(std::string name) {
+Sprite SpriteCache::get_sprite(const std::string& name) {
     return sprites[name];
 }
 

@@ -10,7 +10,7 @@ public:
 
     static Sprite load_sprite(Shader &shader, Texture &texture, float* vertex_data, int vertex_count, std::string name);
 
-    static Sprite get_sprite(std::string name);
+    static Sprite get_sprite(const std::string& name);
 
     static void close();
 

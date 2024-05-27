@@ -9,12 +9,12 @@ Texture::Texture() :
     glGenTextures(1, &ID);
 }
 
-void Texture::generate(unsigned int width, unsigned int height, unsigned char *data) {
-    this->width = width;
-    this->height = height;
+void Texture::generate(unsigned int input_width, unsigned int input_height, unsigned char *data) {
+    this->width = input_width;
+    this->height = input_height;
 
     glBindTexture(GL_TEXTURE_2D, ID);
-    glTexImage2D(GL_TEXTURE_2D, 0, internal_format, this->width, this->height, 0,
+    glTexImage2D(GL_TEXTURE_2D, 0, internal_format, width, height, 0,
                  image_format, GL_UNSIGNED_BYTE, data);
 
     // setting wrap and filter modes

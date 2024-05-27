@@ -8,15 +8,15 @@
 extern Coordinator GCR;
 
 
-WindowManager::WindowManager(std::string const &title, unsigned int width, unsigned int height) {
+WindowManager::WindowManager(std::string const &title, int width, int height) {
     glfwInit();
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
     glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE); // Required for MacOS
 
-    window = glfwCreateWindow(width, height, title.c_str(), NULL, NULL);
-    if (window == NULL) {
+    window = glfwCreateWindow(width, height, title.c_str(), nullptr, nullptr);
+    if (window == nullptr) {
         std::cout << "Failed to create GLFW window" << std::endl;
         glfwTerminate();
     }
