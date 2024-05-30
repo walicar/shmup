@@ -29,348 +29,30 @@ extern Coordinator GCR;
 Game::Game() {
     GCR.add_listener(METHOD_LISTENER(Events::Window::INPUT, Game::input));
 
-    // register components
-    GCR.register_component<Sprite>();
-    GCR.register_component<Particle>();
-    GCR.register_component<Transform>();
-    GCR.register_component<Hitbox>();
-    GCR.register_component<Velocity>();
-    GCR.register_component<Player>();
-    GCR.register_component<Enemy>();
-    GCR.register_component<Projectile>();
-    GCR.register_component<Controllable>();
-    GCR.register_component<AI>();
-    GCR.register_component<State>();
+    init_ecs();
+    init_player();
 
-    // register systems
-    sprite_system = GCR.register_system<SpriteSystem>();
-    {
-        Signature signature;
-        signature.set(GCR.get_component_type<Transform>());
-        signature.set(GCR.get_component_type<Sprite>());
-        GCR.set_system_signature<SpriteSystem>(signature);
+    for (int i = 0; i < Entities::E_AMT; i++) { // level 0
+        make_enemy(GRUNT, i);
     }
-
-    movement_system = GCR.register_system<MovementSystem>(); // rename to movement system
-    {
-        Signature signature;
-        signature.set(GCR.get_component_type<Transform>());
-        signature.set(GCR.get_component_type<Player>());
-        signature.set(GCR.get_component_type<Controllable>());
-        signature.set(GCR.get_component_type<Hitbox>());
-        GCR.set_system_signature<MovementSystem>(signature);
+    for (int i = 0; i < Entities::E_AMT; i++) { // level 1
+        make_enemy(SNIPE, i);
     }
-
-    movement_system->init();
-
-    projectile_system = GCR.register_system<ProjectileSystem>();
-    {
-        Signature signature;
-        signature.set(GCR.get_component_type<Player>());
-        signature.set(GCR.get_component_type<Sprite>());
-        signature.set(GCR.get_component_type<Projectile>());
-        GCR.set_system_signature<ProjectileSystem>(signature);
+    for (int i = 0; i < Entities::E_AMT; i++) { // level 2
+        make_enemy(HOSE, i);
     }
-
-    projectile_system->init();
-
-    collision_system = GCR.register_system<CollisionSystem>();
-    {
-        Signature signature;
-        signature.set(GCR.get_component_type<Hitbox>());
-        signature.set(GCR.get_component_type<Sprite>());
-        signature.set(GCR.get_component_type<Transform>());
-        GCR.set_system_signature<CollisionSystem>(signature);
+    for (int i = 0; i < Entities::E_AMT; i++) { // level 3
+        make_enemy(STAR, i);
     }
-
-    collision_system->init();
-
-    physics_system = GCR.register_system<PhysicsSystem>();
-    {
-        Signature signature;
-        signature.set(GCR.get_component_type<Transform>());
-        signature.set(GCR.get_component_type<Velocity>());
-        GCR.set_system_signature<PhysicsSystem>(signature);
-    }
-
-    physics_system->init();
-
-    ai_system = GCR.register_system<AISystem>();
-    {
-        Signature signature;
-        signature.set(GCR.get_component_type<Transform>());
-        signature.set(GCR.get_component_type<Enemy>());
-        signature.set(GCR.get_component_type<Sprite>());
-        GCR.set_system_signature<AISystem>(signature);
-    }
-
-    ai_system->init();
-
-    animation_system = GCR.register_system<AnimationSystem>();
-    {
-        Signature signature;
-        signature.set(GCR.get_component_type<Sprite>());
-        GCR.set_system_signature<AnimationSystem>(signature);
-    }
-
-    animation_system->init();
-
-    spawn_system = GCR.register_system<SpawnSystem>();
-    {
-        Signature signature;
-        signature.set(GCR.get_component_type<Enemy>());
-        GCR.set_system_signature<SpawnSystem>(signature);
-    }
-
-    spawn_system->init();
-
-    background_system = GCR.register_system<BackgroundSystem>();
-    {
-        Signature signature;
-        signature.set(GCR.get_component_type<Particle>());
-        GCR.set_system_signature<BackgroundSystem>(signature);
-    }
-
-    background_system->init();
-
-    // create the player
-    Entity player = GCR.create_entity();
-    GCR.add_component(player, State{
-            .active = true
-    });
-    GCR.add_component(player, SpriteCache::get_sprite("player"));
-    GCR.add_component(player, Transform{});
-    GCR.add_component(player, Player{});
-    GCR.add_component(player, Controllable{});
-    GCR.add_component(player, Hitbox{
-            .health = 300,
-            .hitbox = glm::vec3(0.05f, 0.05f, 0.05f)
-    });
-
-    // player projectiles
-
-    // laser...
-    Entity player_laser = GCR.create_entity();
-    GCR.add_component(player_laser, State{});
-    GCR.add_component(player_laser, SpriteCache::get_sprite("plaser"));
-
-    GCR.add_component(player_laser, Transform{
-            .pos = glm::vec3(10.0f, 0.0f, 0.0f)
-    });
-    GCR.add_component(player_laser, Hitbox{
-            .hitbox = glm::vec3(0.5f, 1.5f, 1.0f)
-    });
-    GCR.add_component(player_laser, Velocity{});
-    GCR.add_component(player_laser, Player{});
-    GCR.add_component(player_laser, Projectile{
-            .damage = 100 // @TODO: debug damage, set back to 1
-    });
-
-    // bombs
-    for (int i = 0; i < Entities::P_BOMB_AMT; i++) {
-        Entity player_bomb = GCR.create_entity();
-        GCR.add_component(player_bomb, State{});
-        GCR.add_component(player_bomb, SpriteCache::get_sprite("pbomb"));
-        GCR.add_component(player_bomb, Transform{});
-        GCR.add_component(player_bomb, Projectile{
-                .type = BOMB,
-        });
-        GCR.add_component(player_bomb, Player{});
-        GCR.add_component(player_bomb, Hitbox{
-                .hitbox = glm::vec3(100.0f)
-        });
-    }
-
-    // bullets
-    for (int i = 0; i < Entities::P_BULLET_AMT; i++) {
-        Entity player_bullet = GCR.create_entity();
-        GCR.add_component(player_bullet, State{
-                .active = false // redundant
-        });
-        GCR.add_component(player_bullet, SpriteCache::get_sprite("pbullet"));
-
-        GCR.add_component(player_bullet, Transform{});
-        GCR.add_component(player_bullet, Player{});
-        GCR.add_component(player_bullet, Hitbox{
-                .hitbox = glm::vec3(0.5f, 0.5f, 1.0f)
-        });
-        GCR.add_component(player_bullet, Velocity{});
-        GCR.add_component(player_bullet, Projectile{
-                .damage = 15
-        });
-    }
-
-    // player core, it's the visual representation of the hitbox
-    Entity player_core = GCR.create_entity();
-    GCR.add_component(player_core, State{
-            .active = false
-    });
-    GCR.add_component(player_core, SpriteCache::get_sprite("player"));
-    GCR.add_component(player_core, Player{});
-    GCR.add_component(player_core, Transform{});
-    auto &player_core_sprite = GCR.get_component<Sprite>(player_core);
-    player_core_sprite.setup();
-
-    // enemies
-
-    // enemy grunts
-    for (int i = 0; i < Entities::E_AMT; i++) {
-        Entity enemy = GCR.create_entity();
-        GCR.add_component(enemy, State{
-                .active = false,
-        });
-        GCR.add_component(enemy, SpriteCache::get_sprite("grunt"));
-        GCR.add_component(enemy, Transform{
-                .pos = glm::vec3(-7.0f + (1.0f * i), 8.0f, 0.0f),
-                .origin = glm::vec3(-7.0f + (1.0f * i), 8.0f, 0.0f),
-        });
-        GCR.add_component(enemy, Enemy{
-                .type = GRUNT
-        });
-        GCR.add_component(enemy, AI{
-                .attack_cooldown = 1.0f,
-                .last_attacked = ((i % 3) * 0.25f)
-        });
-        GCR.add_component(enemy, Hitbox{
-                .hitbox = glm::vec3(0.5f, 0.5f, 0.5f)
-        });
-    }
-
-    // snipe
-    for (int i = 0; i < Entities::E_AMT; i++) {
-        Entity enemy = GCR.create_entity();
-        GCR.add_component(enemy, State{
-                .active = false,
-        });
-        GCR.add_component(enemy, SpriteCache::get_sprite("snipe"));
-        GCR.add_component(enemy, Transform{
-                .pos = glm::vec3(-7.0f + (1.0f * i), 8.0f, 0.0f),
-                .origin = glm::vec3(-7.0f + (1.0f * i), 8.0f, 0.0f),
-        });
-        GCR.add_component(enemy, Enemy{
-                .type = SNIPE
-        });
-        GCR.add_component(enemy, AI{
-                .attack_cooldown = 1.0f,
-                .last_attacked = 0.0f + (1.0f * i)
-        });
-        GCR.add_component(enemy, Hitbox{
-                .hitbox = glm::vec3(0.5f, 0.5f, 0.5f)
-        });
-    }
-
-    // hose
-    for (int i = 0; i < Entities::E_AMT; i++) {
-        Entity enemy = GCR.create_entity();
-        GCR.add_component(enemy, State{
-                .active = false,
-        });
-        GCR.add_component(enemy, SpriteCache::get_sprite("hose"));
-        GCR.add_component(enemy, Transform{
-                .pos = glm::vec3(-7.0f + (1.0f * i), 8.0f, 0.0f),
-                .origin = glm::vec3(-7.0f + (1.0f * i), 8.0f, 0.0f),
-        });
-        GCR.add_component(enemy, Enemy{
-                .type = HOSE
-        });
-        GCR.add_component(enemy, AI{
-                .attack_cooldown = 0.75f,
-                .last_attacked = 0.0f + (1.25f * i)
-        });
-        GCR.add_component(enemy, Hitbox{
-                .health = HOSE_HP,
-                .hitbox = glm::vec3(0.5f, 0.5f, 0.5f)
-        });
-    }
-
-    // star
-    for (int i = 0; i < Entities::E_AMT; i++) {
-        Entity enemy = GCR.create_entity();
-        GCR.add_component(enemy, State{
-                .active = false,
-        });
-        GCR.add_component(enemy, SpriteCache::get_sprite("star"));
-        GCR.add_component(enemy, Transform{
-                .pos = glm::vec3(-7.0f + (1.0f * i), 8.0f, 0.0f),
-                .origin = glm::vec3(-7.0f + (1.0f * i), 8.0f, 0.0f),
-        });
-        GCR.add_component(enemy, Enemy{
-                .type = STAR
-        });
-        GCR.add_component(enemy, AI{
-                .attack_cooldown = 1.0f,
-                .last_attacked = 0.0f + (0.25f * i)
-        });
-        GCR.add_component(enemy, Hitbox{
-                .health = 50,
-                .hitbox = glm::vec3(0.5f, 0.5f, 0.5f)
-        });
-    }
-
-    for (int i = 0; i < Entities::E_AMT; i++) {
-        Entity enemy = GCR.create_entity();
+    for (int i = 0; i < Entities::E_AMT; i++) { // level 4
         if (i % 3 == 0) {
-            GCR.add_component(enemy, State{
-                    .active = false,
-            });
-            GCR.add_component(enemy, SpriteCache::get_sprite("star"));
-            GCR.add_component(enemy, Transform{
-                    .pos = glm::vec3(-7.0f + (1.0f * i), 8.0f, 0.0f),
-                    .origin = glm::vec3(-7.0f + (1.0f * i), 8.0f, 0.0f),
-            });
-            GCR.add_component(enemy, Enemy{
-                    .type = SNIPE
-            });
-            GCR.add_component(enemy, AI{
-                    .attack_cooldown = 3.0f,
-                    .last_attacked = 0.0f + (1.0f * i)
-            });
-            GCR.add_component(enemy, Hitbox{
-                    .hitbox = glm::vec3(0.5f, 0.5f, 0.5f)
-            });
+            make_enemy(SNIPE, i);
         } else if (i % 3 == 1) {
-            GCR.add_component(enemy, State{
-                    .active = false,
-            });
-            GCR.add_component(enemy, SpriteCache::get_sprite("hose"));
-            GCR.add_component(enemy, Transform{
-                    .pos = glm::vec3(-7.0f + (1.0f * i), 8.0f, 0.0f),
-                    .origin = glm::vec3(-7.0f + (1.0f * i), 8.0f, 0.0f),
-            });
-            GCR.add_component(enemy, Enemy{
-                    .type = HOSE
-            });
-            GCR.add_component(enemy, AI{
-                    .attack_cooldown = 0.75f,
-                    .last_attacked = 0.0f + (1.25f * i)
-            });
-            GCR.add_component(enemy, Hitbox{
-                    .health = 50,
-                    .hitbox = glm::vec3(0.5f, 0.5f, 0.5f)
-            });
+            make_enemy(HOSE, i);
         } else {
-            GCR.add_component(enemy, State{
-                    .active = false,
-            });
-            GCR.add_component(enemy, SpriteCache::get_sprite("star"));
-            GCR.add_component(enemy, Transform{
-                    .pos = glm::vec3(-7.0f + (1.0f * i), 8.0f, 0.0f),
-                    .origin = glm::vec3(-7.0f + (1.0f * i), 8.0f, 0.0f),
-            });
-            GCR.add_component(enemy, Enemy{
-                    .type = STAR
-            });
-            GCR.add_component(enemy, AI{
-                    .attack_cooldown = 1.0f,
-                    .last_attacked = 0.0f + (0.25f * i)
-            });
-            GCR.add_component(enemy, Hitbox{
-                    .health = 50,
-                    .hitbox = glm::vec3(0.5f, 0.5f, 0.5f)
-            });
+            make_enemy(STAR, i);
         }
     }
-
     // boss
     Sprite boss_sprite = SpriteCache::get_sprite("boss");
     Entity boss = GCR.create_entity();
@@ -517,4 +199,262 @@ void Game::input(Event &e) {
             start();
         }
     }
+}
+
+
+
+void Game::make_enemy(EnemyType type, int offset) {
+    Entity enemy = GCR.create_entity();
+    GCR.add_component(enemy, State{
+            .active = false,
+    });
+    GCR.add_component(enemy, Transform{
+            .pos = glm::vec3(-7.0f + (1.0f * offset), 8.0f, 0.0f),
+            .origin = glm::vec3(-7.0f + (1.0f * offset), 8.0f, 0.0f),
+    });
+    switch (type) {
+        case GRUNT:
+            GCR.add_component(enemy, SpriteCache::get_sprite("grunt"));
+            GCR.add_component(enemy, Enemy{
+                    .type = GRUNT
+            });
+            GCR.add_component(enemy, AI{
+                    .attack_cooldown = 1.0f,
+                    .last_attacked = ((offset % 3) * 0.25f)
+            });
+            GCR.add_component(enemy, Hitbox{
+                    .hitbox = glm::vec3(0.5f, 0.5f, 0.5f)
+            });
+            break;
+        case SNIPE:
+            GCR.add_component(enemy, SpriteCache::get_sprite("snipe"));
+            GCR.add_component(enemy, Enemy{
+                    .type = SNIPE
+            });
+            GCR.add_component(enemy, AI{
+                    .attack_cooldown = 1.0f,
+                    .last_attacked = 0.0f + (1.0f * offset)
+            });
+            GCR.add_component(enemy, Hitbox{
+                    .hitbox = glm::vec3(0.5f, 0.5f, 0.5f)
+            });
+            break;
+        case HOSE:
+            GCR.add_component(enemy, SpriteCache::get_sprite("hose"));
+            GCR.add_component(enemy, Enemy{
+                    .type = SNIPE
+            });
+            GCR.add_component(enemy, AI{
+                    .attack_cooldown = 0.75f,
+                    .last_attacked = 0.0f + (1.25f * offset)
+            });
+            GCR.add_component(enemy, Hitbox{
+                    .health = HOSE_HP,
+                    .hitbox = glm::vec3(0.5f, 0.5f, 0.5f)
+            });
+            break;
+        case STAR:
+            GCR.add_component(enemy, SpriteCache::get_sprite("star"));
+            GCR.add_component(enemy, Enemy{
+                    .type = STAR
+            });
+            GCR.add_component(enemy, AI{
+                    .attack_cooldown = 1.0f,
+                    .last_attacked = 0.0f + (0.25f * offset)
+            });
+            GCR.add_component(enemy, Hitbox{
+                    .health = STAR_HP,
+                    .hitbox = glm::vec3(0.5f, 0.5f, 0.5f)
+            });
+            break;
+        case BOSS:
+            // manually make boss
+            break;
+    }
+}
+
+void Game::init_player() {
+    // create the player
+    Entity player = GCR.create_entity();
+    GCR.add_component(player, State{
+            .active = true
+    });
+    GCR.add_component(player, SpriteCache::get_sprite("player"));
+    GCR.add_component(player, Transform{});
+    GCR.add_component(player, Player{});
+    GCR.add_component(player, Controllable{});
+    GCR.add_component(player, Hitbox{
+            .health = 300,
+            .hitbox = glm::vec3(0.05f, 0.05f, 0.05f)
+    });
+
+    // player projectiles
+
+    // laser...
+    Entity player_laser = GCR.create_entity();
+    GCR.add_component(player_laser, State{});
+    GCR.add_component(player_laser, SpriteCache::get_sprite("plaser"));
+
+    GCR.add_component(player_laser, Transform{
+            .pos = glm::vec3(10.0f, 0.0f, 0.0f)
+    });
+    GCR.add_component(player_laser, Hitbox{
+            .hitbox = glm::vec3(0.5f, 1.5f, 1.0f)
+    });
+    GCR.add_component(player_laser, Velocity{});
+    GCR.add_component(player_laser, Player{});
+    GCR.add_component(player_laser, Projectile{
+            .damage = 100 // @TODO: debug damage, set back to 1
+    });
+
+    // bombs
+    for (int i = 0; i < Entities::P_BOMB_AMT; i++) {
+        Entity player_bomb = GCR.create_entity();
+        GCR.add_component(player_bomb, State{});
+        GCR.add_component(player_bomb, SpriteCache::get_sprite("pbomb"));
+        GCR.add_component(player_bomb, Transform{});
+        GCR.add_component(player_bomb, Projectile{
+                .type = BOMB,
+        });
+        GCR.add_component(player_bomb, Player{});
+        GCR.add_component(player_bomb, Hitbox{
+                .hitbox = glm::vec3(3000.0f)
+        });
+    }
+
+    // bullets
+    for (int i = 0; i < Entities::P_BULLET_AMT; i++) {
+        Entity player_bullet = GCR.create_entity();
+        GCR.add_component(player_bullet, State{
+                .active = false // redundant
+        });
+        GCR.add_component(player_bullet, SpriteCache::get_sprite("pbullet"));
+
+        GCR.add_component(player_bullet, Transform{});
+        GCR.add_component(player_bullet, Player{});
+        GCR.add_component(player_bullet, Hitbox{
+                .hitbox = glm::vec3(0.5f, 0.5f, 1.0f)
+        });
+        GCR.add_component(player_bullet, Velocity{});
+        GCR.add_component(player_bullet, Projectile{
+                .damage = 15
+        });
+    }
+
+    // player core, it's the visual representation of the hitbox
+    Entity player_core = GCR.create_entity();
+    GCR.add_component(player_core, State{
+            .active = false
+    });
+    GCR.add_component(player_core, SpriteCache::get_sprite("player"));
+    GCR.add_component(player_core, Player{});
+    GCR.add_component(player_core, Transform{});
+    auto &player_core_sprite = GCR.get_component<Sprite>(player_core);
+    player_core_sprite.setup();
+}
+
+void Game::init_ecs() {
+    // register components
+    GCR.register_component<Sprite>();
+    GCR.register_component<Particle>();
+    GCR.register_component<Transform>();
+    GCR.register_component<Hitbox>();
+    GCR.register_component<Velocity>();
+    GCR.register_component<Player>();
+    GCR.register_component<Enemy>();
+    GCR.register_component<Projectile>();
+    GCR.register_component<Controllable>();
+    GCR.register_component<AI>();
+    GCR.register_component<State>();
+
+    // register systems
+    sprite_system = GCR.register_system<SpriteSystem>();
+    {
+        Signature signature;
+        signature.set(GCR.get_component_type<Transform>());
+        signature.set(GCR.get_component_type<Sprite>());
+        GCR.set_system_signature<SpriteSystem>(signature);
+    }
+
+    movement_system = GCR.register_system<MovementSystem>(); // rename to movement system
+    {
+        Signature signature;
+        signature.set(GCR.get_component_type<Transform>());
+        signature.set(GCR.get_component_type<Player>());
+        signature.set(GCR.get_component_type<Controllable>());
+        signature.set(GCR.get_component_type<Hitbox>());
+        GCR.set_system_signature<MovementSystem>(signature);
+    }
+
+    movement_system->init();
+
+    projectile_system = GCR.register_system<ProjectileSystem>();
+    {
+        Signature signature;
+        signature.set(GCR.get_component_type<Player>());
+        signature.set(GCR.get_component_type<Sprite>());
+        signature.set(GCR.get_component_type<Projectile>());
+        GCR.set_system_signature<ProjectileSystem>(signature);
+    }
+
+    projectile_system->init();
+
+    collision_system = GCR.register_system<CollisionSystem>();
+    {
+        Signature signature;
+        signature.set(GCR.get_component_type<Hitbox>());
+        signature.set(GCR.get_component_type<Sprite>());
+        signature.set(GCR.get_component_type<Transform>());
+        GCR.set_system_signature<CollisionSystem>(signature);
+    }
+
+    collision_system->init();
+
+    physics_system = GCR.register_system<PhysicsSystem>();
+    {
+        Signature signature;
+        signature.set(GCR.get_component_type<Transform>());
+        signature.set(GCR.get_component_type<Velocity>());
+        GCR.set_system_signature<PhysicsSystem>(signature);
+    }
+
+    physics_system->init();
+
+    ai_system = GCR.register_system<AISystem>();
+    {
+        Signature signature;
+        signature.set(GCR.get_component_type<Transform>());
+        signature.set(GCR.get_component_type<Enemy>());
+        signature.set(GCR.get_component_type<Sprite>());
+        GCR.set_system_signature<AISystem>(signature);
+    }
+
+    ai_system->init();
+
+    animation_system = GCR.register_system<AnimationSystem>();
+    {
+        Signature signature;
+        signature.set(GCR.get_component_type<Sprite>());
+        GCR.set_system_signature<AnimationSystem>(signature);
+    }
+
+    animation_system->init();
+
+    spawn_system = GCR.register_system<SpawnSystem>();
+    {
+        Signature signature;
+        signature.set(GCR.get_component_type<Enemy>());
+        GCR.set_system_signature<SpawnSystem>(signature);
+    }
+
+    spawn_system->init();
+
+    background_system = GCR.register_system<BackgroundSystem>();
+    {
+        Signature signature;
+        signature.set(GCR.get_component_type<Particle>());
+        GCR.set_system_signature<BackgroundSystem>(signature);
+    }
+
+    background_system->init();
 }
