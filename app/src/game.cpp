@@ -133,29 +133,12 @@ Game::Game() {
 
     background_system->init();
 
-    // Create Entities
-    Sprite player_sprite = SpriteCache::get_sprite("player");
-    Sprite player_laser_sprite = SpriteCache::get_sprite("plaser");
-    Sprite player_bomb_sprite = SpriteCache::get_sprite("pbomb");
-    Sprite player_bullet_sprite = SpriteCache::get_sprite("pbullet");
-    //
-    Sprite enemy_bullet_sprite = SpriteCache::get_sprite("ebullet");
-    Sprite grunt_sprite = SpriteCache::get_sprite("grunt");
-    Sprite snipe_sprite = SpriteCache::get_sprite("snipe");
-    Sprite hose_sprite = SpriteCache::get_sprite("hose");
-    Sprite star_sprite = SpriteCache::get_sprite("star");
-    Sprite boss_sprite = SpriteCache::get_sprite("boss");
-    //
-    Sprite bgstar1_sprite = SpriteCache::get_sprite("bgstar1");
-    Sprite bgstar2_sprite = SpriteCache::get_sprite("bgstar2");
-    Sprite bgstar3_sprite = SpriteCache::get_sprite("bgstar3");
-
     // create the player
     Entity player = GCR.create_entity();
     GCR.add_component(player, State{
             .active = true
     });
-    GCR.add_component(player, player_sprite);
+    GCR.add_component(player, SpriteCache::get_sprite("player"));
     GCR.add_component(player, Transform{});
     GCR.add_component(player, Player{});
     GCR.add_component(player, Controllable{});
@@ -169,7 +152,7 @@ Game::Game() {
     // laser...
     Entity player_laser = GCR.create_entity();
     GCR.add_component(player_laser, State{});
-    GCR.add_component(player_laser, player_laser_sprite);
+    GCR.add_component(player_laser, SpriteCache::get_sprite("plaser"));
 
     GCR.add_component(player_laser, Transform{
             .pos = glm::vec3(10.0f, 0.0f, 0.0f)
@@ -187,7 +170,7 @@ Game::Game() {
     for (int i = 0; i < Entities::P_BOMB_AMT; i++) {
         Entity player_bomb = GCR.create_entity();
         GCR.add_component(player_bomb, State{});
-        GCR.add_component(player_bomb, player_bomb_sprite);
+        GCR.add_component(player_bomb, SpriteCache::get_sprite("pbomb"));
         GCR.add_component(player_bomb, Transform{});
         GCR.add_component(player_bomb, Projectile{
                 .type = BOMB,
@@ -204,7 +187,7 @@ Game::Game() {
         GCR.add_component(player_bullet, State{
                 .active = false // redundant
         });
-        GCR.add_component(player_bullet, player_bullet_sprite);
+        GCR.add_component(player_bullet, SpriteCache::get_sprite("pbullet"));
 
         GCR.add_component(player_bullet, Transform{});
         GCR.add_component(player_bullet, Player{});
@@ -222,7 +205,7 @@ Game::Game() {
     GCR.add_component(player_core, State{
             .active = false
     });
-    GCR.add_component(player_core, player_sprite);
+    GCR.add_component(player_core, SpriteCache::get_sprite("player"));
     GCR.add_component(player_core, Player{});
     GCR.add_component(player_core, Transform{});
     auto &player_core_sprite = GCR.get_component<Sprite>(player_core);
@@ -236,7 +219,7 @@ Game::Game() {
         GCR.add_component(enemy, State{
                 .active = false,
         });
-        GCR.add_component(enemy, grunt_sprite);
+        GCR.add_component(enemy, SpriteCache::get_sprite("grunt"));
         GCR.add_component(enemy, Transform{
                 .pos = glm::vec3(-7.0f + (1.0f * i), 8.0f, 0.0f),
                 .origin = glm::vec3(-7.0f + (1.0f * i), 8.0f, 0.0f),
@@ -259,7 +242,7 @@ Game::Game() {
         GCR.add_component(enemy, State{
                 .active = false,
         });
-        GCR.add_component(enemy, snipe_sprite);
+        GCR.add_component(enemy, SpriteCache::get_sprite("snipe"));
         GCR.add_component(enemy, Transform{
                 .pos = glm::vec3(-7.0f + (1.0f * i), 8.0f, 0.0f),
                 .origin = glm::vec3(-7.0f + (1.0f * i), 8.0f, 0.0f),
@@ -282,7 +265,7 @@ Game::Game() {
         GCR.add_component(enemy, State{
                 .active = false,
         });
-        GCR.add_component(enemy, hose_sprite);
+        GCR.add_component(enemy, SpriteCache::get_sprite("hose"));
         GCR.add_component(enemy, Transform{
                 .pos = glm::vec3(-7.0f + (1.0f * i), 8.0f, 0.0f),
                 .origin = glm::vec3(-7.0f + (1.0f * i), 8.0f, 0.0f),
@@ -306,7 +289,7 @@ Game::Game() {
         GCR.add_component(enemy, State{
                 .active = false,
         });
-        GCR.add_component(enemy, star_sprite);
+        GCR.add_component(enemy, SpriteCache::get_sprite("star"));
         GCR.add_component(enemy, Transform{
                 .pos = glm::vec3(-7.0f + (1.0f * i), 8.0f, 0.0f),
                 .origin = glm::vec3(-7.0f + (1.0f * i), 8.0f, 0.0f),
@@ -330,7 +313,7 @@ Game::Game() {
             GCR.add_component(enemy, State{
                     .active = false,
             });
-            GCR.add_component(enemy, snipe_sprite);
+            GCR.add_component(enemy, SpriteCache::get_sprite("star"));
             GCR.add_component(enemy, Transform{
                     .pos = glm::vec3(-7.0f + (1.0f * i), 8.0f, 0.0f),
                     .origin = glm::vec3(-7.0f + (1.0f * i), 8.0f, 0.0f),
@@ -349,7 +332,7 @@ Game::Game() {
             GCR.add_component(enemy, State{
                     .active = false,
             });
-            GCR.add_component(enemy, hose_sprite);
+            GCR.add_component(enemy, SpriteCache::get_sprite("hose"));
             GCR.add_component(enemy, Transform{
                     .pos = glm::vec3(-7.0f + (1.0f * i), 8.0f, 0.0f),
                     .origin = glm::vec3(-7.0f + (1.0f * i), 8.0f, 0.0f),
@@ -369,7 +352,7 @@ Game::Game() {
             GCR.add_component(enemy, State{
                     .active = false,
             });
-            GCR.add_component(enemy, star_sprite);
+            GCR.add_component(enemy, SpriteCache::get_sprite("star"));
             GCR.add_component(enemy, Transform{
                     .pos = glm::vec3(-7.0f + (1.0f * i), 8.0f, 0.0f),
                     .origin = glm::vec3(-7.0f + (1.0f * i), 8.0f, 0.0f),
@@ -389,6 +372,7 @@ Game::Game() {
     }
 
     // boss
+    Sprite boss_sprite = SpriteCache::get_sprite("boss");
     Entity boss = GCR.create_entity();
     GCR.add_component(boss, State{
             .active = false,
@@ -416,7 +400,7 @@ Game::Game() {
         GCR.add_component(enemy_bullet, State{
                 .active = false,
         });
-        GCR.add_component(enemy_bullet, enemy_bullet_sprite);
+        GCR.add_component(enemy_bullet, SpriteCache::get_sprite("ebullet"));
 
         GCR.add_component(enemy_bullet, Transform{
                 .pos = glm::vec3(0.0f),
@@ -437,11 +421,11 @@ Game::Game() {
                 .active = false,
         });
         if (i % 3 == 0) {
-            GCR.add_component(particle_star, bgstar1_sprite);
+            GCR.add_component(particle_star, SpriteCache::get_sprite("bgstar1"));
         } else if (i % 3 == 1) {
-            GCR.add_component(particle_star, bgstar2_sprite);
+            GCR.add_component(particle_star, SpriteCache::get_sprite("bgstar2"));
         } else {
-            GCR.add_component(particle_star, bgstar3_sprite);
+            GCR.add_component(particle_star, SpriteCache::get_sprite("bgstar3"));
         }
         GCR.add_component(particle_star, Particle{});
         GCR.add_component(particle_star, Transform{
