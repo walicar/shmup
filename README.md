@@ -14,8 +14,3 @@ Hold LEFT_SHIFT while moving to slow down
 
 Press ESC to close window
 ```
-
-## Notes
-- Developed using M1, this project is not portable on different machines.
-- In CLion, Run > Edit Configurations > Working Directory == `$ProjectFileDir$/Src`
-- Uses `safety` glazy code
