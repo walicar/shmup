@@ -201,8 +201,6 @@ void Game::input(Event &e) {
     }
 }
 
-
-
 void Game::make_enemy(EnemyType type, int offset) {
     Entity enemy = GCR.create_entity();
     GCR.add_component(enemy, State{
@@ -223,7 +221,7 @@ void Game::make_enemy(EnemyType type, int offset) {
                     .last_attacked = ((offset % 3) * 0.25f)
             });
             GCR.add_component(enemy, Hitbox{
-                    .hitbox = glm::vec3(0.5f, 0.5f, 0.5f)
+                    .hitbox = glm::vec3(0.7f)
             });
             break;
         case SNIPE:
@@ -236,7 +234,7 @@ void Game::make_enemy(EnemyType type, int offset) {
                     .last_attacked = 0.0f + (1.0f * offset)
             });
             GCR.add_component(enemy, Hitbox{
-                    .hitbox = glm::vec3(0.5f, 0.5f, 0.5f)
+                    .hitbox = glm::vec3(0.7f)
             });
             break;
         case HOSE:
@@ -250,7 +248,7 @@ void Game::make_enemy(EnemyType type, int offset) {
             });
             GCR.add_component(enemy, Hitbox{
                     .health = HOSE_HP,
-                    .hitbox = glm::vec3(0.5f, 0.5f, 0.5f)
+                    .hitbox = glm::vec3(0.7f)
             });
             break;
         case STAR:
@@ -264,7 +262,7 @@ void Game::make_enemy(EnemyType type, int offset) {
             });
             GCR.add_component(enemy, Hitbox{
                     .health = STAR_HP,
-                    .hitbox = glm::vec3(0.5f, 0.5f, 0.5f)
+                    .hitbox = glm::vec3(0.7f)
             });
             break;
         case BOSS:
@@ -285,7 +283,7 @@ void Game::init_player() {
     GCR.add_component(player, Controllable{});
     GCR.add_component(player, Hitbox{
             .health = 300,
-            .hitbox = glm::vec3(0.05f, 0.05f, 0.05f)
+            .hitbox = glm::vec3(0.15f)
     });
 
     // player projectiles
