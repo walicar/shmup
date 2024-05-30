@@ -8,7 +8,6 @@ SRC_DIR = app/src
 SHADERS_DIR = app/src/shaders/es/
 TEXTURES_DIR = app/src/textures/
 FONTS_DIR = app/src/fonts/
-CEL_DIR = $(shell brew --cellar)
 
 SRCS = $(shell find $(SRC_DIR) $(LIB_DIR) -name '*.cpp')
 OBJS = $(SRCS:.cpp=.o)
