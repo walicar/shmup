@@ -49,7 +49,7 @@ UiManager::UiManager(int width, int height, Shader &shader) {
     }
 
     FT_Face face;
-    if (FT_New_Face(ft, "app/src/fonts/font.ttf", 0, &face)) {
+    if (FT_New_Face(ft, "fonts/font.ttf", 0, &face)) {
         std::cerr << "Failed to load font" << std::endl;
     }
 

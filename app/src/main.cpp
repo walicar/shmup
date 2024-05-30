@@ -64,28 +64,23 @@ int main() {
 
     GCR.add_listener(FUNCTION_LISTENER(Events::Window::QUIT, handle_quit)); // lambda preferred?
 
-#ifdef __EMSCRIPTEN__
-    Shader text_shader = ResourceManager::load_shader("app/src/shaders/es/font.vert", "app/src/shaders/es/font.frag", "text");
-    Shader def_shader = ResourceManager::load_shader("app/src/shaders/es/default.vert", "app/src/shaders/es/default.frag", "default");
-#else
     Shader text_shader = ResourceManager::load_shader("shaders/font.vert", "shaders/font.frag", "text");
     Shader def_shader = ResourceManager::load_shader("shaders/default.vert", "shaders/default.frag", "default");
-#endif
     UiManager ui_manager(SCR_WIDTH, SCR_HEIGHT, text_shader);
 
-    Texture laser_texture = ResourceManager::load_texture("app/src/textures/laser.png", "laser", true);
-    Texture bomb_texture = ResourceManager::load_texture("app/src/textures/bomb.png", "bomb", true);
-    Texture bullet_texture = ResourceManager::load_texture("app/src/textures/bullet.png", "bullet", true);
-    Texture ship_texture = ResourceManager::load_texture("app/src/textures/ship.png", "ship", true);
-    Texture ebullet_texture = ResourceManager::load_texture("app/src/textures/ebullet.png", "ebullet", true);
-    Texture eship_texture = ResourceManager::load_texture("app/src/textures/eship.png", "eship", true);
-    Texture snipe_texture = ResourceManager::load_texture("app/src/textures/snipe.png", "snipe", true);
-    Texture star_texture = ResourceManager::load_texture("app/src/textures/star.png", "star", true);
-    Texture hose_texture = ResourceManager::load_texture("app/src/textures/hose.png", "hose", true);
-    Texture boss_texture = ResourceManager::load_texture("app/src/textures/boss.png", "boss", true);
-    Texture bgstar1_texture = ResourceManager::load_texture("app/src/textures/bgstar1.png", "bgstar1", true);
-    Texture bgstar2_texture = ResourceManager::load_texture("app/src/textures/bgstar2.png", "bgstar2", true);
-    Texture bgstar3_texture = ResourceManager::load_texture("app/src/textures/bgstar3.png", "bgstar3", true);
+    Texture laser_texture = ResourceManager::load_texture("textures/laser.png", "laser", true);
+    Texture bomb_texture = ResourceManager::load_texture("textures/bomb.png", "bomb", true);
+    Texture bullet_texture = ResourceManager::load_texture("textures/bullet.png", "bullet", true);
+    Texture ship_texture = ResourceManager::load_texture("textures/ship.png", "ship", true);
+    Texture ebullet_texture = ResourceManager::load_texture("textures/ebullet.png", "ebullet", true);
+    Texture eship_texture = ResourceManager::load_texture("textures/eship.png", "eship", true);
+    Texture snipe_texture = ResourceManager::load_texture("textures/snipe.png", "snipe", true);
+    Texture star_texture = ResourceManager::load_texture("textures/star.png", "star", true);
+    Texture hose_texture = ResourceManager::load_texture("textures/hose.png", "hose", true);
+    Texture boss_texture = ResourceManager::load_texture("textures/boss.png", "boss", true);
+    Texture bgstar1_texture = ResourceManager::load_texture("textures/bgstar1.png", "bgstar1", true);
+    Texture bgstar2_texture = ResourceManager::load_texture("textures/bgstar2.png", "bgstar2", true);
+    Texture bgstar3_texture = ResourceManager::load_texture("textures/bgstar3.png", "bgstar3", true);
 
     SpriteCache::load_sprite(def_shader, ship_texture, v, 3, "player");
     SpriteCache::load_sprite(def_shader, laser_texture, lv, 4, "plaser");
