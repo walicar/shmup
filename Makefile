@@ -16,7 +16,7 @@ INCLUDE_DIRS = $(shell find $(INC_DIR) -type d)
 INCLUDE_FLAGS = $(addprefix -I, $(INCLUDE_DIRS))
 EMS_FLAGS = -sUSE_FREETYPE=1
 CPP_FLAGS = -std=c++20 $(INCLUDE_FLAGS)
-PACKAGING = --embed-file $(FONTS_DIR)@fonts/ --use-preload-plugins --preload-file $(SHADERS_DIR)@shaders/ --preload-file $(TEXTURES_DIR)@textures/
+PACKAGING = --embed-file $(FONTS_DIR)@fonts/ --embed-file $(SHADERS_DIR)@shaders/ --embed-file $(TEXTURES_DIR)@textures/
 LD_FLAGS = -sMAX_WEBGL_VERSION=2 -s USE_GLFW=3 -s FULL_ES3=1 -s ALLOW_MEMORY_GROWTH=1 -s NO_EXIT_RUNTIME=0 -s ASSERTIONS=1 $(PACKAGING) -lfreetype
 
 %.o: %.cpp
