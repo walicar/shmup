@@ -172,6 +172,7 @@ void UiManager::next_wave(Event &e) {
 
 void UiManager::start_game(Event &e) {
     in_game = true;
+    bombs_left = 3;
 }
 
 void UiManager::stop_game(Event &e) {

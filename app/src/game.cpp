@@ -240,7 +240,7 @@ void Game::make_enemy(EnemyType type, int offset) {
         case HOSE:
             GCR.add_component(enemy, SpriteCache::get_sprite("hose"));
             GCR.add_component(enemy, Enemy{
-                    .type = SNIPE
+                    .type = HOSE
             });
             GCR.add_component(enemy, AI{
                     .attack_cooldown = 0.75f,
