@@ -5,11 +5,8 @@
   "main": "localserver.js",
   "scripts": {
     "dev": "nodemon tests/local.js",
-    "emhtml": "emrun tests/index.html --browser firefox",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "emhtml": "emrun tests/index.html --browser firefox"
   },
-  "author": "",
-  "license": "MIT",
   "devDependencies": {
     "express": "^4.18.2",
     "nodemon": "^3.0.3"

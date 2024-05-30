@@ -17,7 +17,7 @@ INCLUDE_FLAGS = $(addprefix -I, $(INCLUDE_DIRS))
 EMS_FLAGS = -sUSE_FREETYPE=1
 CPP_FLAGS = -std=c++20 $(INCLUDE_FLAGS)
 PACKAGING = --embed-file $(FONTS_DIR)@fonts/ --embed-file $(SHADERS_DIR)@shaders/ --embed-file $(TEXTURES_DIR)@textures/
-LD_FLAGS = -sMAX_WEBGL_VERSION=2 -s USE_GLFW=3 -s FULL_ES3=1 -s ALLOW_MEMORY_GROWTH=1 -s NO_EXIT_RUNTIME=0 -s ASSERTIONS=1 $(PACKAGING) -lfreetype
+LD_FLAGS = -sMAX_WEBGL_VERSION=2 -sUSE_GLFW=3 -sFULL_ES3=1 -sALLOW_MEMORY_GROWTH=1 -s NO_EXIT_RUNTIME=0 -s ASSERTIONS=1 $(PACKAGING) -lfreetype
 
 %.o: %.cpp
 	$(CXX) $(CPP_FLAGS) $(EMS_FLAGS) -c -o $@ $<
@@ -30,5 +30,3 @@ emhtml: $(OBJS) $(WEB_DIR)
 
 clean:
 	rm -rf web/assets/out* tests/index* $(SRCS:.cpp=.o) *.o
-
-.PHONY: clean
