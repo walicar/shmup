@@ -12,8 +12,11 @@ WindowManager::WindowManager(std::string const &title, int width, int height) {
     glfwInit();
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
+    glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_ANY_PROFILE);
+#ifndef __EMSCRIPTEN__
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
     glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE); // Required for MacOS
+#endif
 
     window = glfwCreateWindow(width, height, title.c_str(), nullptr, nullptr);
     if (window == nullptr) {
@@ -22,15 +25,17 @@ WindowManager::WindowManager(std::string const &title, int width, int height) {
     }
 
     glfwMakeContextCurrent(window);
+#ifndef __EMSCRIPTEN__
     if (!gladLoadGLLoader((GLADloadproc) glfwGetProcAddress)) {
         std::cout << "Failed to initialize GLAD" << std::endl;
         glfwTerminate();
     }
+#endif
 
     int f_width, f_height;
     glfwGetFramebufferSize(window, &f_width, &f_height);
-
     glViewport(0, 0, f_width, f_height);
+
     glEnable(GL_DEPTH_TEST);
     glDepthFunc(GL_LESS);
     // glfwSwapInterval(2);

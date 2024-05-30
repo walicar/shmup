@@ -2,7 +2,7 @@
 #include "../ecs/coordinator.h"
 #include "../components/sprite.h"
 #include "../components/transform.h"
-#include "src/components/state.h"
+#include "../components/state.h"
 #include <gtc/type_ptr.hpp>
 
 #define GLM_ENABLE_EXPERIMENTAL

@@ -1,7 +1,7 @@
 #include "shader.h"
 
 void Shader::compile(const char *vert_code, const char *frag_code) {
-    unsigned int vert_id, frag_id;
+    GLuint vert_id, frag_id;
     int success;
     char info_log[512];
 

@@ -1,8 +1,13 @@
 #ifndef WINDOW_MANAGER_H
 #define WINDOW_MANAGER_H
-
-#include <glad.h>
-#include <glfw3.h>
+#ifdef __EMSCRIPTEN__
+    #include <emscripten.h>
+    #define GL_GLEXT_PROTOTYPES
+    #define EGL_EGLEXT_PROTOTYPES
+#else
+    #include <glad.h>
+#endif
+#include <GLFW/glfw3.h>
 #include <bitset>
 #include <string>
 #include "ecs/types.h"

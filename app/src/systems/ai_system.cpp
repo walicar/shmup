@@ -5,8 +5,8 @@
 #include "../components/sprite.h"
 #include "../components/velocity.h"
 #include "../components/projectile.h"
-#include "src/components/state.h"
-#include "src/components/tags/enemy.h"
+#include "../components/state.h"
+#include "../components/tags/enemy.h"
 #include <random>
 
 extern Coordinator GCR;

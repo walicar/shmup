@@ -1,12 +1,19 @@
 #ifndef RESOURCE_MANAGER_H
 #define RESOURCE_MANAGER_H
 
+#ifdef __EMSCRIPTEN__
+    #include <emscripten.h>
+    #define GL_GLEXT_PROTOTYPES
+    #define EGL_EGLEXT_PROTOTYPES
+#else
+    #include <glad.h>
+#endif
+#include <GLFW/glfw3.h>
 #include <unordered_map>
 #include <string>
-#include <glad.h>
 #include "shader.h"
 #include "texture.h"
-#include "stb_image.h"
+#include "../inc/stb_image.h"
 
 class ResourceManager {
 public:

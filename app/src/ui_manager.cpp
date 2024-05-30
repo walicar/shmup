@@ -1,6 +1,6 @@
 #include "ui_manager.h"
-#include "src/ecs/coordinator.h"
-#include "src/components/hitbox.h"
+#include "ecs/coordinator.h"
+#include "components/hitbox.h"
 
 // Credit: https://learnopengl.com/In-Practice/Text-Rendering
 
@@ -39,21 +39,19 @@ UiManager::UiManager(int width, int height, Shader &shader) {
     GCR.add_listener(METHOD_LISTENER(Events::Game::START, UiManager::start_game));
     GCR.add_listener(METHOD_LISTENER(Events::Game::STOP, UiManager::stop_game));
 
+    glm::mat4 projection = glm::ortho(0.0f, static_cast<float>(width), 0.0f, static_cast<float>(height));
+    shader.use();
+    glUniformMatrix4fv(glGetUniformLocation(shader.ID, "projection"), 1, GL_FALSE, glm::value_ptr(projection));
+
     FT_Library ft;
     if (FT_Init_FreeType(&ft)) {
         std::cerr << "Could not init FreeType Library" << std::endl;
     }
 
     FT_Face face;
-    if (FT_New_Face(ft, "fonts/font.ttf", 0, &face)) {
+    if (FT_New_Face(ft, "app/src/fonts/font.ttf", 0, &face)) {
         std::cerr << "Failed to load font" << std::endl;
     }
-
-    FT_Set_Pixel_Sizes(face, 0, 48);
-
-    glm::mat4 projection = glm::ortho(0.0f, static_cast<float>(width), 0.0f, static_cast<float>(height));
-    shader.use();
-    glUniformMatrix4fv(glGetUniformLocation(shader.ID, "projection"), 1, GL_FALSE, glm::value_ptr(projection));
 
     text_shader = &shader;
     FT_Set_Pixel_Sizes(face, 0, 48);
@@ -68,17 +66,34 @@ UiManager::UiManager(int width, int height, Shader &shader) {
         unsigned int texture;
         glGenTextures(1, &texture);
         glBindTexture(GL_TEXTURE_2D, texture);
-        glTexImage2D(
-                GL_TEXTURE_2D,
-                0,
-                GL_RED,
-                face->glyph->bitmap.width,
-                face->glyph->bitmap.rows,
-                0,
-                GL_RED,
-                GL_UNSIGNED_BYTE,
-                face->glyph->bitmap.buffer
+
+#ifdef __EMSCRIPTEN__
+        glTexStorage2D(GL_TEXTURE_2D, 1, GL_R8, face->glyph->bitmap.width, face->glyph->bitmap.rows);
+        glTexSubImage2D(
+            GL_TEXTURE_2D,
+            0,
+            0,
+            0,
+            face->glyph->bitmap.width,
+            face->glyph->bitmap.rows,
+            GL_RED,
+            GL_UNSIGNED_BYTE,
+            face->glyph->bitmap.buffer
         );
+#else
+        glTexImage2D(
+            GL_TEXTURE_2D,
+            0,
+            GL_RED,
+            face->glyph->bitmap.width,
+            face->glyph->bitmap.rows,
+            0,
+            GL_RED,
+            GL_UNSIGNED_BYTE,
+            face->glyph->bitmap.buffer
+        );
+#endif
+
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
@@ -109,7 +124,8 @@ UiManager::UiManager(int width, int height, Shader &shader) {
 
 void UiManager::render_text(std::string text, float x, float y, float scale, glm::vec3 color) {
     text_shader->use();
-    glUniform3f(glGetUniformLocation(text_shader->ID, "textColor"), color.x, color.y, color.z);
+    GLint textColorLocation = glGetUniformLocation(text_shader->ID, "textColor");
+    glUniform3f(textColorLocation, color.x, color.y, color.z);
     glActiveTexture(GL_TEXTURE0);
     glBindVertexArray(VAO);
 

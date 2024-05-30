@@ -6,7 +6,7 @@
 #include "../components/velocity.h"
 #include "../components/sprite.h"
 #include "../components/projectile.h"
-#include "src/components/state.h"
+#include "../components/state.h"
 
 extern Coordinator GCR;
 

@@ -11,7 +11,7 @@
 #include "systems/spawn_system.h"
 #include "ui_manager.h"
 #include "systems/background_system.h"
-#include "src/ecs/coordinator.h"
+#include "ecs/coordinator.h"
 #include <chrono>
 #include <map>
 

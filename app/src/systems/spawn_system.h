@@ -2,7 +2,7 @@
 #define SPAWN_SYSTEM_H
 
 #include "../ecs/system.h"
-#include "src/ecs/event.h"
+#include "../ecs/event.h"
 
 class SpawnSystem : public System {
 public:

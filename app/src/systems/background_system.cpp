@@ -3,7 +3,7 @@
 #include "../components/transform.h"
 #include "../components/sprite.h"
 #include "../components/velocity.h"
-#include "src/components/state.h"
+#include "../components/state.h"
 
 extern Coordinator GCR;
 

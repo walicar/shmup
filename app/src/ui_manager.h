@@ -3,12 +3,11 @@
 
 #include <ft2build.h>
 #include FT_FREETYPE_H
-#include "freetype/freetype.h"
-#include "src/ecs/system.h"
-#include "inc/glm/gtc/matrix_transform.hpp"
+#include "ecs/system.h"
+#include "../inc/glm/gtc/matrix_transform.hpp"
 #include <map>
 #include "shader.h"
-#include "src/ecs/event.h"
+#include "ecs/event.h"
 
 struct Character {
     unsigned int tex_id;

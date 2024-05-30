@@ -409,7 +409,6 @@ Game::Game() {
             .health = 800,
             .hitbox = glm::vec3(1.0f)
     });
-    printf("Boss ID [%d]\n", boss);
 
     // enemy bullets
     for (int i = 0; i < Entities::E_BULLET_AMT; i++) {
