@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>SHMUP</title>
+    <link rel="shortcut icon" type="image/svg+xml" href="/icon.svg?"/>
+    <script src="assets/util.js"></script>
+  </head>
+  <body style="background-color: black;">
+    <div style="display: flex; justify-content: center; align-items: center;">
+      <canvas style="margin-top: 8vh; height:600; width:800px;border-color: gold;border-style: solid;" class="emscripten" id="canvas" oncontextmenu="event.preventDefault()" tabindex=-1></canvas>
+    </div>
+    <script type='text/javascript'>
+      var Module = {
+        canvas: (() => {
+          var canvas = document.getElementById('canvas');
+          // As a default initial behavior, pop up an alert when webgl context is lost. To make your
+          // application robust, you may want to override this behavior before shipping!
+          // See http://www.khronos.org/registry/webgl/specs/latest/1.0/#5.15.2
+          canvas.addEventListener("webglcontextlost", (e) => { alert('WebGL context lost. You will need to reload the page.'); e.preventDefault(); }, false);
+          return canvas;
+        })(), // ?
+        locateFile: (path, prefix) => {
+          if (path.endsWith(".data")) {
+            return getPrefix() + path;
+          }
+          return prefix + path;
+        }
+      };
+    </script>
+    <script async src="assets/out.js"></script>
+  </body>
+</html>
