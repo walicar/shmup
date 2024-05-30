@@ -7,4 +7,3 @@ build/
 node_modules/
 web/assets/out*
 tests/index*
-*.o

@@ -29,6 +29,6 @@ emhtml: $(OBJS) $(WEB_DIR)
 	$(CXX) -o tests/index.html $(OBJS) $(LD_FLAGS)
 
 clean:
-	rm -rf web/assets/out* tests/index* $(SRCS:.cpp=.o)
+	rm -rf web/assets/out* tests/index* $(SRCS:.cpp=.o) *.o
 
 .PHONY: clean
