@@ -2,6 +2,7 @@
 #include "../ecs/coordinator.h"
 #include "../components/sprite.h"
 #include "../components/transform.h"
+#include "../components/tags/player.h"
 #include "../components/state.h"
 #include <gtc/type_ptr.hpp>
 
@@ -21,10 +22,6 @@ void SpriteSystem::update(float time) {
 
         auto &movement = GCR.get_component<Transform>(entity);
 
-        if (entity == Entities::P_CORE) {
-            movement = GCR.get_component<Transform>(Entities::PLAYER);
-        }
-
         if (entity >= Entities::G_STAR) {
             movement.pos.z = 9.5f;
         } else {
@@ -36,7 +33,7 @@ void SpriteSystem::update(float time) {
         transform = glm::scale(transform, sprite.scale_factor);
         transform = glm::translate(transform, movement.pos);
 
-        if (entity == Entities::PLAYER) {
+        if (entity == Entities::PLAYER && GCR.get_component<Player>(Entities::PLAYER).rotate) {
             transform = transform * rotation;
         }
 
@@ -55,7 +52,7 @@ void SpriteSystem::update(float time) {
         glUniform1f(tloc, sprite.transparency);
         glBindVertexArray(sprite.VAO);
 
-        if (entity == Entities::PLAYER || entity == Entities::P_CORE ||
+        if (entity == Entities::PLAYER ||
             (entity >= Entities::E_GRUNT && entity <= Entities::BOSS)) {
             glDrawArrays(GL_TRIANGLES, 0, 3);
         } else {

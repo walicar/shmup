@@ -318,14 +318,6 @@ void Game::init_player() {
         });
     }
 
-    // shows the player's jet without the flying animation to allow the player to focus
-    Entity player_core = GCR.create_entity();
-    GCR.add_component(player_core, State{
-            .active = false
-    });
-    GCR.add_component(player_core, SpriteCache::get_sprite("player"));
-    GCR.add_component(player_core, Player{});
-    GCR.add_component(player_core, Transform{});
 }
 
 void Game::init_ecs() {

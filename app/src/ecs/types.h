@@ -35,8 +35,7 @@ namespace Entities {
     const Entity P_BOMB = 2;
     const Entity P_BOMB_AMT = 3;
     const Entity P_BULLET = 5;
-    const Entity P_BULLET_AMT = 44;
-    const Entity P_CORE = 49;
+    const Entity P_BULLET_AMT = 45;
     // Enemies
     const Entity E_AMT = 15;
     const Entity E_GRUNT = 50;
