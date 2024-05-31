@@ -326,8 +326,6 @@ void Game::init_player() {
     GCR.add_component(player_core, SpriteCache::get_sprite("player"));
     GCR.add_component(player_core, Player{});
     GCR.add_component(player_core, Transform{});
-    auto &player_core_sprite = GCR.get_component<Sprite>(player_core);
-    player_core_sprite.setup();
 }
 
 void Game::init_ecs() {
