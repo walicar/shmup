@@ -27,14 +27,14 @@ public:
         // @TODO: there is no checking if we have too much entities!
         Entity id = entities.front();
         entities.pop();
-        count++;
+        ++count;
         return id;
     }
 
     void destroy(Entity entity) {
-        entities.push(entity);
         signatures[entity].reset();
-        count--;
+        entities.push(entity);
+        --count;
     }
 
     void set_signature(Entity entity, Signature signature) {

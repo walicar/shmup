@@ -22,7 +22,7 @@ private:
     float last_emit = 0.0f;
     float cooldown = 0.45f;
 
-    Entity next_star();
+    Entity make_star();
 
     std::mt19937 gen;
 

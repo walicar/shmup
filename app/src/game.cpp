@@ -95,27 +95,6 @@ Game::Game() {
         GCR.add_component(enemy_bullet, Velocity{});
         GCR.add_component(enemy_bullet, Projectile{});
     }
-
-    // some stars
-    for (int i = 0; i < Entities::G_STAR_AMT; i++) {
-        Entity particle_star = GCR.create_entity();
-        GCR.add_component(particle_star, State{
-                .active = false,
-        });
-        if (i % 3 == 0) {
-            GCR.add_component(particle_star, SpriteCache::get_sprite("bgstar1"));
-        } else if (i % 3 == 1) {
-            GCR.add_component(particle_star, SpriteCache::get_sprite("bgstar2"));
-        } else {
-            GCR.add_component(particle_star, SpriteCache::get_sprite("bgstar3"));
-        }
-        GCR.add_component(particle_star, Particle{});
-        GCR.add_component(particle_star, Transform{
-                .pos = glm::vec3(0.0f, 0.0f, -1.0f),
-                .origin = glm::vec3(0.0f, 0.0f, -1.0f)
-        });
-        GCR.add_component(particle_star, Velocity{});
-    }
 }
 
 void Game::update(float dt) {
