@@ -1,6 +1,6 @@
 # SHMUP
 
-![Boss Fight](docs/imgs/shmup4.png)
+![Boss Fight](docs/imgs/shmup2.png)
 
 CPSC 5270 Game project, refer to [docs](docs/engine_design.md) for game engine design.
 
