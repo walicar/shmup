@@ -17,9 +17,6 @@ void ProjectileSystem::init() {
 
 void ProjectileSystem::update(float time) {
     for (auto &entity: entities) {
-        auto &player_active = GCR.get_component<State>(Entities::PLAYER).active;
-        if (!player_active) continue;
-
         if (buttons.test(static_cast<std::size_t>(InputButtons::J)) && entity >= Entities::P_BULLET &&
             entity < Entities::E_GRUNT) {
             if (bullet_last_shot + bullet_cooldown > time)

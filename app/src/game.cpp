@@ -318,7 +318,7 @@ void Game::init_player() {
         });
     }
 
-    // player core, it's the visual representation of the hitbox
+    // shows the player's jet without the flying animation to allow the player to focus
     Entity player_core = GCR.create_entity();
     GCR.add_component(player_core, State{
             .active = false
