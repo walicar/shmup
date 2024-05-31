@@ -120,9 +120,17 @@ void Game::update(float dt) {
 
 void Game::start() {
     GCR.get_component<Hitbox>(Entities::PLAYER).health = PLAYER_HP;
+
+    // reset enemies
     for (int i = 0; i < Entities::E_AMT; i++) {
-        auto enemy = Entities::E_GRUNT + i;
+        Entity enemy = Entities::E_GRUNT + i;
         GCR.get_component<State>(enemy).active = true;
+    }
+
+    // clear screen of enemy projectiles
+    for (int i = 0; i < Entities::E_BULLET_AMT; i++) {
+        Entity ebullet = Entities::E_BULLET + i;
+        GCR.get_component<State>(ebullet).active = false;
     }
 
     Event start_game(Events::Game::START);
