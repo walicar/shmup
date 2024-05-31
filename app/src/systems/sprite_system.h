@@ -4,6 +4,8 @@
 #include "../ecs/system.h"
 
 class SpriteSystem : public System {
+private:
+    std::vector<Entity> trash;
 public:
     void update(float time);
 };

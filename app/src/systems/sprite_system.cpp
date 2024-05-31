@@ -43,10 +43,6 @@ void SpriteSystem::update(float time) {
         bool isOffscreen = (movement.pos.x < -10.0f || movement.pos.x > 10.0f || movement.pos.y < -10.0f ||
                             movement.pos.y > 10.0f);
 
-        // cleanup particles that are OOB
-        if (isOffscreen and entity != Entities::PLAYER) {
-            state.active = false;
-        }
 
         // render
         glEnable(GL_BLEND);
@@ -66,5 +62,18 @@ void SpriteSystem::update(float time) {
             glDrawArrays(GL_TRIANGLE_FAN, 0, 4);
         }
 
+        // deactivate particles that are OOB
+        if (isOffscreen && entity != Entities::PLAYER) {
+            state.active = false;
+        }
+        if (entity >= Entities::G_STAR && isOffscreen) {
+            trash.push_back(entity);
+        }
     }
+
+    // delete the star particles that are dynamically generated
+    for (Entity entity: trash) {
+        GCR.destroy_entity(entity);
+    }
+    trash.clear();
 }

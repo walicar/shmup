@@ -75,7 +75,6 @@ public:
 
     void destroyed(Entity entity) override {
         if (ei.find(entity) != ei.end()) {
-            // Remove the entity's component if it existed
             remove(entity);
         }
     }
