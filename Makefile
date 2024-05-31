@@ -5,9 +5,9 @@ WEB_DIR = web/assets
 INC_DIR = app/inc
 LIB_DIR = app/lib
 SRC_DIR = app/src
-SHADERS_DIR = app/src/shaders/es/
-TEXTURES_DIR = app/src/textures/
-FONTS_DIR = app/src/fonts/
+SHADERS_DIR = $(SRC_DIR)/shaders/es/
+TEXTURES_DIR = $(SRC_DIR)/textures/
+FONTS_DIR = $(SRC_DIR)/fonts/
 
 SRCS = $(shell find $(SRC_DIR) $(LIB_DIR) -name '*.cpp')
 OBJS = $(SRCS:.cpp=.o)
@@ -17,7 +17,7 @@ INCLUDE_FLAGS = $(addprefix -I, $(INCLUDE_DIRS))
 EMS_FLAGS = -sUSE_FREETYPE=1
 CPP_FLAGS = -std=c++20 $(INCLUDE_FLAGS)
 PACKAGING = --embed-file $(FONTS_DIR)@fonts/ --embed-file $(SHADERS_DIR)@shaders/ --embed-file $(TEXTURES_DIR)@textures/
-LD_FLAGS = -sMAX_WEBGL_VERSION=2 -sUSE_GLFW=3 -sFULL_ES3=1 -sALLOW_MEMORY_GROWTH=1 -s NO_EXIT_RUNTIME=0 -s ASSERTIONS=1 $(PACKAGING) -lfreetype
+LD_FLAGS = -sMAX_WEBGL_VERSION=2 -sUSE_GLFW=3 -sFULL_ES3=1 $(PACKAGING) -lfreetype
 
 %.o: %.cpp
 	$(CXX) $(CPP_FLAGS) $(EMS_FLAGS) -c -o $@ $<
