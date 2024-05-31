@@ -5,9 +5,9 @@
 
 class PhysicsSystem : public System {
 public:
-    void update(float dt);
+  void update(float dt);
 
-    void init();
+  void init();
 };
 
 #endif

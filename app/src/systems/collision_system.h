@@ -7,17 +7,17 @@
 
 class CollisionSystem : public System {
 public:
-    void init();
+  void init();
 
-    void update(float time);
+  void update(float time);
 
 private:
-    static bool overlaps(glm::vec3 hb1, glm::vec3 pos1, glm::vec3 hb2, glm::vec3 pos2);
+  static bool overlaps(glm::vec3 hb1, glm::vec3 pos1, glm::vec3 hb2,
+                       glm::vec3 pos2);
 
-    static void erase_enemy_projectiles();
+  static void erase_enemy_projectiles();
 
-    Signature projectile;
-
+  Signature projectile;
 };
 
 #endif

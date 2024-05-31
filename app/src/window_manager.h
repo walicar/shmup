@@ -10,33 +10,30 @@
 
 #endif
 
+#include "ecs/types.h"
 #include <GLFW/glfw3.h>
 #include <bitset>
 #include <string>
-#include "ecs/types.h"
-
 
 class WindowManager {
 
 public:
-    WindowManager() = delete;
+  WindowManager() = delete;
 
-    WindowManager(std::string const &title, int width, int height);
+  WindowManager(std::string const &title, int width, int height);
 
-    void clean();
+  void clean();
 
-    void update();
+  void update();
 
-    void process_events();
-
+  void process_events();
 
 private:
-    GLFWwindow *window;
+  GLFWwindow *window;
 
-    std::bitset<8> buttons;
+  std::bitset<8> buttons;
 
-    void set_buttons(GLint key_code, InputButtons input_code);
+  void set_buttons(GLint key_code, InputButtons input_code);
 };
-
 
 #endif

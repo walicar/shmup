@@ -1,6 +1,6 @@
 #ifdef __EMSCRIPTEN__
-#include <emscripten.h>
 #include "../inc/emscripten_mainloop.h"
+#include <emscripten.h>
 #define GL_GLEXT_PROTOTYPES
 #define EGL_EGLEXT_PROTOTYPES
 #else
@@ -12,118 +12,121 @@
 #include <GLFW/glfw3.h>
 #include <ft2build.h>
 #include FT_FREETYPE_H
-#include <iostream>
-#include "shader.h"
-#include "resource_manager.h"
-#include "sprite_cache.h"
-#include "window_manager.h"
+#include "components/hitbox.h"
+#include "components/sprite.h"
 #include "ecs/coordinator.h"
 #include "ecs/types.h"
-#include "components/sprite.h"
-#include "components/hitbox.h"
-#include "ui_manager.h"
 #include "game.h"
+#include "resource_manager.h"
+#include "shader.h"
+#include "sprite_cache.h"
+#include "ui_manager.h"
+#include "window_manager.h"
+#include <iostream>
 #include <map>
 
 Coordinator GCR;
 static bool quit = false;
 
-void handle_quit(Event &e) {
-    quit = true;
-}
+void handle_quit(Event &e) { quit = true; }
 
 const unsigned int SCR_WIDTH = 800;
 const unsigned int SCR_HEIGHT = 600;
 
 float v[] = {
-        -0.25f, -0.5f, 0.0f, 0.0f, 0.0f,       // bottom left
-        0.25f, -0.5f, 0.0f, 1.0f, 0.0f,       // bottom right
-        0.0f, 0.5f, 0.0f, 0.5f, 1.0f        // upper middle
+    -0.25f, -0.5f, 0.0f, 0.0f, 0.0f, // bottom left
+    0.25f,  -0.5f, 0.0f, 1.0f, 0.0f, // bottom right
+    0.0f,   0.5f,  0.0f, 0.5f, 1.0f  // upper middle
 };
 
-float lv[] = {
-        -0.25f, -1.0f, 0.0f, 0.0f, 0.0f,
-        0.25f, -1.0f, 0.0f, 1.0f, 0.0f,
-        0.25f, 1.0f, 0.0f, 1.0f, 1.0f,
-        -0.25f, 1.0f, 0.0f, 0.0f, 1.0f
-};
+float lv[] = {-0.25f, -1.0f, 0.0f, 0.0f, 0.0f, 0.25f,  -1.0f, 0.0f, 1.0f, 0.0f,
+              0.25f,  1.0f,  0.0f, 1.0f, 1.0f, -0.25f, 1.0f,  0.0f, 0.0f, 1.0f};
 
-float bv[] = {
-        -0.25f, -0.5f, 0.0f, 0.0f, 0.0f,
-        0.25f, -0.5f, 0.0f, 1.0f, 0.0f,
-        0.25f, 0.5f, 0.0f, 1.0f, 1.0f,
-        -0.25f, 0.5f, 0.0f, 0.0f, 1.0f
-};
+float bv[] = {-0.25f, -0.5f, 0.0f, 0.0f, 0.0f, 0.25f,  -0.5f, 0.0f, 1.0f, 0.0f,
+              0.25f,  0.5f,  0.0f, 1.0f, 1.0f, -0.25f, 0.5f,  0.0f, 0.0f, 1.0f};
 
-float ev[] = {
-        -0.25f, 0.5f, 0.0f, 0.0, 0.0,
-        0.25f, 0.5f, 0.0f, 1.0, 0.0,
-        0.0f, -0.5f, 0.0f, 0.5, 1.0
-};
+float ev[] = {-0.25f, 0.5f, 0.0f, 0.0,   0.0,  0.25f, 0.5f, 0.0f,
+              1.0,    0.0,  0.0f, -0.5f, 0.0f, 0.5,   1.0};
 
 int main() {
-    // application entry
-    WindowManager window_manager("SHMUP", SCR_WIDTH, SCR_HEIGHT);
+  // application entry
+  WindowManager window_manager("SHMUP", SCR_WIDTH, SCR_HEIGHT);
 
-    GCR.add_listener(FUNCTION_LISTENER(Events::Window::QUIT, handle_quit)); // lambda preferred?
+  GCR.add_listener(FUNCTION_LISTENER(Events::Window::QUIT,
+                                     handle_quit)); // lambda preferred?
 
-    Shader text_shader = ResourceManager::load_shader("shaders/font.vert", "shaders/font.frag", "text");
-    Shader def_shader = ResourceManager::load_shader("shaders/default.vert", "shaders/default.frag", "default");
-    UiManager ui_manager(SCR_WIDTH, SCR_HEIGHT, text_shader);
+  Shader text_shader = ResourceManager::load_shader(
+      "shaders/font.vert", "shaders/font.frag", "text");
+  Shader def_shader = ResourceManager::load_shader(
+      "shaders/default.vert", "shaders/default.frag", "default");
+  UiManager ui_manager(SCR_WIDTH, SCR_HEIGHT, text_shader);
 
-    Texture laser_texture = ResourceManager::load_texture("textures/laser.png", "laser", true);
-    Texture bomb_texture = ResourceManager::load_texture("textures/bomb.png", "bomb", true);
-    Texture bullet_texture = ResourceManager::load_texture("textures/bullet.png", "bullet", true);
-    Texture ship_texture = ResourceManager::load_texture("textures/ship.png", "ship", true);
-    Texture ebullet_texture = ResourceManager::load_texture("textures/ebullet.png", "ebullet", true);
-    Texture eship_texture = ResourceManager::load_texture("textures/eship.png", "eship", true);
-    Texture snipe_texture = ResourceManager::load_texture("textures/snipe.png", "snipe", true);
-    Texture star_texture = ResourceManager::load_texture("textures/star.png", "star", true);
-    Texture hose_texture = ResourceManager::load_texture("textures/hose.png", "hose", true);
-    Texture boss_texture = ResourceManager::load_texture("textures/boss.png", "boss", true);
-    Texture bgstar1_texture = ResourceManager::load_texture("textures/bgstar1.png", "bgstar1", true);
-    Texture bgstar2_texture = ResourceManager::load_texture("textures/bgstar2.png", "bgstar2", true);
-    Texture bgstar3_texture = ResourceManager::load_texture("textures/bgstar3.png", "bgstar3", true);
+  Texture laser_texture =
+      ResourceManager::load_texture("textures/laser.png", "laser", true);
+  Texture bomb_texture =
+      ResourceManager::load_texture("textures/bomb.png", "bomb", true);
+  Texture bullet_texture =
+      ResourceManager::load_texture("textures/bullet.png", "bullet", true);
+  Texture ship_texture =
+      ResourceManager::load_texture("textures/ship.png", "ship", true);
+  Texture ebullet_texture =
+      ResourceManager::load_texture("textures/ebullet.png", "ebullet", true);
+  Texture eship_texture =
+      ResourceManager::load_texture("textures/eship.png", "eship", true);
+  Texture snipe_texture =
+      ResourceManager::load_texture("textures/snipe.png", "snipe", true);
+  Texture star_texture =
+      ResourceManager::load_texture("textures/star.png", "star", true);
+  Texture hose_texture =
+      ResourceManager::load_texture("textures/hose.png", "hose", true);
+  Texture boss_texture =
+      ResourceManager::load_texture("textures/boss.png", "boss", true);
+  Texture bgstar1_texture =
+      ResourceManager::load_texture("textures/bgstar1.png", "bgstar1", true);
+  Texture bgstar2_texture =
+      ResourceManager::load_texture("textures/bgstar2.png", "bgstar2", true);
+  Texture bgstar3_texture =
+      ResourceManager::load_texture("textures/bgstar3.png", "bgstar3", true);
 
-    SpriteCache::load_sprite(def_shader, ship_texture, v, 3, "player");
-    SpriteCache::load_sprite(def_shader, laser_texture, lv, 4, "plaser");
-    SpriteCache::load_sprite(def_shader, bomb_texture, bv, 4, "pbomb");
-    SpriteCache::load_sprite(def_shader, bullet_texture, bv, 4, "pbullet");
-    SpriteCache::load_sprite(def_shader, ebullet_texture, bv, 4, "ebullet");
-    SpriteCache::load_sprite(def_shader, eship_texture, ev, 3, "grunt");
-    SpriteCache::load_sprite(def_shader, snipe_texture, ev, 3, "snipe");
-    SpriteCache::load_sprite(def_shader, hose_texture, ev, 3, "hose");
-    SpriteCache::load_sprite(def_shader, star_texture, ev, 3, "star");
-    SpriteCache::load_sprite(def_shader, boss_texture, ev, 3, "boss");
-    SpriteCache::load_sprite(def_shader, bgstar1_texture, bv, 4, "bgstar1");
-    SpriteCache::load_sprite(def_shader, bgstar2_texture, bv, 4, "bgstar2");
-    SpriteCache::load_sprite(def_shader, bgstar3_texture, bv, 4, "bgstar3");
+  SpriteCache::load_sprite(def_shader, ship_texture, v, 3, "player");
+  SpriteCache::load_sprite(def_shader, laser_texture, lv, 4, "plaser");
+  SpriteCache::load_sprite(def_shader, bomb_texture, bv, 4, "pbomb");
+  SpriteCache::load_sprite(def_shader, bullet_texture, bv, 4, "pbullet");
+  SpriteCache::load_sprite(def_shader, ebullet_texture, bv, 4, "ebullet");
+  SpriteCache::load_sprite(def_shader, eship_texture, ev, 3, "grunt");
+  SpriteCache::load_sprite(def_shader, snipe_texture, ev, 3, "snipe");
+  SpriteCache::load_sprite(def_shader, hose_texture, ev, 3, "hose");
+  SpriteCache::load_sprite(def_shader, star_texture, ev, 3, "star");
+  SpriteCache::load_sprite(def_shader, boss_texture, ev, 3, "boss");
+  SpriteCache::load_sprite(def_shader, bgstar1_texture, bv, 4, "bgstar1");
+  SpriteCache::load_sprite(def_shader, bgstar2_texture, bv, 4, "bgstar2");
+  SpriteCache::load_sprite(def_shader, bgstar3_texture, bv, 4, "bgstar3");
 
-    Game game;
+  Game game;
 
 #ifdef __EMSCRIPTEN__
-    float dt = 0.013f;
-    EMSCRIPTEN_MAINLOOP_BEGIN
+  float dt = 0.013f;
+  EMSCRIPTEN_MAINLOOP_BEGIN
 #else
-    float dt = 0.0f;
-    while (!quit)
+  float dt = 0.0f;
+  while (!quit)
 #endif
-    {
+  {
 #ifndef __EMSCRIPTEN__
-        auto start = (float) glfwGetTime();
+    auto start = (float)glfwGetTime();
 #endif
-        window_manager.process_events();
-        game.update(dt);
-        ui_manager.update();
-        window_manager.update();
-        auto stop = (float) glfwGetTime();
+    window_manager.process_events();
+    game.update(dt);
+    ui_manager.update();
+    window_manager.update();
+    auto stop = (float)glfwGetTime();
 #ifndef __EMSCRIPTEN__
-        dt = stop - start;
+    dt = stop - start;
 #endif
-    }
+  }
 #ifdef __EMSCRIPTEN__
-    EMSCRIPTEN_MAINLOOP_END;
+  EMSCRIPTEN_MAINLOOP_END;
 #endif
-    window_manager.clean();
-    return 0;
+  window_manager.clean();
+  return 0;
 }
