@@ -2,13 +2,17 @@
 #define TEXTURE_H
 
 #ifdef __EMSCRIPTEN__
-    #include <emscripten.h>
-    #define GL_GLEXT_PROTOTYPES
-    #define EGL_EGLEXT_PROTOTYPES
+#include <emscripten.h>
+#define GL_GLEXT_PROTOTYPES
+#define EGL_EGLEXT_PROTOTYPES
 #else
-    #include <glad.h>
+
+#include <glad.h>
+
 #endif
+
 #include <GLFW/glfw3.h>
+
 class Texture {
 public:
     unsigned int ID;

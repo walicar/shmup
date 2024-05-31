@@ -1,11 +1,14 @@
 #ifdef __EMSCRIPTEN__
-    #include <emscripten.h>
-    #include "../inc/emscripten_mainloop.h"
-    #define GL_GLEXT_PROTOTYPES
-    #define EGL_EGLEXT_PROTOTYPES
+#include <emscripten.h>
+#include "../inc/emscripten_mainloop.h"
+#define GL_GLEXT_PROTOTYPES
+#define EGL_EGLEXT_PROTOTYPES
 #else
-    #include <glad.h>
+
+#include <glad.h>
+
 #endif
+
 #include <GLFW/glfw3.h>
 #include <ft2build.h>
 #include FT_FREETYPE_H

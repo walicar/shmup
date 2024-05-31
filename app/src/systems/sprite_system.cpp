@@ -6,8 +6,6 @@
 #include "../components/state.h"
 #include <gtc/type_ptr.hpp>
 
-#define GLM_ENABLE_EXPERIMENTAL
-
 extern Coordinator GCR;
 
 void SpriteSystem::update(float time) {
@@ -69,7 +67,7 @@ void SpriteSystem::update(float time) {
     }
 
     // delete the star particles that are dynamically generated
-    if (trash.size() != 0) {
+    if (!trash.empty()) {
         for (Entity entity: trash)
             GCR.destroy_entity(entity);
         trash.clear();

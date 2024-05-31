@@ -43,7 +43,9 @@ private:
     void input(Event &e);
 
     void make_enemy(EnemyType type, int offset = 0);
+
     void init_ecs();
+
     static void init_player();
 
 };
