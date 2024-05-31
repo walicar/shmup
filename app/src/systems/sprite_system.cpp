@@ -72,8 +72,9 @@ void SpriteSystem::update(float time) {
     }
 
     // delete the star particles that are dynamically generated
-    for (Entity entity: trash) {
-        GCR.destroy_entity(entity);
+    if (trash.size() != 0) {
+        for (Entity entity: trash)
+            GCR.destroy_entity(entity);
+        trash.clear();
     }
-    trash.clear();
 }
