@@ -109,7 +109,8 @@ void Game::update(float dt) {
     sprite_system->update((float) glfwGetTime());
     animation_system->update((float) glfwGetTime());
     spawn_system->update();
-    //
+
+    // determine game state
     auto player_hp = GCR.get_component<Hitbox>(Entities::PLAYER).health;
     auto boss_hp = GCR.get_component<Hitbox>(Entities::BOSS).health;
     if (player_hp <= 0 || boss_hp <= 0) {
@@ -196,8 +197,8 @@ void Game::make_enemy(EnemyType type, int offset) {
                     .type = GRUNT
             });
             GCR.add_component(enemy, AI{
-                    .attack_cooldown = 1.0f,
-                    .last_attacked = ((offset % 3) * 0.25f)
+                    .attack_cooldown = 1.0f + ((offset % 10) * 0.25f),
+                    .last_attacked = ((offset % 10) * 0.25f)
             });
             GCR.add_component(enemy, Hitbox{
                     .hitbox = glm::vec3(0.7f)
@@ -271,7 +272,6 @@ void Game::init_player() {
     Entity player_laser = GCR.create_entity();
     GCR.add_component(player_laser, State{});
     GCR.add_component(player_laser, SpriteCache::get_sprite("plaser"));
-
     GCR.add_component(player_laser, Transform{
             .pos = glm::vec3(10.0f, 0.0f, 0.0f)
     });
@@ -302,11 +302,8 @@ void Game::init_player() {
     // bullets
     for (int i = 0; i < Entities::P_BULLET_AMT; i++) {
         Entity player_bullet = GCR.create_entity();
-        GCR.add_component(player_bullet, State{
-                .active = false // redundant
-        });
+        GCR.add_component(player_bullet, State{});
         GCR.add_component(player_bullet, SpriteCache::get_sprite("pbullet"));
-
         GCR.add_component(player_bullet, Transform{});
         GCR.add_component(player_bullet, Player{});
         GCR.add_component(player_bullet, Hitbox{
