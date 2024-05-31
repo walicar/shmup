@@ -281,7 +281,8 @@ void Game::init_player() {
     GCR.add_component(player_laser, Velocity{});
     GCR.add_component(player_laser, Player{});
     GCR.add_component(player_laser, Projectile{
-            .damage = 1
+            .type = LASER,
+            .damage = 2
     });
 
     // bombs
