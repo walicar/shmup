@@ -23,19 +23,19 @@ void MovementSystem::update(float dt) {
     }
 
     auto &transform = GCR.get_component<Transform>(Entities::PLAYER);
-    if (buttons.test(static_cast<std::size_t>(InputButtons::W))) {
+    if (buttons.test(static_cast<std::size_t>(InputButtons::W)) && dt * factor + transform.pos.y < 9.5f) {
         transform.pos.y += (dt * factor);
     }
 
-    if (buttons.test(static_cast<std::size_t>(InputButtons::S))) {
+    if (buttons.test(static_cast<std::size_t>(InputButtons::S)) && dt * factor + transform.pos.y > -9.5f) {
         transform.pos.y -= (dt * factor);
     }
 
-    if (buttons.test(static_cast<std::size_t>(InputButtons::A))) {
+    if (buttons.test(static_cast<std::size_t>(InputButtons::A)) && dt * factor + transform.pos.x > -9.5f) {
         transform.pos.x -= (dt * factor);
     }
 
-    if (buttons.test(static_cast<std::size_t>(InputButtons::D))) {
+    if (buttons.test(static_cast<std::size_t>(InputButtons::D)) && dt * factor + transform.pos.x < 9.5f) {
         transform.pos.x += (dt * factor);
     }
 }
