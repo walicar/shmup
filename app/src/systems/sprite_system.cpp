@@ -23,7 +23,7 @@ void SpriteSystem::update(float time) {
         if (entity >= Entities::G_STAR) {
             movement.pos.z = 9.5f;
         } else {
-            movement.pos.z = -9.5f;
+            movement.pos.z = 1.5f;
         }
 
         auto &sprite = GCR.get_component<Sprite>(entity);
