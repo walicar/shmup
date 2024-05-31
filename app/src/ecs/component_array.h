@@ -4,6 +4,7 @@
 // @TODO: opitmize this into a DoublyLinkedList?
 
 #include "types.h"
+#include <unordered_map>
 
 /**
  * An interface is needed so that the ComponentManager
