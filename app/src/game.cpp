@@ -72,7 +72,7 @@ Game::Game() {
             .attack_cooldown = 0.17f,
     });
     GCR.add_component(boss, Hitbox{
-            .health = 800,
+            .health = BOSS_HP,
             .hitbox = glm::vec3(1.0f)
     });
 
@@ -261,7 +261,7 @@ void Game::init_player() {
     GCR.add_component(player, Player{});
     GCR.add_component(player, Controllable{});
     GCR.add_component(player, Hitbox{
-            .health = 300,
+            .health = PLAYER_HP,
             .hitbox = glm::vec3(0.15f)
     });
 
@@ -281,7 +281,7 @@ void Game::init_player() {
     GCR.add_component(player_laser, Velocity{});
     GCR.add_component(player_laser, Player{});
     GCR.add_component(player_laser, Projectile{
-            .damage = 100 // @TODO: debug damage, set back to 1
+            .damage = 1
     });
 
     // bombs
