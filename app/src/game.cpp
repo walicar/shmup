@@ -54,20 +54,18 @@ Game::Game() {
     }
   }
   // boss
-  Sprite boss_sprite = SpriteCache::get_sprite("boss");
   Entity boss = GCR.create_entity();
   GCR.add_component(boss, State{
                               .active = false,
                           });
-  boss_sprite.scale_factor = glm::vec3(0.17f, 0.17f, 0.10f);
-  GCR.add_component(boss, boss_sprite);
+  GCR.add_component(boss, SpriteCache::get_sprite("boss"));
   GCR.add_component(boss, Transform{
-                              .pos = glm::vec3(0.0f, 4.0f, 0.0f),
-                              .origin = glm::vec3(0.0f, 4.0f, 0.0f),
+                              .pos = glm::vec3(0.0f, 8.0f, 0.0f),
+                              .origin = glm::vec3(0.0f, 8.0f, 0.0f),
                           });
   GCR.add_component(boss, Enemy{.type = BOSS});
   GCR.add_component(boss, AI{
-                              .attack_cooldown = 0.17f,
+                              .attack_cooldown = 0.08f,
                           });
   GCR.add_component(boss, Hitbox{.health = BOSS_HP, .hitbox = glm::vec3(1.0f)});
 
@@ -78,7 +76,6 @@ Game::Game() {
                                         .active = false,
                                     });
     GCR.add_component(enemy_bullet, SpriteCache::get_sprite("ebullet"));
-
     GCR.add_component(enemy_bullet, Transform{.pos = glm::vec3(0.0f),
                                               .origin = glm::vec3(0.0f)});
     GCR.add_component(enemy_bullet, Enemy{});
@@ -242,7 +239,7 @@ void Game::init_player() {
 
   // player projectiles
 
-  // laser...
+  // laser here
   Entity player_laser = GCR.create_entity();
   GCR.add_component(player_laser, State{});
   GCR.add_component(player_laser, SpriteCache::get_sprite("plaser"));

@@ -31,7 +31,11 @@ void AISystem::update(float time) {
     auto &pos = GCR.get_component<Transform>(entity).pos;
     auto &type = GCR.get_component<Enemy>(entity).type;
     if (entity < Entities::E_BULLET) {
-      pos.x = (glm::sin(time) * 2.0f) + origin.x;
+      auto scale = 2.0f;
+      if (entity == Entities::BOSS) {
+        scale *= 4.75f;
+      }
+      pos.x = (glm::sin(time * 0.95f) * scale) + origin.x;
     }
 
     auto &ai = GCR.get_component<AI>(entity);
@@ -82,15 +86,15 @@ void AISystem::update(float time) {
           auto &player_pos = GCR.get_component<Transform>(Entities::PLAYER).pos;
           glm::vec3 direction =
               glm::normalize(player_pos - ebullet_transform.origin);
-          float speed = 3.0f;
+          float speed = 7.0f;
           velocity.force = direction * speed;
         } else {
           if (coin_flip()) {
-            ebullet_proj.damage = 5;
+            ebullet_proj.damage = 50;
             velocity.force = glm::vec3(0.0f, -0.5f, 0.0f);
           } else {
             ebullet_proj.damage = 10;
-            velocity.force = glm::vec3(0.0f, -5.0f, 0.0f);
+            velocity.force = glm::vec3(0.0f, -10.0f, 0.0f);
           }
         }
       }
