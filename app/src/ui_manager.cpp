@@ -133,10 +133,9 @@ void UiManager::render_text(std::string text, float x, float y, float scale,
     float w = ch.size.x * scale;
     float h = ch.size.y * scale;
     float vertices[6][4] = {
-        {xpos, ypos + h, 0.0f, 0.0f},    {xpos, ypos, 0.0f, 1.0f},
-        {xpos + w, ypos, 1.0f, 1.0f},
-        {xpos, ypos + h, 0.0f, 0.0f},    {xpos + w, ypos, 1.0f, 1.0f},
-        {xpos + w, ypos + h, 1.0f, 0.0f}};
+        {xpos, ypos + h, 0.0f, 0.0f}, {xpos, ypos, 0.0f, 1.0f},
+        {xpos + w, ypos, 1.0f, 1.0f}, {xpos, ypos + h, 0.0f, 0.0f},
+        {xpos + w, ypos, 1.0f, 1.0f}, {xpos + w, ypos + h, 1.0f, 0.0f}};
     glBindTexture(GL_TEXTURE_2D, ch.tex_id);
     glBindBuffer(GL_ARRAY_BUFFER, VBO);
     glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(vertices), vertices);
