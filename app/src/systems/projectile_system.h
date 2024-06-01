@@ -24,6 +24,8 @@ private:
   int bomb_offset = 0;
   std::bitset<8> buttons;
 
+  void erase_enemy_projectiles();
+
   void input(Event &e);
 
   void reset_bombs(Event &e);
