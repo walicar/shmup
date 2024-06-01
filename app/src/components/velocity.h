@@ -5,7 +5,7 @@
 #include <gtc/type_ptr.hpp>
 
 struct Velocity {
-    glm::vec3 force;
+  glm::vec3 force;
 };
 
 #endif

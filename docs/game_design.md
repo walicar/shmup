@@ -11,6 +11,9 @@ Ver 4.0
 	- Cutting it out to meet deadline
 	- Instead the player's jet will stop rotating to allow the player to get a better sense of their approximate hurtbox
 - Health values for enemies have decreased to improve player experience
+- Change boss design
+	- instead of having large projectiles and reasonably fast fire rate, the boss moves fast, is smaller and spams projectiles
+	- due to game engine limitations, the hitboxes and sprite would not match up if the entity was scaled up
 
 ## Summary
 SHMUP is a shoot em up bullet hell game, where the player controls a spaceship battling against aliens in outer space having to bob and weave through enemy projectiles to avoid getting hit. The focus of this game is to provide a challenging and appealing experience through game mechanics and visual graphics.
@@ -21,22 +24,22 @@ The MVP will be a demo that deliver approximately 3 minutes of game time, as the
 A sprite image must be created for every entity that will exist, and every entity may share or have their own sprites for projectile
 
 - Player
-	- jet_sprite: Sprite
-	- jet_bullet: Projectile
-	- jet_beam: Projectile
+	- ship.png: Sprite
+	- bullet.png: Projectile
+	- laser.png: Projectile
 - Grunt - 100hp, basic unit type that shoots bullets in the direction of the player
-	- grunt_sprite: Sprite
-	- enemy_bullet: Projectile
+	- eship.png: Sprite
+	- enemy_bullet.png: Projectile
 - Snipe - 100hp, shoots bullets that track you
-	- snipe_sprite: Sprite
-	- enemy_bullet: Projectile
+	- snipe.png: Sprite
+	- enemy_bullet.png: Projectile
 - Star - 50hp, shoots in an upside V formation
 - Hose - 75hp, hoses you down with bullets
-	- hose_sprite: Sprite
-	- enemy_bullet: Projectile
+	- hose_sprite.png: Sprite
+	- enemy_bullet.png: Projectile
 - Boss - 800hp, combines snipe, and grunt attacks
-	- boss_sprite: Sprite
-	- enemy_bullet: Projectile
+	- boss_sprite.png: Sprite
+	- enemy_bullet.png: Projectile
 
 ## Mechanics
 
@@ -85,6 +88,8 @@ A level will consist of 5 checkpoints, the requirement to progress is to destroy
 - Ported game to web with emscripten
 	- Game still works using CLion
 - Many bug fixes
+- Change boss design
+- Player's bomb projectile is much more reliable at clearing enemy projectiles
 
 ## Future Goals
 

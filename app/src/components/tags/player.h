@@ -2,7 +2,7 @@
 #define PLAYER_H
 
 struct Player {
-    bool rotate = true;
+  bool rotate = true;
 };
 
 #endif

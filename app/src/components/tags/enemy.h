@@ -2,7 +2,7 @@
 #define ENEMY_H
 
 struct Enemy {
-    EnemyType type;
+  EnemyType type;
 };
 
 #endif

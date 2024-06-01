@@ -9,15 +9,14 @@
 
 class AISystem : public System {
 private:
-    size_t ebullet_offset = Entities::E_BULLET_AMT - 1; // circular
+  size_t ebullet_offset = Entities::E_BULLET_AMT - 1; // circular
 
 public:
-    void update(float time);
+  void update(float time);
 
-    Entity next_bullet();
+  Entity next_bullet();
 
-    void init();
+  void init();
 };
-
 
 #endif

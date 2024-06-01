@@ -4,7 +4,7 @@
 // can we inherit this?
 
 struct State {
-    bool active = false;
+  bool active = false;
 };
 
 #endif

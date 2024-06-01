@@ -5,9 +5,10 @@
 
 class SpriteSystem : public System {
 private:
-    std::vector<Entity> trash;
+  std::vector<Entity> trash;
+
 public:
-    void update(float time);
+  void update(float time);
 };
 
 #endif
