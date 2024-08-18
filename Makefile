@@ -17,7 +17,7 @@ INCLUDE_FLAGS = $(addprefix -I, $(INCLUDE_DIRS))
 EMS_FLAGS = -sUSE_FREETYPE=1
 CPP_FLAGS = -std=c++20 $(INCLUDE_FLAGS)
 PACKAGING = --embed-file $(FONTS_DIR)@fonts/ --embed-file $(SHADERS_DIR)@shaders/ --embed-file $(TEXTURES_DIR)@textures/
-LD_FLAGS = -sMAX_WEBGL_VERSION=2 -sUSE_GLFW=3 -sFULL_ES3=1 $(PACKAGING) -lfreetype
+LD_FLAGS = -sMAX_WEBGL_VERSION=2 -sUSE_GLFW=3 -sFULL_ES3=1 $(PACKAGING) -lfreetype -lz
 
 %.o: %.cpp
 	$(CXX) $(CPP_FLAGS) $(EMS_FLAGS) -c -o $@ $<
